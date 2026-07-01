@@ -724,12 +724,14 @@ struct c : one< 'c' > {};
 
 |  | "" | "a" | "aa" | "ab" | "aba" | "abab" | "abc" | "ac" | "acb" | "acba" | "acbca" |
 |--|--|--|--|--|--|--|--|--|--|--|--|
-| `list< a, b >` | f | "a" | "a" | "a" | "aba" | "aba" | "a" | "a" | "a" | "a" | "a" |
-| `list_tail< a, b >` | f | "a" | "a" | "ab" | "aba" | "abab" | "ab" | "a" | "a" | "a" | "a" |
-| `list_must< a, b >` | f | "a" | "a" | E | "aba" | E | E | "a" | "a" | "a" | "a" |
-| `list< a, b, c >` | f | "a" | "a" | "a" | "aba" | "aba" | "a" | "a" | "a" | "acba" | "acbca" |
-| `list_tail< a, b, c >` | f | "a" | "a" | "ab" | "aba" | "abab" | "ab" | "a" | "acb" | "acba" | "acbca" |
-| `list_must< a, b, c >` | f | "a" | "a" | E | "aba" | E | E | "a" | E | "acba" | "acbca" |
+| [`list< a, b >`](Rule-Reference.md#list-r-s-) | f | "a" | "a" | "a" | "aba" | "aba" | "a" | "a" | "a" | "a" | "a" |
+| [`list_opt< a, b >`](Rule-Reference.md#list_opt-r-s-) | "" | "a" | "a" | "a" | "aba" | "aba" | "a" | "a" | "a" | "a" | "a" |
+| [`list_tail< a, b >`](Rule-Reference.md#list_tail-r-s-) | f | "a" | "a" | "ab" | "aba" | "abab" | "ab" | "a" | "a" | "a" | "a" |
+| [`list_must< a, b >`](Rule-Reference.md#list_must-r-s-) | f | "a" | "a" | E | "aba" | E | E | "a" | "a" | "a" | "a" |
+| [`list< a, b, c >`](Rule-Reference.md#list-r-s-p-) | f | "a" | "a" | "a" | "aba" | "aba" | "a" | "a" | "a" | "acba" | "acbca" |
+| [`list_opt< a, b, c >`](Rule-Reference.md#list_opt-r-s-p-) | "" | "a" | "a" | "a" | "aba" | "aba" | "a" | "a" | "a" | "acba" | "acbca" |
+| [`list_tail< a, b, c >`](Rule-Reference.md#list_tail-r-s-p-) | f | "a" | "a" | "ab" | "aba" | "abab" | "ab" | "a" | "acb" | "acba" | "acbca" |
+| [`list_must< a, b, c >`](Rule-Reference.md#list_must-r-s-p-) | f | "a" | "a" | E | "aba" | E | E | "a" | E | "acba" | "acbca" |
 
 ### ASCII Matching Rules
 

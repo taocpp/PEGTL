@@ -41,6 +41,8 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Rule > struct invert : internal::invert_traits< typename Rule::rule_t >::type {};
    template< typename Rule, typename Sep, typename Pad = void > struct list : internal::list< Rule, internal::pad< Sep, Pad > > {};
    template< typename Rule, typename Sep > struct list< Rule, Sep, void > : internal::list< Rule, Sep > {};
+   template< typename Rule, typename Sep, typename Pad = void > struct list_opt : internal::list_opt< Rule, internal::pad< Sep, Pad > > {};
+   template< typename Rule, typename Sep > struct list_opt< Rule, Sep, void > : internal::list_opt< Rule, Sep > {};
    template< typename Rule, typename Sep, typename Pad = void > struct list_tail : internal::list_tail_pad< Rule, Sep, Pad > {};
    template< typename Rule, typename Sep > struct list_tail< Rule, Sep, void > : internal::list_tail< Rule, Sep > {};
    template< typename M, typename S > struct minus : internal::minus< M, S > {};

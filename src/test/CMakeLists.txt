@@ -197,6 +197,7 @@ set(test_sources
   rule_invert.cpp
   rule_list.cpp
   rule_list_must.cpp
+  rule_list_opt.cpp
   rule_list_tail.cpp
   rule_minus.cpp
   rule_must.cpp

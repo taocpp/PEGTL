@@ -145,9 +145,11 @@ namespace TAO_PEGTL_NAMESPACE::example
          const std::vector< std::string > v = { "", "a", "aa", "ab", "aba", "abab", "abc", "ac", "acb", "acba", "acbca" };
          header( v );
          row< list< a, b > >( "list< a, b >", v );
+         row< list_opt< a, b > >( "list_opt< a, b >", v );
          row< list_tail< a, b > >( "list_tail< a, b >", v );
          row< list_must< a, b > >( "list_must< a, b >", v );
          row< list< a, b, c > >( "list< a, b, c >", v );
+         row< list_opt< a, b, c > >( "list_opt< a, b, c >", v );
          row< list_tail< a, b, c > >( "list_tail< a, b, c >", v );
          row< list_must< a, b, c > >( "list_must< a, b, c >", v );
       }

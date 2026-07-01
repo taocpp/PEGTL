@@ -1174,6 +1174,24 @@ These rules are in namespace `tao::pegtl`.
   - `list< R, S, P >::rule_t` is `internal::seq< R, internal::star< internal::pad< S, P >, R > >`
   - `list< R, S, P >::subs_t` is `type_list< R, internal::star< internal::pad< S, P >, R > >`
 
+###### `list_opt< R, S >`
+
+* Matches an optional list of `R` separated by `S`.
+* [Equivalent] to `opt< list< R, S > >`.
+* [Equivalent] to `opt< R, star< S, R > >`.
+* [Meta data] and [implementation] mapping:
+  - `list_opt< R, S >::rule_t` is `internal::opt< internal::seq< R, internal::star< S, R > > >`
+  - `list_opt< R, S >::subs_t` is `type_list< internal::seq< R, internal::star< S, R > > >`
+
+###### `list_opt< R, S, P >`
+
+* Matches an optional list of `R` separated by `S` where each `S` can be padded by `P`.
+* [Equivalent] to `opt< list< R, S, P > >`.
+* [Equivalent] to `opt< R, star< pad< S, P >, R > >`.
+* [Meta data] and [implementation] mapping:
+  - `list_opt< R, S, P >::rule_t` is `internal::opt< internal::seq< R, internal::star< internal::pad< S, P >, R > > >`
+  - `list_opt< R, S, P >::subs_t` is `type_list< internal::seq< R, internal::star< internal::pad< S, P >, R > > >`
+
 ###### `list_tail< R, S >`
 
 * Matches a non-empty list of `R` separated by `S` with optional trailing `S`.
@@ -2157,6 +2175,8 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`list< R, S, P >`](#list-r-s-p-) <sup>[(convenience)](#convenience)</sup>
 * [`list_must< R, S >`](#list_must-r-s-) <sup>[(exceptional)](#exceptional)</sup>
 * [`list_must< R, S, P >`](#list_must-r-s-p-) <sup>[(exceptional)](#exceptional)</sup>
+* [`list_opt< R, S >`](#list_opt-r-s-) <sup>[(convenience)](#convenience)</sup>
+* [`list_opt< R, S, P >`](#list_opt-r-s-p-) <sup>[(convenience)](#convenience)</sup>
 * [`list_tail< R, S >`](#list_tail-r-s-) <sup>[(convenience)](#convenience)</sup>
 * [`list_tail< R, S, P >`](#list_tail-r-s-p-) <sup>[(convenience)](#convenience)</sup>
 * [`logical_order_exception`](#logical_order_exception) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>

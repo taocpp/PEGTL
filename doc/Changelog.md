@@ -2,6 +2,12 @@
 
 All noteworthy changes since the first public [release](https://github.com/taocpp/PEGTL/releases).
 
+## Version 4.1.0
+
+Not Yet Released
+
+* Added new convenience [rule](Rule-Reference.md) [`list_opt`](Rule-Reference.md#list_opt-r-s-).
+
 ## Version 4.0.0
 
 Released 2026-06-07
