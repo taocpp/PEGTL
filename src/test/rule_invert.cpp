@@ -3,6 +3,7 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
+#include "verify_ctrl.hpp"
 #include "verify_meta.hpp"
 
 #include <tao/pegtl/unicode/utf16.hpp>
@@ -13,6 +14,8 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
+      verify_ctrl_enabled< invert< one< 'a' > > >( __LINE__, __FILE__, "b" );
+
       verify_meta< invert< one< 'a' > >, typename not_one< 'a' >::rule_t >();
       verify_meta< invert< not_one< 'a' > >, typename one< 'a' >::rule_t >();
       verify_meta< invert< ione< 'a' > >, typename not_ione< 'a' >::rule_t >();

@@ -6,6 +6,8 @@
 
 #include <tao/pegtl/rules.hpp>
 
+#include "verify_ctrl.hpp"
+
 // clang-format off
 struct A {};
 struct B {};
@@ -25,5 +27,7 @@ static_assert( std::is_same_v< type_list< A, internal::star< P >, S, internal::s
 
 int main()
 {
+   verify_ctrl_enabled< separated_pad< one< ',' >, space, one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "a, b" );
+
    return 0;
 }

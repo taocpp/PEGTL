@@ -3,6 +3,7 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
+#include "verify_ctrl.hpp"
 #include "verify_meta.hpp"
 #include "verify_seqs.hpp"
 
@@ -15,6 +16,9 @@ namespace TAO_PEGTL_NAMESPACE
       verify_meta< disable< eof, any >, internal::disable< internal::seq< eof, any > >, internal::seq< eof, any > >();
 
       verify_seqs< disable >();
+
+      verify_ctrl_enabled< disable< eof > >( __LINE__, __FILE__, "" );
+      verify_ctrl_disabled< internal::disable< eof > >( __LINE__, __FILE__, "" );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

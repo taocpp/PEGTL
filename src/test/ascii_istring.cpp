@@ -3,6 +3,7 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
+#include "verify_ctrl.hpp"
 #include "verify_meta.hpp"
 #include "verify_rule.hpp"
 
@@ -14,6 +15,16 @@ namespace TAO_PEGTL_NAMESPACE
       verify_meta< istring< 'a' >, internal::ione< internal::peek_char, 'a' > >();
       verify_meta< istring< 'a', 'b' >, internal::ascii_istring< 'a', 'b' > >();
       verify_meta< istring< '\0', '\n' >, internal::ascii_istring< '\0', '\n' > >();
+
+      verify_ctrl_enabled< istring<> >( __LINE__, __FILE__, "" );
+      verify_ctrl_disabled< internal::ascii_istring<> >( __LINE__, __FILE__, "" );
+      verify_ctrl_enabled< istring< 'a' > >( __LINE__, __FILE__, "A" );
+      verify_ctrl_disabled< internal::ione< internal::peek_char, 'a' > >( __LINE__, __FILE__, "A" );
+      verify_ctrl_disabled< internal::terminal< internal::ione< internal::peek_char, 'a' >, internal::peek_char > >( __LINE__, __FILE__, "A" );
+      verify_ctrl_enabled< istring< 'a', 'b' > >( __LINE__, __FILE__, "Ab" );
+      verify_ctrl_disabled< internal::ascii_istring< 'a', 'b' > >( __LINE__, __FILE__, "Ab" );
+      verify_ctrl_enabled< istring< '\0', '\n' > >( __LINE__, __FILE__, std::string_view( "\0\n", 2 ) );
+      verify_ctrl_disabled< internal::ascii_istring< '\0', '\n' > >( __LINE__, __FILE__, std::string_view( "\0\n", 2 ) );
 
       verify_analyze< istring<> >( __LINE__, __FILE__, false, false );
       verify_analyze< istring< 1 > >( __LINE__, __FILE__, true, false );

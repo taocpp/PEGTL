@@ -11,12 +11,15 @@ int main()
 #else
 
 #include "test.hpp"
+#include "verify_ctrl.hpp"
 #include "verify_ifmt.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
+      verify_ctrl_enabled< if_must_else< one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__, "ab" );
+
       verify_ifmt< if_must_else >( result_type::global_failure );
    }
 

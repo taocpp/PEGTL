@@ -4,6 +4,7 @@
 
 #include "test.hpp"
 #include "test_utility.hpp"
+#include "verify_ctrl.hpp"
 #include "verify_meta.hpp"
 #include "verify_rule.hpp"
 
@@ -45,6 +46,9 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< partial< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "abab", result_type::success, 2 );
       verify_rule< partial< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "bab", result_type::success, 3 );
       verify_rule< partial< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "cb", result_type::success, 2 );
+
+      verify_ctrl_enabled< partial< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "ab" );
+      verify_ctrl_disabled< internal::partial< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "ab" );
 
 #if defined( __cpp_exceptions )
       verify_rule< must< partial< one< 'a' > > > >( __LINE__, __FILE__, "", result_type::success );

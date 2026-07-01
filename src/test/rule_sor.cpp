@@ -3,6 +3,7 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
+#include "verify_ctrl.hpp"
 #include "verify_meta.hpp"
 #include "verify_rule.hpp"
 
@@ -13,6 +14,13 @@ namespace TAO_PEGTL_NAMESPACE
       verify_meta< sor<>, internal::failure >();
       verify_meta< sor< alpha >, internal::sor< alpha >, alpha >();
       verify_meta< sor< alpha, digit >, internal::sor< alpha, digit >, alpha, digit >();
+
+      verify_ctrl_enabled< sor<> >( __LINE__, __FILE__, "", false );
+      verify_ctrl_disabled< internal::sor<> >( __LINE__, __FILE__, "", false );
+      verify_ctrl_enabled< sor< one< 'a' > > >( __LINE__, __FILE__, "a" );
+      verify_ctrl_disabled< internal::sor< one< 'a' > > >( __LINE__, __FILE__, "a" );
+      verify_ctrl_enabled< sor< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "a" );
+      verify_ctrl_disabled< internal::sor< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "a" );
 
       verify_analyze< sor< eof > >( __LINE__, __FILE__, false, false );
       verify_analyze< sor< any > >( __LINE__, __FILE__, true, false );

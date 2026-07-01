@@ -3,6 +3,7 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
+#include "verify_ctrl.hpp"
 #include "verify_char.hpp"
 #include "verify_rule.hpp"
 
@@ -12,6 +13,43 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
+      verify_ctrl_enabled< uint8::any >( __LINE__, __FILE__, "\x01" );
+      verify_ctrl_disabled< internal::any< internal::peek_uint8 > >( __LINE__, __FILE__, "\x01" );
+      verify_ctrl_enabled< uint8::many< 2 > >( __LINE__, __FILE__, "\x01\x02" );
+      verify_ctrl_disabled< internal::many< 2, internal::peek_uint8 > >( __LINE__, __FILE__, "\x01\x02" );
+      verify_ctrl_enabled< uint8::one< 0x10, 0x20 > >( __LINE__, __FILE__, "\x10" );
+      verify_ctrl_disabled< internal::one< internal::peek_uint8, 0x10, 0x20 > >( __LINE__, __FILE__, "\x10" );
+      verify_ctrl_disabled< internal::terminal< internal::one< internal::peek_uint8, 0x10, 0x20 >, internal::peek_uint8 > >( __LINE__, __FILE__, "\x10" );
+      verify_ctrl_enabled< uint8::range< 0x10, 0x20 > >( __LINE__, __FILE__, "\x17" );
+      verify_ctrl_disabled< internal::range< internal::peek_uint8, 0x10, 0x20 > >( __LINE__, __FILE__, "\x17" );
+      verify_ctrl_disabled< internal::terminal< internal::range< internal::peek_uint8, 0x10, 0x20 >, internal::peek_uint8 > >( __LINE__, __FILE__, "\x17" );
+      verify_ctrl_enabled< uint8::not_range< 0x10, 0x20 > >( __LINE__, __FILE__, "\x21" );
+      verify_ctrl_disabled< internal::not_range< internal::peek_uint8, 0x10, 0x20 > >( __LINE__, __FILE__, "\x21" );
+      verify_ctrl_disabled< internal::terminal< internal::not_range< internal::peek_uint8, 0x10, 0x20 >, internal::peek_uint8 > >( __LINE__, __FILE__, "\x21" );
+      verify_ctrl_enabled< uint8::ranges< 0x10, 0x20, 0x30, 0x40 > >( __LINE__, __FILE__, "\x30" );
+      verify_ctrl_disabled< internal::ranges< internal::peek_uint8, 0x10, 0x20, 0x30, 0x40 > >( __LINE__, __FILE__, "\x30" );
+      verify_ctrl_disabled< internal::terminal< internal::ranges< internal::peek_uint8, 0x10, 0x20, 0x30, 0x40 >, internal::peek_uint8 > >( __LINE__, __FILE__, "\x30" );
+      verify_ctrl_enabled< uint8::not_ranges< 0x10, 0x20, 0x30, 0x40 > >( __LINE__, __FILE__, "\x21" );
+      verify_ctrl_disabled< internal::not_ranges< internal::peek_uint8, 0x10, 0x20, 0x30, 0x40 > >( __LINE__, __FILE__, "\x21" );
+      verify_ctrl_disabled< internal::terminal< internal::not_ranges< internal::peek_uint8, 0x10, 0x20, 0x30, 0x40 >, internal::peek_uint8 > >( __LINE__, __FILE__, "\x21" );
+      verify_ctrl_enabled< uint8::string< 0x10, 0x20, 0x30 > >( __LINE__, __FILE__, "\x10\x20\x30" );
+      verify_ctrl_enabled< uint8::mask_one< 0xff, 0x10, 0x40 > >( __LINE__, __FILE__, "\x10" );
+      verify_ctrl_disabled< internal::one< internal::peek_mask_uint8< 0xff >, 0x10, 0x40 > >( __LINE__, __FILE__, "\x10" );
+      verify_ctrl_disabled< internal::terminal< internal::one< internal::peek_mask_uint8< 0xff >, 0x10, 0x40 >, internal::peek_mask_uint8< 0xff > > >( __LINE__, __FILE__, "\x10" );
+      verify_ctrl_enabled< uint8::mask_not_one< 0xff, 0x01, 0x02 > >( __LINE__, __FILE__, "\x03" );
+      verify_ctrl_disabled< internal::not_one< internal::peek_mask_uint8< 0xff >, 0x01, 0x02 > >( __LINE__, __FILE__, "\x03" );
+      verify_ctrl_disabled< internal::terminal< internal::not_one< internal::peek_mask_uint8< 0xff >, 0x01, 0x02 >, internal::peek_mask_uint8< 0xff > > >( __LINE__, __FILE__, "\x03" );
+      verify_ctrl_enabled< uint8::mask_range< 0xff, 0x17, 0x27 > >( __LINE__, __FILE__, "\x17" );
+      verify_ctrl_disabled< internal::range< internal::peek_mask_uint8< 0xff >, 0x17, 0x27 > >( __LINE__, __FILE__, "\x17" );
+      verify_ctrl_disabled< internal::terminal< internal::range< internal::peek_mask_uint8< 0xff >, 0x17, 0x27 >, internal::peek_mask_uint8< 0xff > > >( __LINE__, __FILE__, "\x17" );
+      verify_ctrl_enabled< uint8::mask_not_range< 0xff, 0x10, 0x2f > >( __LINE__, __FILE__, "\x30" );
+      verify_ctrl_disabled< internal::not_range< internal::peek_mask_uint8< 0xff >, 0x10, 0x2f > >( __LINE__, __FILE__, "\x30" );
+      verify_ctrl_disabled< internal::terminal< internal::not_range< internal::peek_mask_uint8< 0xff >, 0x10, 0x2f >, internal::peek_mask_uint8< 0xff > > >( __LINE__, __FILE__, "\x30" );
+      verify_ctrl_enabled< uint8::mask_ranges< 0xff, 0x10, 0x17, 0x40, 0x47 > >( __LINE__, __FILE__, "\x10" );
+      verify_ctrl_disabled< internal::ranges< internal::peek_mask_uint8< 0xff >, 0x10, 0x17, 0x40, 0x47 > >( __LINE__, __FILE__, "\x10" );
+      verify_ctrl_disabled< internal::terminal< internal::ranges< internal::peek_mask_uint8< 0xff >, 0x10, 0x17, 0x40, 0x47 >, internal::peek_mask_uint8< 0xff > > >( __LINE__, __FILE__, "\x10" );
+      verify_ctrl_enabled< uint8::mask_string< 0xf0, 0x10, 0x20, 0x30 > >( __LINE__, __FILE__, "\x10\x20\x30" );
+
       verify_view< uint8::any >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
 
       for( int i = -100; i < 200; ++i ) {

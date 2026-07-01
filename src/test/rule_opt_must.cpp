@@ -11,6 +11,7 @@ int main()
 #else
 
 #include "test.hpp"
+#include "verify_ctrl.hpp"
 #include "verify_meta.hpp"
 #include "verify_rule.hpp"
 
@@ -18,6 +19,13 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
+      verify_ctrl_enabled< opt_must< one< 'a' > > >( __LINE__, __FILE__, "a" );
+      verify_ctrl_disabled< internal::if_must< true, one< 'a' > > >( __LINE__, __FILE__, "a" );
+      verify_ctrl_enabled< opt_must< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "ab" );
+      verify_ctrl_disabled< internal::if_must< true, one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "ab" );
+      verify_ctrl_enabled< opt_must< one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__, "abc" );
+      verify_ctrl_disabled< internal::if_must< true, one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__, "abc" );
+
       verify_analyze< opt_must< any, any > >( __LINE__, __FILE__, false, false );
       verify_analyze< opt_must< eof, any > >( __LINE__, __FILE__, false, false );
       verify_analyze< opt_must< opt< any >, any > >( __LINE__, __FILE__, false, false );

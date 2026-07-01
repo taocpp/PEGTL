@@ -4,6 +4,7 @@
 
 #include "test.hpp"
 #include "verify_char.hpp"
+#include "verify_ctrl.hpp"
 #include "verify_meta.hpp"
 #include "verify_rule.hpp"
 
@@ -12,6 +13,9 @@ namespace TAO_PEGTL_NAMESPACE
    void unit_test()
    {
       verify_meta< failure, internal::failure >();
+
+      verify_ctrl_enabled< failure >( __LINE__, __FILE__, "", false );
+      verify_ctrl_disabled< internal::failure >( __LINE__, __FILE__, "", false );
 
       verify_analyze< failure >( __LINE__, __FILE__, true, false );  // "Success implies consumption" is true because "success" never happens.
 

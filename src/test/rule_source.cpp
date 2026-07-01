@@ -5,6 +5,7 @@
 #include <string_view>
 
 #include "test.hpp"
+#include "verify_ctrl.hpp"
 #include "verify_meta.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
@@ -31,6 +32,11 @@ namespace TAO_PEGTL_NAMESPACE
    {
       verify_meta< source< source_grammar >, internal::source< source_grammar > >();
       verify_analyze< source< source_grammar > >( __LINE__, __FILE__, false, false );
+
+      text_view_input< scan::lf, char, std::string_view > enabled_in( "foo", "bar" );
+      verify_ctrl_enabled< source< source_grammar > >( __LINE__, __FILE__, enabled_in );
+      text_view_input< scan::lf, char, std::string_view > disabled_in( "foo", "bar" );
+      verify_ctrl_disabled< internal::source< source_grammar > >( __LINE__, __FILE__, disabled_in );
 
       test_source_success< std::string >( "foo" );
       test_source_success< std::string_view >( "foo" );

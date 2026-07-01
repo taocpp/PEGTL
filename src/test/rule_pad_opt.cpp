@@ -3,6 +3,7 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
+#include "verify_ctrl.hpp"
 #include "verify_meta.hpp"
 #include "verify_rule.hpp"
 
@@ -14,6 +15,8 @@ namespace TAO_PEGTL_NAMESPACE
       verify_analyze< pad_opt< eof, any > >( __LINE__, __FILE__, false, false );
       verify_analyze< pad_opt< any, eof > >( __LINE__, __FILE__, false, true );
       verify_analyze< pad_opt< any, any > >( __LINE__, __FILE__, false, false );
+
+      verify_ctrl_enabled< pad_opt< one< 'a' >, space > >( __LINE__, __FILE__, " a " );
 
       verify_rule< pad_opt< one< 'a' >, space > >( __LINE__, __FILE__, "", result_type::success, 0 );
       verify_rule< pad_opt< one< 'a' >, space > >( __LINE__, __FILE__, " ", result_type::success, 0 );

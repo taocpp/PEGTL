@@ -4,6 +4,7 @@
 
 #include "test.hpp"
 #include "test_utility.hpp"
+#include "verify_ctrl.hpp"
 #include "verify_meta.hpp"
 #include "verify_rule.hpp"
 
@@ -80,6 +81,9 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( state_b );
 
       verify_meta< apply0< test1::action_a, test1::action_b >, internal::apply0< test1::action_a, test1::action_b > >();
+
+      verify_ctrl_enabled< apply0<> >( __LINE__, __FILE__, "" );
+      verify_ctrl_disabled< internal::apply0<> >( __LINE__, __FILE__, "" );
 
       verify_analyze< apply0<> >( __LINE__, __FILE__, false, false );
 

@@ -8,6 +8,8 @@
 #include "../config.hpp"
 #include "../type_list.hpp"
 
+#include "enable_control.hpp"
+
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Rule, typename Peek >
@@ -29,6 +31,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return false;
       }
    };
+
+   template< typename Rule, typename Peek >
+   inline constexpr bool enable_control< terminal< Rule, Peek > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

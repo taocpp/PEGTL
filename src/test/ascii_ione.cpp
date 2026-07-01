@@ -3,6 +3,7 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
+#include "verify_ctrl.hpp"
 #include "verify_char.hpp"
 #include "verify_meta.hpp"
 
@@ -12,6 +13,13 @@ namespace TAO_PEGTL_NAMESPACE
    {
       verify_meta< ione< 'a' >, internal::ione< internal::peek_char, 'a' > >();
       verify_meta< ione< 'a', 'c', 'z' >, internal::ione< internal::peek_char, 'a', 'c', 'z' > >();
+
+      verify_ctrl_enabled< ione< 'a' > >( __LINE__, __FILE__, "A" );
+      verify_ctrl_disabled< internal::ione< internal::peek_char, 'a' > >( __LINE__, __FILE__, "A" );
+      verify_ctrl_disabled< internal::terminal< internal::ione< internal::peek_char, 'a' >, internal::peek_char > >( __LINE__, __FILE__, "A" );
+      verify_ctrl_enabled< ione< 'a', 'c', 'z' > >( __LINE__, __FILE__, "C" );
+      verify_ctrl_disabled< internal::ione< internal::peek_char, 'a', 'c', 'z' > >( __LINE__, __FILE__, "C" );
+      verify_ctrl_disabled< internal::terminal< internal::ione< internal::peek_char, 'a', 'c', 'z' >, internal::peek_char > >( __LINE__, __FILE__, "C" );
 
       verify_analyze< ione< 'a' > >( __LINE__, __FILE__, true, false );
       verify_analyze< ione< 'a', 'c', 'z' > >( __LINE__, __FILE__, true, false );

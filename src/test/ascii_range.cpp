@@ -5,6 +5,7 @@
 #include <type_traits>
 
 #include "test.hpp"
+#include "verify_ctrl.hpp"
 #include "verify_char.hpp"
 #include "verify_meta.hpp"
 #include "verify_rule.hpp"
@@ -15,6 +16,13 @@ namespace TAO_PEGTL_NAMESPACE
    {
       verify_meta< range< 'a', 'a' >, internal::one< internal::peek_char, 'a' > >();
       verify_meta< range< 'a', 'f' >, internal::range< internal::peek_char, 'a', 'f' > >();
+
+      verify_ctrl_enabled< range< 'a', 'a' > >( __LINE__, __FILE__, "a" );
+      verify_ctrl_disabled< internal::one< internal::peek_char, 'a' > >( __LINE__, __FILE__, "a" );
+      verify_ctrl_disabled< internal::terminal< internal::one< internal::peek_char, 'a' >, internal::peek_char > >( __LINE__, __FILE__, "a" );
+      verify_ctrl_enabled< range< 'a', 'f' > >( __LINE__, __FILE__, "c" );
+      verify_ctrl_disabled< internal::range< internal::peek_char, 'a', 'f' > >( __LINE__, __FILE__, "c" );
+      verify_ctrl_disabled< internal::terminal< internal::range< internal::peek_char, 'a', 'f' >, internal::peek_char > >( __LINE__, __FILE__, "c" );
 
       verify_analyze< range< 'a', 'f' > >( __LINE__, __FILE__, true, false );
 

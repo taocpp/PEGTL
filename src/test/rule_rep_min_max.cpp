@@ -3,6 +3,7 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
+#include "verify_ctrl.hpp"
 #include "verify_meta.hpp"
 #include "verify_rule.hpp"
 
@@ -10,6 +11,15 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
+      verify_ctrl_enabled< rep_min_max< 0, 1 > >( __LINE__, __FILE__, "", false );
+      verify_ctrl_disabled< internal::rep_min_max< 0, 1 > >( __LINE__, __FILE__, "", false );
+      verify_ctrl_enabled< rep_min_max< 0, 0, one< 'a' > > >( __LINE__, __FILE__, "b" );
+      verify_ctrl_disabled< internal::rep_min_max< 0, 0, one< 'a' > > >( __LINE__, __FILE__, "b" );
+      verify_ctrl_enabled< rep_min_max< 2, 4, one< 'a' > > >( __LINE__, __FILE__, "aa" );
+      verify_ctrl_disabled< internal::rep_min_max< 2, 4, one< 'a' > > >( __LINE__, __FILE__, "aa" );
+      verify_ctrl_enabled< rep_min_max< 1, 2, one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "ab" );
+      verify_ctrl_disabled< internal::rep_min_max< 1, 2, internal::seq< one< 'a' >, one< 'b' > > > >( __LINE__, __FILE__, "ab" );
+
       verify_analyze< rep_min_max< 0, 1, any > >( __LINE__, __FILE__, false, false );
       verify_analyze< rep_min_max< 0, 2, any > >( __LINE__, __FILE__, false, false );
       verify_analyze< rep_min_max< 1, 2, any > >( __LINE__, __FILE__, true, false );

@@ -21,6 +21,7 @@ int main()
 
 #include "test.hpp"
 #include "test_utility.hpp"
+#include "verify_ctrl.hpp"
 #include "verify_seqs.hpp"
 
 #include <tao/pegtl/extra/nested_exceptions.hpp>
@@ -132,6 +133,15 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
+      verify_ctrl_enabled< try_catch_raise_nested<> >( __LINE__, __FILE__, "" );
+      verify_ctrl_disabled< internal::try_catch_raise_nested< parse_error_base > >( __LINE__, __FILE__, "" );
+      verify_ctrl_enabled< try_catch_raise_nested< one< 'a' > > >( __LINE__, __FILE__, "a" );
+      verify_ctrl_disabled< internal::try_catch_raise_nested< parse_error_base, one< 'a' > > >( __LINE__, __FILE__, "a" );
+      verify_ctrl_enabled< try_catch_raise_nested< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "ab" );
+      verify_ctrl_disabled< internal::try_catch_raise_nested< parse_error_base, internal::seq< one< 'a' >, one< 'b' > > > >( __LINE__, __FILE__, "ab" );
+      verify_ctrl_enabled< try_catch_any_raise_nested< one< 'a' > > >( __LINE__, __FILE__, "a" );
+      verify_ctrl_disabled< internal::try_catch_raise_nested< void, one< 'a' > > >( __LINE__, __FILE__, "a" );
+
       verify_seqs< try_catch_raise_nested >();
       verify_seqs< try_catch_any_raise_nested >();
       verify_seqs< try_catch_std_raise_nested >();

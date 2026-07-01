@@ -11,6 +11,7 @@ int main()
 #else
 
 #include "test.hpp"
+#include "verify_ctrl.hpp"
 #include "verify_seqs.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
@@ -20,6 +21,13 @@ namespace TAO_PEGTL_NAMESPACE
       verify_meta< must<>, internal::success >();
       verify_meta< must< alpha >, internal::must< alpha >, alpha >();
       verify_meta< must< alpha, digit >, internal::seq< internal::must< alpha >, internal::must< digit > >, internal::must< alpha >, internal::must< digit > >();
+
+      verify_ctrl_enabled< must<> >( __LINE__, __FILE__, "" );
+      verify_ctrl_disabled< internal::must<> >( __LINE__, __FILE__, "" );
+      verify_ctrl_enabled< must< one< 'a' > > >( __LINE__, __FILE__, "a" );
+      verify_ctrl_disabled< internal::must< one< 'a' > > >( __LINE__, __FILE__, "a" );
+      verify_ctrl_enabled< must< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "ab" );
+      verify_ctrl_disabled< internal::must< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "ab" );
 
       verify_seqs< must >( result_type::global_failure );
    }

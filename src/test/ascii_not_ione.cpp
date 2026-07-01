@@ -3,6 +3,7 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
+#include "verify_ctrl.hpp"
 #include "verify_char.hpp"
 #include "verify_meta.hpp"
 
@@ -15,6 +16,19 @@ namespace TAO_PEGTL_NAMESPACE
 
       verify_meta< ascii::not_ione< 'a' >, internal::not_ione< internal::peek_char, 'a' > >();
       verify_meta< ascii::not_ione< 'a', 'c', 'z' >, internal::not_ione< internal::peek_char, 'a', 'c', 'z' > >();
+
+      verify_ctrl_enabled< ascii::not_ione7< 'a' > >( __LINE__, __FILE__, "b" );
+      verify_ctrl_disabled< internal::not_ione< internal::peek_seven, 'a' > >( __LINE__, __FILE__, "b" );
+      verify_ctrl_disabled< internal::terminal< internal::not_ione< internal::peek_seven, 'a' >, internal::peek_seven > >( __LINE__, __FILE__, "b" );
+      verify_ctrl_enabled< ascii::not_ione7< 'a', 'c', 'z' > >( __LINE__, __FILE__, "b" );
+      verify_ctrl_disabled< internal::not_ione< internal::peek_seven, 'a', 'c', 'z' > >( __LINE__, __FILE__, "b" );
+      verify_ctrl_disabled< internal::terminal< internal::not_ione< internal::peek_seven, 'a', 'c', 'z' >, internal::peek_seven > >( __LINE__, __FILE__, "b" );
+      verify_ctrl_enabled< ascii::not_ione< 'a' > >( __LINE__, __FILE__, "b" );
+      verify_ctrl_disabled< internal::not_ione< internal::peek_char, 'a' > >( __LINE__, __FILE__, "b" );
+      verify_ctrl_disabled< internal::terminal< internal::not_ione< internal::peek_char, 'a' >, internal::peek_char > >( __LINE__, __FILE__, "b" );
+      verify_ctrl_enabled< ascii::not_ione< 'a', 'c', 'z' > >( __LINE__, __FILE__, "b" );
+      verify_ctrl_disabled< internal::not_ione< internal::peek_char, 'a', 'c', 'z' > >( __LINE__, __FILE__, "b" );
+      verify_ctrl_disabled< internal::terminal< internal::not_ione< internal::peek_char, 'a', 'c', 'z' >, internal::peek_char > >( __LINE__, __FILE__, "b" );
 
       verify_analyze< ascii::not_ione7< 'a' > >( __LINE__, __FILE__, true, false );
       verify_analyze< ascii::not_ione7< 'a', 'c', 'z' > >( __LINE__, __FILE__, true, false );

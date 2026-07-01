@@ -13,6 +13,7 @@ int main()
 #include <stdexcept>
 
 #include "test.hpp"
+#include "verify_ctrl.hpp"
 #include "verify_seqs.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
@@ -90,6 +91,15 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
+      verify_ctrl_enabled< try_catch_return_false<> >( __LINE__, __FILE__, "" );
+      verify_ctrl_disabled< internal::try_catch_return_false< parse_error_base > >( __LINE__, __FILE__, "" );
+      verify_ctrl_enabled< try_catch_return_false< one< 'a' > > >( __LINE__, __FILE__, "a" );
+      verify_ctrl_disabled< internal::try_catch_return_false< parse_error_base, one< 'a' > > >( __LINE__, __FILE__, "a" );
+      verify_ctrl_enabled< try_catch_return_false< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "ab" );
+      verify_ctrl_disabled< internal::try_catch_return_false< parse_error_base, internal::seq< one< 'a' >, one< 'b' > > > >( __LINE__, __FILE__, "ab" );
+      verify_ctrl_enabled< try_catch_any_return_false< one< 'a' > > >( __LINE__, __FILE__, "a" );
+      verify_ctrl_disabled< internal::try_catch_return_false< void, one< 'a' > > >( __LINE__, __FILE__, "a" );
+
       verify_seqs< test_try_catch_rule >();
       verify_seqs< try_catch_return_false >();
 

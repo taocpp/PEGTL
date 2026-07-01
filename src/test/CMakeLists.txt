@@ -231,6 +231,7 @@ set(test_sources
   rule_try_catch_raise_nested.cpp
   rule_try_catch_return_false.cpp
   rule_unordered.cpp
+  rule_unordered_partial.cpp
   rule_until.cpp
   stream_analyze_traits.cpp
   stream_alloc_buffer.cpp

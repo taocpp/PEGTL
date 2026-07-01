@@ -4,6 +4,7 @@
 
 #include "test.hpp"
 #include "test_utility.hpp"
+#include "verify_ctrl.hpp"
 
 #include "peek_data.hpp"
 
@@ -92,6 +93,9 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
+      verify_ctrl_enabled< function< func0 > >( __LINE__, __FILE__, "f" );
+      verify_ctrl_disabled< internal::function< void, decltype( &func0 ), func0 > >( __LINE__, __FILE__, "f" );
+
       unit_test_1< func0 >();
       unit_test_1< func1 >();
       unit_test_1< func2, internal::peek_char >();

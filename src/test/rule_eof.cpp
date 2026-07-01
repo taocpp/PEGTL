@@ -4,6 +4,7 @@
 
 #include "test.hpp"
 #include "verify_char.hpp"
+#include "verify_ctrl.hpp"
 #include "verify_meta.hpp"
 #include "verify_rule.hpp"
 
@@ -12,6 +13,9 @@ namespace TAO_PEGTL_NAMESPACE
    void unit_test()
    {
       verify_meta< eof, internal::eof >();
+
+      verify_ctrl_enabled< eof >( __LINE__, __FILE__, "" );
+      verify_ctrl_disabled< internal::eof >( __LINE__, __FILE__, "" );
 
       verify_analyze< eof >( __LINE__, __FILE__, false, false );
 

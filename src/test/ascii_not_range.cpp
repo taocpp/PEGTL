@@ -5,6 +5,7 @@
 #include <type_traits>
 
 #include "test.hpp"
+#include "verify_ctrl.hpp"
 #include "verify_char.hpp"
 #include "verify_meta.hpp"
 #include "verify_rule.hpp"
@@ -18,6 +19,19 @@ namespace TAO_PEGTL_NAMESPACE
 
       verify_meta< ascii::not_range< 'a', 'a' >, internal::not_one< internal::peek_char, 'a' > >();
       verify_meta< ascii::not_range< 'a', 'f' >, internal::not_range< internal::peek_char, 'a', 'f' > >();
+
+      verify_ctrl_enabled< ascii::not_range7< 'a', 'a' > >( __LINE__, __FILE__, "b" );
+      verify_ctrl_disabled< internal::not_one< internal::peek_seven, 'a' > >( __LINE__, __FILE__, "b" );
+      verify_ctrl_disabled< internal::terminal< internal::not_one< internal::peek_seven, 'a' >, internal::peek_seven > >( __LINE__, __FILE__, "b" );
+      verify_ctrl_enabled< ascii::not_range7< 'a', 'f' > >( __LINE__, __FILE__, "g" );
+      verify_ctrl_disabled< internal::not_range< internal::peek_seven, 'a', 'f' > >( __LINE__, __FILE__, "g" );
+      verify_ctrl_disabled< internal::terminal< internal::not_range< internal::peek_seven, 'a', 'f' >, internal::peek_seven > >( __LINE__, __FILE__, "g" );
+      verify_ctrl_enabled< ascii::not_range< 'a', 'a' > >( __LINE__, __FILE__, "b" );
+      verify_ctrl_disabled< internal::not_one< internal::peek_char, 'a' > >( __LINE__, __FILE__, "b" );
+      verify_ctrl_disabled< internal::terminal< internal::not_one< internal::peek_char, 'a' >, internal::peek_char > >( __LINE__, __FILE__, "b" );
+      verify_ctrl_enabled< ascii::not_range< 'a', 'f' > >( __LINE__, __FILE__, "g" );
+      verify_ctrl_disabled< internal::not_range< internal::peek_char, 'a', 'f' > >( __LINE__, __FILE__, "g" );
+      verify_ctrl_disabled< internal::terminal< internal::not_range< internal::peek_char, 'a', 'f' >, internal::peek_char > >( __LINE__, __FILE__, "g" );
 
       verify_analyze< ascii::not_range7< 'a', 'f' > >( __LINE__, __FILE__, true, false );
       verify_analyze< ascii::not_range< 'a', 'f' > >( __LINE__, __FILE__, true, false );

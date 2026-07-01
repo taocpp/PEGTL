@@ -11,6 +11,7 @@ int main()
 #else
 
 #include "test.hpp"
+#include "verify_ctrl.hpp"
 #include "verify_meta.hpp"
 #include "verify_rule.hpp"
 
@@ -21,6 +22,13 @@ namespace TAO_PEGTL_NAMESPACE
       verify_meta< if_must< any >, internal::if_must< false, any >, any, internal::must<> >();
       verify_meta< if_must< any, eof >, internal::if_must< false, any, eof >, any, internal::must< eof > >();
       verify_meta< if_must< any, eof, one< 0 > >, internal::if_must< false, any, eof, one< 0 > >, any, internal::must< eof, one< 0 > > >();
+
+      verify_ctrl_enabled< if_must< one< 'a' > > >( __LINE__, __FILE__, "a" );
+      verify_ctrl_disabled< internal::if_must< false, one< 'a' > > >( __LINE__, __FILE__, "a" );
+      verify_ctrl_enabled< if_must< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "ab" );
+      verify_ctrl_disabled< internal::if_must< false, one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "ab" );
+      verify_ctrl_enabled< if_must< one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__, "abc" );
+      verify_ctrl_disabled< internal::if_must< false, one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__, "abc" );
 
       verify_analyze< if_must< any, any > >( __LINE__, __FILE__, true, false );
       verify_analyze< if_must< eof, any > >( __LINE__, __FILE__, true, false );

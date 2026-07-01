@@ -3,6 +3,7 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
+#include "verify_ctrl.hpp"
 #include "verify_meta.hpp"
 #include "verify_rule.hpp"
 
@@ -10,6 +11,15 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
+      verify_ctrl_enabled< rep_opt< 3 > >( __LINE__, __FILE__, "" );
+      verify_ctrl_disabled< internal::rep_opt< 3 > >( __LINE__, __FILE__, "" );
+      verify_ctrl_enabled< rep_opt< 0, one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "" );
+      verify_ctrl_disabled< internal::rep_opt< 0, one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "" );
+      verify_ctrl_enabled< rep_opt< 3, one< 'a' > > >( __LINE__, __FILE__, "aaa" );
+      verify_ctrl_disabled< internal::rep_opt< 3, one< 'a' > > >( __LINE__, __FILE__, "aaa" );
+      verify_ctrl_enabled< rep_opt< 2, one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "abab" );
+      verify_ctrl_disabled< internal::rep_opt< 2, internal::seq< one< 'a' >, one< 'b' > > > >( __LINE__, __FILE__, "abab" );
+
       verify_analyze< rep_opt< 1, any > >( __LINE__, __FILE__, false, false );
       verify_analyze< rep_opt< 6, any > >( __LINE__, __FILE__, false, false );
       verify_analyze< rep_opt< 1, eof > >( __LINE__, __FILE__, false, false );

@@ -4,6 +4,7 @@
 
 #include "test.hpp"
 #include "test_utility.hpp"
+#include "verify_ctrl.hpp"
 #include "verify_seqs.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
@@ -118,6 +119,9 @@ namespace TAO_PEGTL_NAMESPACE
       }
       verify_meta< if_apply< any >, internal::if_apply< any >, any >();
       verify_meta< if_apply< any, test1::action_a >, internal::if_apply< any, test1::action_a >, any >();
+
+      verify_ctrl_enabled< if_apply< one< '-' > > >( __LINE__, __FILE__, "-" );
+      verify_ctrl_disabled< internal::if_apply< one< '-' > > >( __LINE__, __FILE__, "-" );
 
       verify_seqs< if_apply_seq >();
       verify_seqs< if_apply_disable >();

@@ -3,6 +3,7 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
+#include "verify_ctrl.hpp"
 #include "verify_char.hpp"
 #include "verify_meta.hpp"
 #include "verify_rule.hpp"
@@ -11,6 +12,19 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
+      verify_ctrl_enabled< eol >( __LINE__, __FILE__, "\n" );
+      verify_ctrl_disabled< internal::eol >( __LINE__, __FILE__, "\n" );
+      verify_ctrl_enabled< scan::lf >( __LINE__, __FILE__, "\n" );
+      verify_ctrl_disabled< internal::one< internal::peek_char, '\n' > >( __LINE__, __FILE__, "\n" );
+      verify_ctrl_disabled< internal::terminal< internal::one< internal::peek_char, '\n' >, internal::peek_char > >( __LINE__, __FILE__, "\n" );
+      verify_ctrl_enabled< scan::cr >( __LINE__, __FILE__, "\r" );
+      verify_ctrl_disabled< internal::one< internal::peek_char, '\r' > >( __LINE__, __FILE__, "\r" );
+      verify_ctrl_disabled< internal::terminal< internal::one< internal::peek_char, '\r' >, internal::peek_char > >( __LINE__, __FILE__, "\r" );
+      verify_ctrl_enabled< ascii::crlf >( __LINE__, __FILE__, "\r\n" );
+      verify_ctrl_disabled< internal::ascii_string< '\r', '\n' > >( __LINE__, __FILE__, "\r\n" );
+      verify_ctrl_enabled< scan::lf_crlf >( __LINE__, __FILE__, "\n" );
+      verify_ctrl_disabled< internal::sor< ascii::lf::rule_t, ascii::crlf::rule_t > >( __LINE__, __FILE__, "\n" );
+
       verify_analyze< eol >( __LINE__, __FILE__, true, false );
 
       verify_rule< eol >( __LINE__, __FILE__, "", result_type::local_failure, 0 );

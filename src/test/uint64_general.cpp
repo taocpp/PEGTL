@@ -3,6 +3,7 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
+#include "verify_ctrl.hpp"
 #include "verify_rule.hpp"
 
 #include <tao/pegtl/binary/uint64.hpp>
@@ -11,6 +12,85 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
+      verify_ctrl_enabled< uint64_be::any >( __LINE__, __FILE__, "\x01\x02\x03\x04\x05\x06\x07\x08" );
+      verify_ctrl_disabled< internal::any< internal::peek_uint64_be > >( __LINE__, __FILE__, "\x01\x02\x03\x04\x05\x06\x07\x08" );
+      verify_ctrl_enabled< uint64_le::any >( __LINE__, __FILE__, "\x01\x02\x03\x04\x05\x06\x07\x08" );
+      verify_ctrl_disabled< internal::any< internal::peek_uint64_le > >( __LINE__, __FILE__, "\x01\x02\x03\x04\x05\x06\x07\x08" );
+      verify_ctrl_enabled< uint64_be::many< 2 > >( __LINE__, __FILE__, "\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10" );
+      verify_ctrl_disabled< internal::many< 2, internal::peek_uint64_be > >( __LINE__, __FILE__, "\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10" );
+      verify_ctrl_enabled< uint64_le::many< 2 > >( __LINE__, __FILE__, "\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10" );
+      verify_ctrl_disabled< internal::many< 2, internal::peek_uint64_le > >( __LINE__, __FILE__, "\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10" );
+      verify_ctrl_enabled< uint64_be::one< 0x0111111111111111, 0x0222222222222222 > >( __LINE__, __FILE__, "\x01\x11\x11\x11\x11\x11\x11\x11" );
+      verify_ctrl_disabled< internal::one< internal::peek_uint64_be, 0x0111111111111111, 0x0222222222222222 > >( __LINE__, __FILE__, "\x01\x11\x11\x11\x11\x11\x11\x11" );
+      verify_ctrl_disabled< internal::terminal< internal::one< internal::peek_uint64_be, 0x0111111111111111, 0x0222222222222222 >, internal::peek_uint64_be > >( __LINE__, __FILE__, "\x01\x11\x11\x11\x11\x11\x11\x11" );
+      verify_ctrl_enabled< uint64_le::one< 0x0111111111111111, 0x0222222222222222 > >( __LINE__, __FILE__, "\x11\x11\x11\x11\x11\x11\x11\x01" );
+      verify_ctrl_disabled< internal::one< internal::peek_uint64_le, 0x0111111111111111, 0x0222222222222222 > >( __LINE__, __FILE__, "\x11\x11\x11\x11\x11\x11\x11\x01" );
+      verify_ctrl_disabled< internal::terminal< internal::one< internal::peek_uint64_le, 0x0111111111111111, 0x0222222222222222 >, internal::peek_uint64_le > >( __LINE__, __FILE__, "\x11\x11\x11\x11\x11\x11\x11\x01" );
+      verify_ctrl_enabled< uint64_be::not_one< 0x0111111111111111, 0x0222222222222222 > >( __LINE__, __FILE__, "\x11\x11\x11\x11\x11\x11\x11\x01" );
+      verify_ctrl_disabled< internal::not_one< internal::peek_uint64_be, 0x0111111111111111, 0x0222222222222222 > >( __LINE__, __FILE__, "\x11\x11\x11\x11\x11\x11\x11\x01" );
+      verify_ctrl_disabled< internal::terminal< internal::not_one< internal::peek_uint64_be, 0x0111111111111111, 0x0222222222222222 >, internal::peek_uint64_be > >( __LINE__, __FILE__, "\x11\x11\x11\x11\x11\x11\x11\x01" );
+      verify_ctrl_enabled< uint64_le::not_one< 0x0111111111111111, 0x0222222222222222 > >( __LINE__, __FILE__, "\x01\x11\x11\x11\x11\x11\x11\x11" );
+      verify_ctrl_disabled< internal::not_one< internal::peek_uint64_le, 0x0111111111111111, 0x0222222222222222 > >( __LINE__, __FILE__, "\x01\x11\x11\x11\x11\x11\x11\x11" );
+      verify_ctrl_disabled< internal::terminal< internal::not_one< internal::peek_uint64_le, 0x0111111111111111, 0x0222222222222222 >, internal::peek_uint64_le > >( __LINE__, __FILE__, "\x01\x11\x11\x11\x11\x11\x11\x11" );
+      verify_ctrl_enabled< uint64_be::range< 0x0100000000000000, 0x0400000000000000 > >( __LINE__, __FILE__, "\x02\x77\x77\x77\x77\x77\x77\x77" );
+      verify_ctrl_disabled< internal::range< internal::peek_uint64_be, 0x0100000000000000, 0x0400000000000000 > >( __LINE__, __FILE__, "\x02\x77\x77\x77\x77\x77\x77\x77" );
+      verify_ctrl_disabled< internal::terminal< internal::range< internal::peek_uint64_be, 0x0100000000000000, 0x0400000000000000 >, internal::peek_uint64_be > >( __LINE__, __FILE__, "\x02\x77\x77\x77\x77\x77\x77\x77" );
+      verify_ctrl_enabled< uint64_le::range< 0x0100000000000000, 0x0400000000000000 > >( __LINE__, __FILE__, "\x77\x77\x77\x77\x77\x77\x77\x02" );
+      verify_ctrl_disabled< internal::range< internal::peek_uint64_le, 0x0100000000000000, 0x0400000000000000 > >( __LINE__, __FILE__, "\x77\x77\x77\x77\x77\x77\x77\x02" );
+      verify_ctrl_disabled< internal::terminal< internal::range< internal::peek_uint64_le, 0x0100000000000000, 0x0400000000000000 >, internal::peek_uint64_le > >( __LINE__, __FILE__, "\x77\x77\x77\x77\x77\x77\x77\x02" );
+      verify_ctrl_enabled< uint64_be::not_range< 0x0100000000000000, 0x0400000000000000 > >( __LINE__, __FILE__, "\x77\x77\x77\x77\x77\x77\x77\x02" );
+      verify_ctrl_disabled< internal::not_range< internal::peek_uint64_be, 0x0100000000000000, 0x0400000000000000 > >( __LINE__, __FILE__, "\x77\x77\x77\x77\x77\x77\x77\x02" );
+      verify_ctrl_disabled< internal::terminal< internal::not_range< internal::peek_uint64_be, 0x0100000000000000, 0x0400000000000000 >, internal::peek_uint64_be > >( __LINE__, __FILE__, "\x77\x77\x77\x77\x77\x77\x77\x02" );
+      verify_ctrl_enabled< uint64_le::not_range< 0x0100000000000000, 0x0400000000000000 > >( __LINE__, __FILE__, "\x02\x77\x77\x77\x77\x77\x77\x77" );
+      verify_ctrl_disabled< internal::not_range< internal::peek_uint64_le, 0x0100000000000000, 0x0400000000000000 > >( __LINE__, __FILE__, "\x02\x77\x77\x77\x77\x77\x77\x77" );
+      verify_ctrl_disabled< internal::terminal< internal::not_range< internal::peek_uint64_le, 0x0100000000000000, 0x0400000000000000 >, internal::peek_uint64_le > >( __LINE__, __FILE__, "\x02\x77\x77\x77\x77\x77\x77\x77" );
+      verify_ctrl_enabled< uint64_be::ranges< 0x0111111111111111, 0x0222222222222222, 0x0333333333333333, 0x0444444444444444 > >( __LINE__, __FILE__, "\x01\x23\x45\x67\x99\x99\x99\x99" );
+      verify_ctrl_disabled< internal::ranges< internal::peek_uint64_be, 0x0111111111111111, 0x0222222222222222, 0x0333333333333333, 0x0444444444444444 > >( __LINE__, __FILE__, "\x01\x23\x45\x67\x99\x99\x99\x99" );
+      verify_ctrl_disabled< internal::terminal< internal::ranges< internal::peek_uint64_be, 0x0111111111111111, 0x0222222222222222, 0x0333333333333333, 0x0444444444444444 >, internal::peek_uint64_be > >( __LINE__, __FILE__, "\x01\x23\x45\x67\x99\x99\x99\x99" );
+      verify_ctrl_enabled< uint64_le::ranges< 0x0111111111111111, 0x0222222222222222, 0x0333333333333333, 0x0444444444444444 > >( __LINE__, __FILE__, "\x99\x99\x99\x99\x67\x45\x23\x01" );
+      verify_ctrl_disabled< internal::ranges< internal::peek_uint64_le, 0x0111111111111111, 0x0222222222222222, 0x0333333333333333, 0x0444444444444444 > >( __LINE__, __FILE__, "\x99\x99\x99\x99\x67\x45\x23\x01" );
+      verify_ctrl_disabled< internal::terminal< internal::ranges< internal::peek_uint64_le, 0x0111111111111111, 0x0222222222222222, 0x0333333333333333, 0x0444444444444444 >, internal::peek_uint64_le > >( __LINE__, __FILE__, "\x99\x99\x99\x99\x67\x45\x23\x01" );
+      verify_ctrl_enabled< uint64_be::not_ranges< 0x0111111111111111, 0x0222222222222222, 0x0333333333333333, 0x0444444444444444 > >( __LINE__, __FILE__, "\x02\x34\x56\x78\x99\x99\x99\x99" );
+      verify_ctrl_disabled< internal::not_ranges< internal::peek_uint64_be, 0x0111111111111111, 0x0222222222222222, 0x0333333333333333, 0x0444444444444444 > >( __LINE__, __FILE__, "\x02\x34\x56\x78\x99\x99\x99\x99" );
+      verify_ctrl_disabled< internal::terminal< internal::not_ranges< internal::peek_uint64_be, 0x0111111111111111, 0x0222222222222222, 0x0333333333333333, 0x0444444444444444 >, internal::peek_uint64_be > >( __LINE__, __FILE__, "\x02\x34\x56\x78\x99\x99\x99\x99" );
+      verify_ctrl_enabled< uint64_le::not_ranges< 0x0111111111111111, 0x0222222222222222, 0x0333333333333333, 0x0444444444444444 > >( __LINE__, __FILE__, "\x99\x99\x99\x99\x78\x56\x34\x02" );
+      verify_ctrl_disabled< internal::not_ranges< internal::peek_uint64_le, 0x0111111111111111, 0x0222222222222222, 0x0333333333333333, 0x0444444444444444 > >( __LINE__, __FILE__, "\x99\x99\x99\x99\x78\x56\x34\x02" );
+      verify_ctrl_disabled< internal::terminal< internal::not_ranges< internal::peek_uint64_le, 0x0111111111111111, 0x0222222222222222, 0x0333333333333333, 0x0444444444444444 >, internal::peek_uint64_le > >( __LINE__, __FILE__, "\x99\x99\x99\x99\x78\x56\x34\x02" );
+      verify_ctrl_enabled< uint64_be::string< 0x01233210deadcafe, 0x45677654baffb1ff > >( __LINE__, __FILE__, "\x01\x23\x32\x10\xde\xad\xca\xfe\x45\x67\x76\x54\xba\xff\xb1\xff" );
+      verify_ctrl_enabled< uint64_le::string< 0x01233210deadcafe, 0x45677654baffb1ff > >( __LINE__, __FILE__, "\xfe\xca\xad\xde\x10\x32\x23\x01\xff\xb1\xff\xba\x54\x76\x67\x45" );
+      verify_ctrl_enabled< uint64_be::mask_one< 0xffffffffffffffff, 0x0111111111111111, 0x0222222222222222 > >( __LINE__, __FILE__, "\x01\x11\x11\x11\x11\x11\x11\x11" );
+      verify_ctrl_disabled< internal::one< internal::peek_mask_uint64_be< 0xffffffffffffffff >, 0x0111111111111111, 0x0222222222222222 > >( __LINE__, __FILE__, "\x01\x11\x11\x11\x11\x11\x11\x11" );
+      verify_ctrl_disabled< internal::terminal< internal::one< internal::peek_mask_uint64_be< 0xffffffffffffffff >, 0x0111111111111111, 0x0222222222222222 >, internal::peek_mask_uint64_be< 0xffffffffffffffff > > >( __LINE__, __FILE__, "\x01\x11\x11\x11\x11\x11\x11\x11" );
+      verify_ctrl_enabled< uint64_le::mask_one< 0xffffffffffffffff, 0x0111111111111111, 0x0222222222222222 > >( __LINE__, __FILE__, "\x11\x11\x11\x11\x11\x11\x11\x01" );
+      verify_ctrl_disabled< internal::one< internal::peek_mask_uint64_le< 0xffffffffffffffff >, 0x0111111111111111, 0x0222222222222222 > >( __LINE__, __FILE__, "\x11\x11\x11\x11\x11\x11\x11\x01" );
+      verify_ctrl_disabled< internal::terminal< internal::one< internal::peek_mask_uint64_le< 0xffffffffffffffff >, 0x0111111111111111, 0x0222222222222222 >, internal::peek_mask_uint64_le< 0xffffffffffffffff > > >( __LINE__, __FILE__, "\x11\x11\x11\x11\x11\x11\x11\x01" );
+      verify_ctrl_enabled< uint64_be::mask_not_one< 0xffffffffffffffff, 0x0111111111111111, 0x0222222222222222 > >( __LINE__, __FILE__, "\x11\x11\x11\x11\x11\x11\x11\x01" );
+      verify_ctrl_disabled< internal::not_one< internal::peek_mask_uint64_be< 0xffffffffffffffff >, 0x0111111111111111, 0x0222222222222222 > >( __LINE__, __FILE__, "\x11\x11\x11\x11\x11\x11\x11\x01" );
+      verify_ctrl_disabled< internal::terminal< internal::not_one< internal::peek_mask_uint64_be< 0xffffffffffffffff >, 0x0111111111111111, 0x0222222222222222 >, internal::peek_mask_uint64_be< 0xffffffffffffffff > > >( __LINE__, __FILE__, "\x11\x11\x11\x11\x11\x11\x11\x01" );
+      verify_ctrl_enabled< uint64_le::mask_not_one< 0xffffffffffffffff, 0x0111111111111111, 0x0222222222222222 > >( __LINE__, __FILE__, "\x01\x11\x11\x11\x11\x11\x11\x11" );
+      verify_ctrl_disabled< internal::not_one< internal::peek_mask_uint64_le< 0xffffffffffffffff >, 0x0111111111111111, 0x0222222222222222 > >( __LINE__, __FILE__, "\x01\x11\x11\x11\x11\x11\x11\x11" );
+      verify_ctrl_disabled< internal::terminal< internal::not_one< internal::peek_mask_uint64_le< 0xffffffffffffffff >, 0x0111111111111111, 0x0222222222222222 >, internal::peek_mask_uint64_le< 0xffffffffffffffff > > >( __LINE__, __FILE__, "\x01\x11\x11\x11\x11\x11\x11\x11" );
+      verify_ctrl_enabled< uint64_be::mask_range< 0xffffffffffffffff, 0x0100000000000000, 0x0400000000000000 > >( __LINE__, __FILE__, "\x02\x77\x77\x77\x77\x77\x77\x77" );
+      verify_ctrl_disabled< internal::range< internal::peek_mask_uint64_be< 0xffffffffffffffff >, 0x0100000000000000, 0x0400000000000000 > >( __LINE__, __FILE__, "\x02\x77\x77\x77\x77\x77\x77\x77" );
+      verify_ctrl_disabled< internal::terminal< internal::range< internal::peek_mask_uint64_be< 0xffffffffffffffff >, 0x0100000000000000, 0x0400000000000000 >, internal::peek_mask_uint64_be< 0xffffffffffffffff > > >( __LINE__, __FILE__, "\x02\x77\x77\x77\x77\x77\x77\x77" );
+      verify_ctrl_enabled< uint64_le::mask_range< 0xffffffffffffffff, 0x0100000000000000, 0x0400000000000000 > >( __LINE__, __FILE__, "\x77\x77\x77\x77\x77\x77\x77\x02" );
+      verify_ctrl_disabled< internal::range< internal::peek_mask_uint64_le< 0xffffffffffffffff >, 0x0100000000000000, 0x0400000000000000 > >( __LINE__, __FILE__, "\x77\x77\x77\x77\x77\x77\x77\x02" );
+      verify_ctrl_disabled< internal::terminal< internal::range< internal::peek_mask_uint64_le< 0xffffffffffffffff >, 0x0100000000000000, 0x0400000000000000 >, internal::peek_mask_uint64_le< 0xffffffffffffffff > > >( __LINE__, __FILE__, "\x77\x77\x77\x77\x77\x77\x77\x02" );
+      verify_ctrl_enabled< uint64_be::mask_not_range< 0xffffffffffffffff, 0x0100000000000000, 0x0400000000000000 > >( __LINE__, __FILE__, "\x77\x77\x77\x77\x77\x77\x77\x02" );
+      verify_ctrl_disabled< internal::not_range< internal::peek_mask_uint64_be< 0xffffffffffffffff >, 0x0100000000000000, 0x0400000000000000 > >( __LINE__, __FILE__, "\x77\x77\x77\x77\x77\x77\x77\x02" );
+      verify_ctrl_disabled< internal::terminal< internal::not_range< internal::peek_mask_uint64_be< 0xffffffffffffffff >, 0x0100000000000000, 0x0400000000000000 >, internal::peek_mask_uint64_be< 0xffffffffffffffff > > >( __LINE__, __FILE__, "\x77\x77\x77\x77\x77\x77\x77\x02" );
+      verify_ctrl_enabled< uint64_le::mask_not_range< 0xffffffffffffffff, 0x0100000000000000, 0x0400000000000000 > >( __LINE__, __FILE__, "\x02\x77\x77\x77\x77\x77\x77\x77" );
+      verify_ctrl_disabled< internal::not_range< internal::peek_mask_uint64_le< 0xffffffffffffffff >, 0x0100000000000000, 0x0400000000000000 > >( __LINE__, __FILE__, "\x02\x77\x77\x77\x77\x77\x77\x77" );
+      verify_ctrl_disabled< internal::terminal< internal::not_range< internal::peek_mask_uint64_le< 0xffffffffffffffff >, 0x0100000000000000, 0x0400000000000000 >, internal::peek_mask_uint64_le< 0xffffffffffffffff > > >( __LINE__, __FILE__, "\x02\x77\x77\x77\x77\x77\x77\x77" );
+      verify_ctrl_enabled< uint64_be::mask_ranges< 0xffffffffffffffff, 0x0111111111111111, 0x0222222222222222, 0x0333333333333333, 0x0444444444444444 > >( __LINE__, __FILE__, "\x01\x23\x45\x67\x99\x99\x99\x99" );
+      verify_ctrl_disabled< internal::ranges< internal::peek_mask_uint64_be< 0xffffffffffffffff >, 0x0111111111111111, 0x0222222222222222, 0x0333333333333333, 0x0444444444444444 > >( __LINE__, __FILE__, "\x01\x23\x45\x67\x99\x99\x99\x99" );
+      verify_ctrl_disabled< internal::terminal< internal::ranges< internal::peek_mask_uint64_be< 0xffffffffffffffff >, 0x0111111111111111, 0x0222222222222222, 0x0333333333333333, 0x0444444444444444 >, internal::peek_mask_uint64_be< 0xffffffffffffffff > > >( __LINE__, __FILE__, "\x01\x23\x45\x67\x99\x99\x99\x99" );
+      verify_ctrl_enabled< uint64_le::mask_ranges< 0xffffffffffffffff, 0x0111111111111111, 0x0222222222222222, 0x0333333333333333, 0x0444444444444444 > >( __LINE__, __FILE__, "\x99\x99\x99\x99\x67\x45\x23\x01" );
+      verify_ctrl_disabled< internal::ranges< internal::peek_mask_uint64_le< 0xffffffffffffffff >, 0x0111111111111111, 0x0222222222222222, 0x0333333333333333, 0x0444444444444444 > >( __LINE__, __FILE__, "\x99\x99\x99\x99\x67\x45\x23\x01" );
+      verify_ctrl_disabled< internal::terminal< internal::ranges< internal::peek_mask_uint64_le< 0xffffffffffffffff >, 0x0111111111111111, 0x0222222222222222, 0x0333333333333333, 0x0444444444444444 >, internal::peek_mask_uint64_le< 0xffffffffffffffff > > >( __LINE__, __FILE__, "\x99\x99\x99\x99\x67\x45\x23\x01" );
+      verify_ctrl_enabled< uint64_be::mask_string< 0xffffffffffffffff, 0x01233210deadcafe, 0x45677654baffb1ff > >( __LINE__, __FILE__, "\x01\x23\x32\x10\xde\xad\xca\xfe\x45\x67\x76\x54\xba\xff\xb1\xff" );
+      verify_ctrl_enabled< uint64_le::mask_string< 0xffffffffffffffff, 0x01233210deadcafe, 0x45677654baffb1ff > >( __LINE__, __FILE__, "\xfe\xca\xad\xde\x10\x32\x23\x01\xff\xb1\xff\xba\x54\x76\x67\x45" );
+
       verify_view< uint64_be::any >( __LINE__, __FILE__, "", result_type::local_failure );
       verify_view< uint64_le::any >( __LINE__, __FILE__, "", result_type::local_failure );
 

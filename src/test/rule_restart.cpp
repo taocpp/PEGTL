@@ -3,6 +3,7 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
+#include "verify_ctrl.hpp"
 #include "verify_meta.hpp"
 #include "verify_rule.hpp"
 
@@ -11,6 +12,9 @@ namespace TAO_PEGTL_NAMESPACE
    void unit_test()
    {
       verify_meta< restart, internal::restart >();
+
+      verify_ctrl_enabled< restart >( __LINE__, __FILE__, "abc" );
+      verify_ctrl_disabled< internal::restart >( __LINE__, __FILE__, "abc" );
 
       verify_rule< restart >( __LINE__, __FILE__, "", result_type::success, 0 );
       verify_rule< restart >( __LINE__, __FILE__, "abc", result_type::success, 3 );

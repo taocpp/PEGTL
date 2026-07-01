@@ -4,6 +4,7 @@
 
 #include "test.hpp"
 #include "test_endian.hpp"
+#include "verify_ctrl.hpp"
 #include "verify_rule.hpp"
 
 #include <tao/pegtl/unicode/utf16.hpp>
@@ -33,6 +34,9 @@ namespace TAO_PEGTL_NAMESPACE
 
    void test_utf16()
    {
+      verify_ctrl_enabled< utf16::any >( __LINE__, __FILE__, u16s( 0x20ac ) );
+      verify_ctrl_disabled< internal::any< internal::peek_utf16 > >( __LINE__, __FILE__, u16s( 0x20ac ) );
+
       verify_rule< utf16::any >( __LINE__, __FILE__, "", result_type::local_failure );
       verify_rule< utf16::any >( __LINE__, __FILE__, "\x01", result_type::local_failure );
       verify_rule< utf16::any >( __LINE__, __FILE__, "\xff", result_type::local_failure );
@@ -67,24 +71,43 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< utf16::many< 2 > >( __LINE__, __FILE__, u16s( 0x20 ) + u16s( 0x20ac ), result_type::success );
       verify_rule< utf16::many< 2 > >( __LINE__, __FILE__, u16s( 0x20 ) + u16s( 0xd801 ) + u16s( 0xdc37 ) + u16s( 0x20 ), result_type::success, 2 );
 
+      verify_ctrl_enabled< utf16::many< 2 > >( __LINE__, __FILE__, u16s( 0x20 ) + u16s( 0x20ac ) );
+      verify_ctrl_disabled< internal::many< 2, internal::peek_utf16 > >( __LINE__, __FILE__, u16s( 0x20 ) + u16s( 0x20ac ) );
+
       verify_rule< utf16::one< 0x20 > >( __LINE__, __FILE__, u16s( 0x20 ), result_type::success );
       verify_rule< utf16::one< 0x20ac > >( __LINE__, __FILE__, u16s( 0x20ac ), result_type::success );
       verify_rule< utf16::one< 0x10437 > >( __LINE__, __FILE__, u16s( 0xd801 ) + u16s( 0xdc37 ), result_type::success );
+
+      verify_ctrl_enabled< utf16::one< 0x20ac > >( __LINE__, __FILE__, u16s( 0x20ac ) );
+      verify_ctrl_disabled< internal::one< internal::peek_utf16, 0x20ac > >( __LINE__, __FILE__, u16s( 0x20ac ) );
+      verify_ctrl_disabled< internal::terminal< internal::one< internal::peek_utf16, 0x20ac >, internal::peek_utf16 > >( __LINE__, __FILE__, u16s( 0x20ac ) );
 
       verify_rule< utf16::not_one< 0x20, 0x10437 > >( __LINE__, __FILE__, "", result_type::local_failure );
       verify_rule< utf16::not_one< 0x20, 0x10437 > >( __LINE__, __FILE__, u16s( 0x20 ), result_type::local_failure );
       verify_rule< utf16::not_one< 0x20, 0x10437 > >( __LINE__, __FILE__, u16s( 0xd801 ) + u16s( 0xdc37 ), result_type::local_failure );
       verify_rule< utf16::not_one< 0x20, 0x10437 > >( __LINE__, __FILE__, u16s( 0x20ac ), result_type::success );
 
+      verify_ctrl_enabled< utf16::not_one< 0x20, 0x10437 > >( __LINE__, __FILE__, u16s( 0x20ac ) );
+      verify_ctrl_disabled< internal::not_one< internal::peek_utf16, 0x20, 0x10437 > >( __LINE__, __FILE__, u16s( 0x20ac ) );
+      verify_ctrl_disabled< internal::terminal< internal::not_one< internal::peek_utf16, 0x20, 0x10437 >, internal::peek_utf16 > >( __LINE__, __FILE__, u16s( 0x20ac ) );
+
       verify_rule< utf16::range< 0x20, 0x7e > >( __LINE__, __FILE__, u16s( 0x1f ), result_type::local_failure );
       verify_rule< utf16::range< 0x20, 0x7e > >( __LINE__, __FILE__, u16s( 0x20 ), result_type::success );
       verify_rule< utf16::range< 0x20, 0x7e > >( __LINE__, __FILE__, u16s( 0x7e ), result_type::success );
       verify_rule< utf16::range< 0x20, 0x7e > >( __LINE__, __FILE__, u16s( 0x20ac ), result_type::local_failure );
 
+      verify_ctrl_enabled< utf16::range< 0x20, 0x7e > >( __LINE__, __FILE__, u16s( 0x20 ) );
+      verify_ctrl_disabled< internal::range< internal::peek_utf16, 0x20, 0x7e > >( __LINE__, __FILE__, u16s( 0x20 ) );
+      verify_ctrl_disabled< internal::terminal< internal::range< internal::peek_utf16, 0x20, 0x7e >, internal::peek_utf16 > >( __LINE__, __FILE__, u16s( 0x20 ) );
+
       verify_rule< utf16::not_range< 0x20, 0x7e > >( __LINE__, __FILE__, u16s( 0x1f ), result_type::success );
       verify_rule< utf16::not_range< 0x20, 0x7e > >( __LINE__, __FILE__, u16s( 0x20 ), result_type::local_failure );
       verify_rule< utf16::not_range< 0x20, 0x7e > >( __LINE__, __FILE__, u16s( 0x7e ), result_type::local_failure );
       verify_rule< utf16::not_range< 0x20, 0x7e > >( __LINE__, __FILE__, u16s( 0x20ac ), result_type::success );
+
+      verify_ctrl_enabled< utf16::not_range< 0x20, 0x7e > >( __LINE__, __FILE__, u16s( 0x20ac ) );
+      verify_ctrl_disabled< internal::not_range< internal::peek_utf16, 0x20, 0x7e > >( __LINE__, __FILE__, u16s( 0x20ac ) );
+      verify_ctrl_disabled< internal::terminal< internal::not_range< internal::peek_utf16, 0x20, 0x7e >, internal::peek_utf16 > >( __LINE__, __FILE__, u16s( 0x20ac ) );
 
       verify_rule< utf16::ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, u16s( 0x1f ), result_type::local_failure );
       verify_rule< utf16::ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, u16s( 0x20 ), result_type::success );
@@ -92,20 +115,36 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< utf16::ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, u16s( 0x20ac ), result_type::success );
       verify_rule< utf16::ranges< 0x20, 0x7e, 0x20ac, 0x20af, 0x10437 > >( __LINE__, __FILE__, u16s( 0xd801 ) + u16s( 0xdc37 ), result_type::success );
 
+      verify_ctrl_enabled< utf16::ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, u16s( 0x20ac ) );
+      verify_ctrl_disabled< internal::ranges< internal::peek_utf16, 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, u16s( 0x20ac ) );
+      verify_ctrl_disabled< internal::terminal< internal::ranges< internal::peek_utf16, 0x20, 0x7e, 0x20ac, 0x20af >, internal::peek_utf16 > >( __LINE__, __FILE__, u16s( 0x20ac ) );
+
       verify_rule< utf16::not_ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, u16s( 0x1f ), result_type::success );
       verify_rule< utf16::not_ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, u16s( 0x20 ), result_type::local_failure );
       verify_rule< utf16::not_ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, u16s( 0xa2 ), result_type::success );
       verify_rule< utf16::not_ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, u16s( 0x20ac ), result_type::local_failure );
       verify_rule< utf16::not_ranges< 0x20, 0x7e, 0x20ac, 0x20af, 0x10437 > >( __LINE__, __FILE__, u16s( 0xd801 ) + u16s( 0xdc37 ), result_type::local_failure );
 
+      verify_ctrl_enabled< utf16::not_ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, u16s( 0xa2 ) );
+      verify_ctrl_disabled< internal::not_ranges< internal::peek_utf16, 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, u16s( 0xa2 ) );
+      verify_ctrl_disabled< internal::terminal< internal::not_ranges< internal::peek_utf16, 0x20, 0x7e, 0x20ac, 0x20af >, internal::peek_utf16 > >( __LINE__, __FILE__, u16s( 0xa2 ) );
+
       verify_rule< utf16::bom >( __LINE__, __FILE__, u16s( 0xfeff ), result_type::success );
       verify_rule< utf16::bom >( __LINE__, __FILE__, u16s( 0xfffe ), result_type::local_failure );
 
+      verify_ctrl_enabled< utf16::bom >( __LINE__, __FILE__, u16s( 0xfeff ) );
+      verify_ctrl_disabled< internal::one< internal::peek_utf16, 0xfeff > >( __LINE__, __FILE__, u16s( 0xfeff ) );
+      verify_ctrl_disabled< internal::terminal< internal::one< internal::peek_utf16, 0xfeff >, internal::peek_utf16 > >( __LINE__, __FILE__, u16s( 0xfeff ) );
+
       verify_rule< utf16::string< 0x20, 0x20ac, 0x10437 > >( __LINE__, __FILE__, u16s( 0x20 ) + u16s( 0x20ac ) + u16s( 0xd801 ) + u16s( 0xdc37 ) + u16s( 0x20 ), result_type::success, 2 );
+      verify_ctrl_enabled< utf16::string< 0x20, 0x20ac, 0x10437 > >( __LINE__, __FILE__, u16s( 0x20 ) + u16s( 0x20ac ) + u16s( 0xd801 ) + u16s( 0xdc37 ) );
    }
 
    void test_utf16_be()
    {
+      verify_ctrl_enabled< utf16_be::any >( __LINE__, __FILE__, u16s_be( 0x20ac ) );
+      verify_ctrl_disabled< internal::any< internal::peek_utf16_be > >( __LINE__, __FILE__, u16s_be( 0x20ac ) );
+
       verify_rule< utf16_be::any >( __LINE__, __FILE__, "", result_type::local_failure );
       verify_rule< utf16_be::any >( __LINE__, __FILE__, "\x01", result_type::local_failure );
       verify_rule< utf16_be::any >( __LINE__, __FILE__, "\xff", result_type::local_failure );
@@ -140,24 +179,43 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< utf16_be::many< 2 > >( __LINE__, __FILE__, u16s_be( 0x20 ) + u16s_be( 0x20ac ), result_type::success );
       verify_rule< utf16_be::many< 2 > >( __LINE__, __FILE__, u16s_be( 0x20 ) + u16s_be( 0xd801 ) + u16s_be( 0xdc37 ) + u16s_be( 0x20 ), result_type::success, 2 );
 
+      verify_ctrl_enabled< utf16_be::many< 2 > >( __LINE__, __FILE__, u16s_be( 0x20 ) + u16s_be( 0x20ac ) );
+      verify_ctrl_disabled< internal::many< 2, internal::peek_utf16_be > >( __LINE__, __FILE__, u16s_be( 0x20 ) + u16s_be( 0x20ac ) );
+
       verify_rule< utf16_be::one< 0x20 > >( __LINE__, __FILE__, u16s_be( 0x20 ), result_type::success );
       verify_rule< utf16_be::one< 0x20ac > >( __LINE__, __FILE__, u16s_be( 0x20ac ), result_type::success );
       verify_rule< utf16_be::one< 0x10437 > >( __LINE__, __FILE__, u16s_be( 0xd801 ) + u16s_be( 0xdc37 ), result_type::success );
+
+      verify_ctrl_enabled< utf16_be::one< 0x20ac > >( __LINE__, __FILE__, u16s_be( 0x20ac ) );
+      verify_ctrl_disabled< internal::one< internal::peek_utf16_be, 0x20ac > >( __LINE__, __FILE__, u16s_be( 0x20ac ) );
+      verify_ctrl_disabled< internal::terminal< internal::one< internal::peek_utf16_be, 0x20ac >, internal::peek_utf16_be > >( __LINE__, __FILE__, u16s_be( 0x20ac ) );
 
       verify_rule< utf16_be::not_one< 0x20, 0x10437 > >( __LINE__, __FILE__, "", result_type::local_failure );
       verify_rule< utf16_be::not_one< 0x20, 0x10437 > >( __LINE__, __FILE__, u16s_be( 0x20 ), result_type::local_failure );
       verify_rule< utf16_be::not_one< 0x20, 0x10437 > >( __LINE__, __FILE__, u16s_be( 0xd801 ) + u16s_be( 0xdc37 ), result_type::local_failure );
       verify_rule< utf16_be::not_one< 0x20, 0x10437 > >( __LINE__, __FILE__, u16s_be( 0x20ac ), result_type::success );
 
+      verify_ctrl_enabled< utf16_be::not_one< 0x20, 0x10437 > >( __LINE__, __FILE__, u16s_be( 0x20ac ) );
+      verify_ctrl_disabled< internal::not_one< internal::peek_utf16_be, 0x20, 0x10437 > >( __LINE__, __FILE__, u16s_be( 0x20ac ) );
+      verify_ctrl_disabled< internal::terminal< internal::not_one< internal::peek_utf16_be, 0x20, 0x10437 >, internal::peek_utf16_be > >( __LINE__, __FILE__, u16s_be( 0x20ac ) );
+
       verify_rule< utf16_be::range< 0x20, 0x7e > >( __LINE__, __FILE__, u16s_be( 0x1f ), result_type::local_failure );
       verify_rule< utf16_be::range< 0x20, 0x7e > >( __LINE__, __FILE__, u16s_be( 0x20 ), result_type::success );
       verify_rule< utf16_be::range< 0x20, 0x7e > >( __LINE__, __FILE__, u16s_be( 0x7e ), result_type::success );
       verify_rule< utf16_be::range< 0x20, 0x7e > >( __LINE__, __FILE__, u16s_be( 0x20ac ), result_type::local_failure );
 
+      verify_ctrl_enabled< utf16_be::range< 0x20, 0x7e > >( __LINE__, __FILE__, u16s_be( 0x20 ) );
+      verify_ctrl_disabled< internal::range< internal::peek_utf16_be, 0x20, 0x7e > >( __LINE__, __FILE__, u16s_be( 0x20 ) );
+      verify_ctrl_disabled< internal::terminal< internal::range< internal::peek_utf16_be, 0x20, 0x7e >, internal::peek_utf16_be > >( __LINE__, __FILE__, u16s_be( 0x20 ) );
+
       verify_rule< utf16_be::not_range< 0x20, 0x7e > >( __LINE__, __FILE__, u16s_be( 0x1f ), result_type::success );
       verify_rule< utf16_be::not_range< 0x20, 0x7e > >( __LINE__, __FILE__, u16s_be( 0x20 ), result_type::local_failure );
       verify_rule< utf16_be::not_range< 0x20, 0x7e > >( __LINE__, __FILE__, u16s_be( 0x7e ), result_type::local_failure );
       verify_rule< utf16_be::not_range< 0x20, 0x7e > >( __LINE__, __FILE__, u16s_be( 0x20ac ), result_type::success );
+
+      verify_ctrl_enabled< utf16_be::not_range< 0x20, 0x7e > >( __LINE__, __FILE__, u16s_be( 0x20ac ) );
+      verify_ctrl_disabled< internal::not_range< internal::peek_utf16_be, 0x20, 0x7e > >( __LINE__, __FILE__, u16s_be( 0x20ac ) );
+      verify_ctrl_disabled< internal::terminal< internal::not_range< internal::peek_utf16_be, 0x20, 0x7e >, internal::peek_utf16_be > >( __LINE__, __FILE__, u16s_be( 0x20ac ) );
 
       verify_rule< utf16_be::ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, u16s_be( 0x1f ), result_type::local_failure );
       verify_rule< utf16_be::ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, u16s_be( 0x20 ), result_type::success );
@@ -165,20 +223,36 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< utf16_be::ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, u16s_be( 0x20ac ), result_type::success );
       verify_rule< utf16_be::ranges< 0x20, 0x7e, 0x20ac, 0x20af, 0x10437 > >( __LINE__, __FILE__, u16s_be( 0xd801 ) + u16s_be( 0xdc37 ), result_type::success );
 
+      verify_ctrl_enabled< utf16_be::ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, u16s_be( 0x20ac ) );
+      verify_ctrl_disabled< internal::ranges< internal::peek_utf16_be, 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, u16s_be( 0x20ac ) );
+      verify_ctrl_disabled< internal::terminal< internal::ranges< internal::peek_utf16_be, 0x20, 0x7e, 0x20ac, 0x20af >, internal::peek_utf16_be > >( __LINE__, __FILE__, u16s_be( 0x20ac ) );
+
       verify_rule< utf16_be::not_ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, u16s_be( 0x1f ), result_type::success );
       verify_rule< utf16_be::not_ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, u16s_be( 0x20 ), result_type::local_failure );
       verify_rule< utf16_be::not_ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, u16s_be( 0xa2 ), result_type::success );
       verify_rule< utf16_be::not_ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, u16s_be( 0x20ac ), result_type::local_failure );
       verify_rule< utf16_be::not_ranges< 0x20, 0x7e, 0x20ac, 0x20af, 0x10437 > >( __LINE__, __FILE__, u16s_be( 0xd801 ) + u16s_be( 0xdc37 ), result_type::local_failure );
 
+      verify_ctrl_enabled< utf16_be::not_ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, u16s_be( 0xa2 ) );
+      verify_ctrl_disabled< internal::not_ranges< internal::peek_utf16_be, 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, u16s_be( 0xa2 ) );
+      verify_ctrl_disabled< internal::terminal< internal::not_ranges< internal::peek_utf16_be, 0x20, 0x7e, 0x20ac, 0x20af >, internal::peek_utf16_be > >( __LINE__, __FILE__, u16s_be( 0xa2 ) );
+
       verify_rule< utf16_be::bom >( __LINE__, __FILE__, u16s_be( 0xfeff ), result_type::success );
       verify_rule< utf16_be::bom >( __LINE__, __FILE__, u16s_be( 0xfffe ), result_type::local_failure );
 
+      verify_ctrl_enabled< utf16_be::bom >( __LINE__, __FILE__, u16s_be( 0xfeff ) );
+      verify_ctrl_disabled< internal::one< internal::peek_utf16_be, 0xfeff > >( __LINE__, __FILE__, u16s_be( 0xfeff ) );
+      verify_ctrl_disabled< internal::terminal< internal::one< internal::peek_utf16_be, 0xfeff >, internal::peek_utf16_be > >( __LINE__, __FILE__, u16s_be( 0xfeff ) );
+
       verify_rule< utf16_be::string< 0x20, 0x20ac, 0x10437 > >( __LINE__, __FILE__, u16s_be( 0x20 ) + u16s_be( 0x20ac ) + u16s_be( 0xd801 ) + u16s_be( 0xdc37 ) + u16s_be( 0x20 ), result_type::success, 2 );
+      verify_ctrl_enabled< utf16_be::string< 0x20, 0x20ac, 0x10437 > >( __LINE__, __FILE__, u16s_be( 0x20 ) + u16s_be( 0x20ac ) + u16s_be( 0xd801 ) + u16s_be( 0xdc37 ) );
    }
 
    void test_utf16_le()
    {
+      verify_ctrl_enabled< utf16_le::any >( __LINE__, __FILE__, u16s_le( 0x20ac ) );
+      verify_ctrl_disabled< internal::any< internal::peek_utf16_le > >( __LINE__, __FILE__, u16s_le( 0x20ac ) );
+
       verify_rule< utf16_le::any >( __LINE__, __FILE__, "", result_type::local_failure );
       verify_rule< utf16_le::any >( __LINE__, __FILE__, "\x01", result_type::local_failure );
       verify_rule< utf16_le::any >( __LINE__, __FILE__, "\xff", result_type::local_failure );
@@ -213,24 +287,43 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< utf16_le::many< 2 > >( __LINE__, __FILE__, u16s_le( 0x20 ) + u16s_le( 0x20ac ), result_type::success );
       verify_rule< utf16_le::many< 2 > >( __LINE__, __FILE__, u16s_le( 0x20 ) + u16s_le( 0xd801 ) + u16s_le( 0xdc37 ) + u16s_le( 0x20 ), result_type::success, 2 );
 
+      verify_ctrl_enabled< utf16_le::many< 2 > >( __LINE__, __FILE__, u16s_le( 0x20 ) + u16s_le( 0x20ac ) );
+      verify_ctrl_disabled< internal::many< 2, internal::peek_utf16_le > >( __LINE__, __FILE__, u16s_le( 0x20 ) + u16s_le( 0x20ac ) );
+
       verify_rule< utf16_le::one< 0x20 > >( __LINE__, __FILE__, u16s_le( 0x20 ), result_type::success );
       verify_rule< utf16_le::one< 0x20ac > >( __LINE__, __FILE__, u16s_le( 0x20ac ), result_type::success );
       verify_rule< utf16_le::one< 0x10437 > >( __LINE__, __FILE__, u16s_le( 0xd801 ) + u16s_le( 0xdc37 ), result_type::success );
+
+      verify_ctrl_enabled< utf16_le::one< 0x20ac > >( __LINE__, __FILE__, u16s_le( 0x20ac ) );
+      verify_ctrl_disabled< internal::one< internal::peek_utf16_le, 0x20ac > >( __LINE__, __FILE__, u16s_le( 0x20ac ) );
+      verify_ctrl_disabled< internal::terminal< internal::one< internal::peek_utf16_le, 0x20ac >, internal::peek_utf16_le > >( __LINE__, __FILE__, u16s_le( 0x20ac ) );
 
       verify_rule< utf16_le::not_one< 0x20, 0x10437 > >( __LINE__, __FILE__, "", result_type::local_failure );
       verify_rule< utf16_le::not_one< 0x20, 0x10437 > >( __LINE__, __FILE__, u16s_le( 0x20 ), result_type::local_failure );
       verify_rule< utf16_le::not_one< 0x20, 0x10437 > >( __LINE__, __FILE__, u16s_le( 0xd801 ) + u16s_le( 0xdc37 ), result_type::local_failure );
       verify_rule< utf16_le::not_one< 0x20, 0x10437 > >( __LINE__, __FILE__, u16s_le( 0x20ac ), result_type::success );
 
+      verify_ctrl_enabled< utf16_le::not_one< 0x20, 0x10437 > >( __LINE__, __FILE__, u16s_le( 0x20ac ) );
+      verify_ctrl_disabled< internal::not_one< internal::peek_utf16_le, 0x20, 0x10437 > >( __LINE__, __FILE__, u16s_le( 0x20ac ) );
+      verify_ctrl_disabled< internal::terminal< internal::not_one< internal::peek_utf16_le, 0x20, 0x10437 >, internal::peek_utf16_le > >( __LINE__, __FILE__, u16s_le( 0x20ac ) );
+
       verify_rule< utf16_le::range< 0x20, 0x7e > >( __LINE__, __FILE__, u16s_le( 0x1f ), result_type::local_failure );
       verify_rule< utf16_le::range< 0x20, 0x7e > >( __LINE__, __FILE__, u16s_le( 0x20 ), result_type::success );
       verify_rule< utf16_le::range< 0x20, 0x7e > >( __LINE__, __FILE__, u16s_le( 0x7e ), result_type::success );
       verify_rule< utf16_le::range< 0x20, 0x7e > >( __LINE__, __FILE__, u16s_le( 0x20ac ), result_type::local_failure );
 
+      verify_ctrl_enabled< utf16_le::range< 0x20, 0x7e > >( __LINE__, __FILE__, u16s_le( 0x20 ) );
+      verify_ctrl_disabled< internal::range< internal::peek_utf16_le, 0x20, 0x7e > >( __LINE__, __FILE__, u16s_le( 0x20 ) );
+      verify_ctrl_disabled< internal::terminal< internal::range< internal::peek_utf16_le, 0x20, 0x7e >, internal::peek_utf16_le > >( __LINE__, __FILE__, u16s_le( 0x20 ) );
+
       verify_rule< utf16_le::not_range< 0x20, 0x7e > >( __LINE__, __FILE__, u16s_le( 0x1f ), result_type::success );
       verify_rule< utf16_le::not_range< 0x20, 0x7e > >( __LINE__, __FILE__, u16s_le( 0x20 ), result_type::local_failure );
       verify_rule< utf16_le::not_range< 0x20, 0x7e > >( __LINE__, __FILE__, u16s_le( 0x7e ), result_type::local_failure );
       verify_rule< utf16_le::not_range< 0x20, 0x7e > >( __LINE__, __FILE__, u16s_le( 0x20ac ), result_type::success );
+
+      verify_ctrl_enabled< utf16_le::not_range< 0x20, 0x7e > >( __LINE__, __FILE__, u16s_le( 0x20ac ) );
+      verify_ctrl_disabled< internal::not_range< internal::peek_utf16_le, 0x20, 0x7e > >( __LINE__, __FILE__, u16s_le( 0x20ac ) );
+      verify_ctrl_disabled< internal::terminal< internal::not_range< internal::peek_utf16_le, 0x20, 0x7e >, internal::peek_utf16_le > >( __LINE__, __FILE__, u16s_le( 0x20ac ) );
 
       verify_rule< utf16_le::ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, u16s_le( 0x1f ), result_type::local_failure );
       verify_rule< utf16_le::ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, u16s_le( 0x20 ), result_type::success );
@@ -238,16 +331,29 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< utf16_le::ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, u16s_le( 0x20ac ), result_type::success );
       verify_rule< utf16_le::ranges< 0x20, 0x7e, 0x20ac, 0x20af, 0x10437 > >( __LINE__, __FILE__, u16s_le( 0xd801 ) + u16s_le( 0xdc37 ), result_type::success );
 
+      verify_ctrl_enabled< utf16_le::ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, u16s_le( 0x20ac ) );
+      verify_ctrl_disabled< internal::ranges< internal::peek_utf16_le, 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, u16s_le( 0x20ac ) );
+      verify_ctrl_disabled< internal::terminal< internal::ranges< internal::peek_utf16_le, 0x20, 0x7e, 0x20ac, 0x20af >, internal::peek_utf16_le > >( __LINE__, __FILE__, u16s_le( 0x20ac ) );
+
       verify_rule< utf16_le::not_ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, u16s_le( 0x1f ), result_type::success );
       verify_rule< utf16_le::not_ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, u16s_le( 0x20 ), result_type::local_failure );
       verify_rule< utf16_le::not_ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, u16s_le( 0xa2 ), result_type::success );
       verify_rule< utf16_le::not_ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, u16s_le( 0x20ac ), result_type::local_failure );
       verify_rule< utf16_le::not_ranges< 0x20, 0x7e, 0x20ac, 0x20af, 0x10437 > >( __LINE__, __FILE__, u16s_le( 0xd801 ) + u16s_le( 0xdc37 ), result_type::local_failure );
 
+      verify_ctrl_enabled< utf16_le::not_ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, u16s_le( 0xa2 ) );
+      verify_ctrl_disabled< internal::not_ranges< internal::peek_utf16_le, 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, u16s_le( 0xa2 ) );
+      verify_ctrl_disabled< internal::terminal< internal::not_ranges< internal::peek_utf16_le, 0x20, 0x7e, 0x20ac, 0x20af >, internal::peek_utf16_le > >( __LINE__, __FILE__, u16s_le( 0xa2 ) );
+
       verify_rule< utf16_le::bom >( __LINE__, __FILE__, u16s_le( 0xfeff ), result_type::success );
       verify_rule< utf16_le::bom >( __LINE__, __FILE__, u16s_le( 0xfffe ), result_type::local_failure );
 
+      verify_ctrl_enabled< utf16_le::bom >( __LINE__, __FILE__, u16s_le( 0xfeff ) );
+      verify_ctrl_disabled< internal::one< internal::peek_utf16_le, 0xfeff > >( __LINE__, __FILE__, u16s_le( 0xfeff ) );
+      verify_ctrl_disabled< internal::terminal< internal::one< internal::peek_utf16_le, 0xfeff >, internal::peek_utf16_le > >( __LINE__, __FILE__, u16s_le( 0xfeff ) );
+
       verify_rule< utf16_le::string< 0x20, 0x20ac, 0x10437 > >( __LINE__, __FILE__, u16s_le( 0x20 ) + u16s_le( 0x20ac ) + u16s_le( 0xd801 ) + u16s_le( 0xdc37 ) + u16s_le( 0x20 ), result_type::success, 2 );
+      verify_ctrl_enabled< utf16_le::string< 0x20, 0x20ac, 0x10437 > >( __LINE__, __FILE__, u16s_le( 0x20 ) + u16s_le( 0x20ac ) + u16s_le( 0xd801 ) + u16s_le( 0xdc37 ) );
    }
 
    void unit_test()

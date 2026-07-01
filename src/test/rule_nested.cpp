@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "test.hpp"
+#include "verify_ctrl.hpp"
 #include "verify_meta.hpp"
 
 #include <tao/pegtl/member.hpp>
@@ -139,6 +140,12 @@ namespace TAO_PEGTL_NAMESPACE
    void unit_test()
    {
       verify_meta< nested< inner_grammar, peek_string >, internal::nested< peek_string, inner_grammar > >();
+
+      const std::vector< std::string > ctrl_data = { "foo" };
+      view_input< void, std::string > enabled_in( ctrl_data );
+      verify_ctrl_enabled< nested< inner_grammar, peek_string > >( __LINE__, __FILE__, enabled_in );
+      view_input< void, std::string > disabled_in( ctrl_data );
+      verify_ctrl_disabled< internal::nested< peek_string, inner_grammar > >( __LINE__, __FILE__, disabled_in );
 
       test_inner();
       test_success();

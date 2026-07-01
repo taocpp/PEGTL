@@ -3,6 +3,7 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
+#include "verify_ctrl.hpp"
 #include "verify_meta.hpp"
 #include "verify_seqs.hpp"
 
@@ -55,6 +56,10 @@ namespace TAO_PEGTL_NAMESPACE
       verify_meta< action< nothing, eof, any >, internal::action< nothing, internal::seq< eof, any > >, internal::seq< eof, any > >();
 
       verify_seqs< test_action_rule >();
+
+      verify_ctrl_enabled< action< nothing, eof > >( __LINE__, __FILE__, "" );
+      verify_ctrl_disabled< internal::action< nothing, eof > >( __LINE__, __FILE__, "" );
+
       {
          view_input< scan::lf > in( "ab1" );
          TAO_PEGTL_TEST_ASSERT( parse< seq< ascii::alpha, action< action2, ascii::alpha, ascii::digit > >, action1 >( in ) );

@@ -5,6 +5,7 @@
 #include <type_traits>
 
 #include "test.hpp"
+#include "verify_ctrl.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -21,6 +22,8 @@ namespace TAO_PEGTL_NAMESPACE
       static_assert( std::is_same_v< utf8::string< 0x10348 >::rule_t, internal::ascii_string< char( 0xf0 ), char( 0x90 ), char( 0x8d ), char( 0x88 ) > > );
 
       static_assert( std::is_same_v< utf8::string< 1, 0xa3, 2, 0x418, 3, 0x939, 4, 0x20ac, 5, 0xd55c, 6, 0x10348, 7 >::rule_t, internal::ascii_string< 1, char( 0xc2 ), char( 0xa3 ), 2, char( 0xd0 ), char( 0x98 ), 3, char( 0xe0 ), char( 0xa4 ), char( 0xb9 ), 4, char( 0xe2 ), char( 0x82 ), char( 0xac ), 5, char( 0xed ), char( 0x95 ), char( 0x9c ), 6, char( 0xf0 ), char( 0x90 ), char( 0x8d ), char( 0x88 ), 7 > > );
+
+      verify_ctrl_enabled< utf8::string< 0x20, 0xa3, 0x20ac, 0x10348 > >( __LINE__, __FILE__, "\x20\xc2\xa3\xe2\x82\xac\xf0\x90\x8d\x88" );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

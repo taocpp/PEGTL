@@ -3,6 +3,7 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
+#include "verify_ctrl.hpp"
 #include "verify_char.hpp"
 #include "verify_rule.hpp"
 
@@ -10,6 +11,9 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
+      verify_ctrl_enabled< utf8::any >( __LINE__, __FILE__, "\xe2\x82\xac" );
+      verify_ctrl_disabled< internal::any< internal::peek_utf8 > >( __LINE__, __FILE__, "\xe2\x82\xac" );
+
       verify_rule< utf8::any >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
 
       for( int i = -100; i < 200; ++i ) {
@@ -256,25 +260,42 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< utf8::many< 2 > >( __LINE__, __FILE__, "\x20\xc2\xa2", result_type::success, 0 );
       verify_rule< utf8::many< 2 > >( __LINE__, __FILE__, "\x20\xc2\xa2\xe2\x82\xac", result_type::success, 3 );
 
+      verify_ctrl_enabled< utf8::many< 2 > >( __LINE__, __FILE__, "\x20\xc2\xa2" );
+      verify_ctrl_disabled< internal::many< 2, internal::peek_utf8 > >( __LINE__, __FILE__, "\x20\xc2\xa2" );
+
       verify_rule< utf8::one< 0x20 > >( __LINE__, __FILE__, "\x20", result_type::success, 0 );
       verify_rule< utf8::one< 0xa2 > >( __LINE__, __FILE__, "\xc2\xa2", result_type::success, 0 );
       verify_rule< utf8::one< 0x20ac > >( __LINE__, __FILE__, "\xe2\x82\xac", result_type::success, 0 );
       verify_rule< utf8::one< 0x10348 > >( __LINE__, __FILE__, "\xf0\x90\x8d\x88", result_type::success, 0 );
+
+      verify_ctrl_enabled< utf8::one< 0x20ac > >( __LINE__, __FILE__, "\xe2\x82\xac" );
 
       verify_rule< utf8::not_one< 0x20, 0xa2 > >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
       verify_rule< utf8::not_one< 0x20, 0xa2 > >( __LINE__, __FILE__, "\x20", result_type::local_failure, 1 );
       verify_rule< utf8::not_one< 0x20, 0xa2 > >( __LINE__, __FILE__, "\xc2\xa2", result_type::local_failure, 2 );
       verify_rule< utf8::not_one< 0x20, 0xa2 > >( __LINE__, __FILE__, "\xe2\x82\xac", result_type::success, 0 );
 
+      verify_ctrl_enabled< utf8::not_one< 0x20, 0xa2 > >( __LINE__, __FILE__, "\xe2\x82\xac" );
+      verify_ctrl_disabled< internal::not_one< internal::peek_utf8, 0x20, 0xa2 > >( __LINE__, __FILE__, "\xe2\x82\xac" );
+      verify_ctrl_disabled< internal::terminal< internal::not_one< internal::peek_utf8, 0x20, 0xa2 >, internal::peek_utf8 > >( __LINE__, __FILE__, "\xe2\x82\xac" );
+
       verify_rule< utf8::range< 0x20, 0x7e > >( __LINE__, __FILE__, "\x1f", result_type::local_failure, 1 );
       verify_rule< utf8::range< 0x20, 0x7e > >( __LINE__, __FILE__, "\x20", result_type::success, 0 );
       verify_rule< utf8::range< 0x20, 0x7e > >( __LINE__, __FILE__, "\x7e", result_type::success, 0 );
       verify_rule< utf8::range< 0x20, 0x7e > >( __LINE__, __FILE__, "\xc2\xa2", result_type::local_failure, 2 );
 
+      verify_ctrl_enabled< utf8::range< 0x20, 0x7e > >( __LINE__, __FILE__, "\x20" );
+      verify_ctrl_disabled< internal::range< internal::peek_utf8, 0x20, 0x7e > >( __LINE__, __FILE__, "\x20" );
+      verify_ctrl_disabled< internal::terminal< internal::range< internal::peek_utf8, 0x20, 0x7e >, internal::peek_utf8 > >( __LINE__, __FILE__, "\x20" );
+
       verify_rule< utf8::not_range< 0x20, 0x7e > >( __LINE__, __FILE__, "\x1f", result_type::success, 0 );
       verify_rule< utf8::not_range< 0x20, 0x7e > >( __LINE__, __FILE__, "\x20", result_type::local_failure, 1 );
       verify_rule< utf8::not_range< 0x20, 0x7e > >( __LINE__, __FILE__, "\x7e", result_type::local_failure, 1 );
       verify_rule< utf8::not_range< 0x20, 0x7e > >( __LINE__, __FILE__, "\xc2\xa2", result_type::success, 0 );
+
+      verify_ctrl_enabled< utf8::not_range< 0x20, 0x7e > >( __LINE__, __FILE__, "\xc2\xa2" );
+      verify_ctrl_disabled< internal::not_range< internal::peek_utf8, 0x20, 0x7e > >( __LINE__, __FILE__, "\xc2\xa2" );
+      verify_ctrl_disabled< internal::terminal< internal::not_range< internal::peek_utf8, 0x20, 0x7e >, internal::peek_utf8 > >( __LINE__, __FILE__, "\xc2\xa2" );
 
       verify_rule< utf8::ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, "\x1f", result_type::local_failure, 1 );
       verify_rule< utf8::ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, "\x20", result_type::success, 0 );
@@ -282,14 +303,24 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< utf8::ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, "\xe2\x82\xac", result_type::success, 0 );
       verify_rule< utf8::ranges< 0x20, 0x7e, 0x20ac, 0x20af, 0x10348 > >( __LINE__, __FILE__, "\xf0\x90\x8d\x88", result_type::success, 0 );
 
+      verify_ctrl_enabled< utf8::ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, "\xe2\x82\xac" );
+      verify_ctrl_disabled< internal::ranges< internal::peek_utf8, 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, "\xe2\x82\xac" );
+      verify_ctrl_disabled< internal::terminal< internal::ranges< internal::peek_utf8, 0x20, 0x7e, 0x20ac, 0x20af >, internal::peek_utf8 > >( __LINE__, __FILE__, "\xe2\x82\xac" );
+
       verify_rule< utf8::not_ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, "\x1f", result_type::success, 0 );
       verify_rule< utf8::not_ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, "\x20", result_type::local_failure, 1 );
       verify_rule< utf8::not_ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, "\xc2\xa2", result_type::success, 0 );
       verify_rule< utf8::not_ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, "\xe2\x82\xac", result_type::local_failure, 3 );
       verify_rule< utf8::not_ranges< 0x20, 0x7e, 0x20ac, 0x20af, 0x10348 > >( __LINE__, __FILE__, "\xf0\x90\x8d\x88", result_type::local_failure, 4 );
 
+      verify_ctrl_enabled< utf8::not_ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, "\xc2\xa2" );
+      verify_ctrl_disabled< internal::not_ranges< internal::peek_utf8, 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, "\xc2\xa2" );
+      verify_ctrl_disabled< internal::terminal< internal::not_ranges< internal::peek_utf8, 0x20, 0x7e, 0x20ac, 0x20af >, internal::peek_utf8 > >( __LINE__, __FILE__, "\xc2\xa2" );
+
       verify_rule< utf8::bom >( __LINE__, __FILE__, "\xef\xbb\xbf", result_type::success, 0 );
       verify_rule< utf8::bom >( __LINE__, __FILE__, "\xef\xbb\xbf ", result_type::success, 1 );
+
+      verify_ctrl_enabled< utf8::bom >( __LINE__, __FILE__, "\xef\xbb\xbf" );
 
       verify_rule< utf8::string< 0x20, 0xa2, 0x20ac, 0x10348 > >( __LINE__, __FILE__, "\x20\xc2\xa2\xe2\x82\xac\xf0\x90\x8d\x88\x20", result_type::success, 1 );
    }
