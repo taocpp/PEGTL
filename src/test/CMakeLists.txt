@@ -31,6 +31,7 @@ set(test_sources
   ascii_ione.cpp
   ascii_istring.cpp
   ascii_keyword.cpp
+  ascii_many.cpp
   ascii_not_ione.cpp
   ascii_not_one.cpp
   ascii_not_range.cpp
@@ -178,7 +179,6 @@ set(test_sources
   rule_action.cpp
   rule_apply.cpp
   rule_apply0.cpp
-  rule_ascii_many.cpp
   rule_at.cpp
   rule_bof.cpp
   rule_bol.cpp
@@ -232,7 +232,6 @@ set(test_sources
   rule_try_catch_return_false.cpp
   rule_unordered.cpp
   rule_until.cpp
-  rule_utf8_string.cpp
   stream_analyze_traits.cpp
   stream_alloc_buffer.cpp
   stream_array_buffer.cpp
@@ -258,6 +257,7 @@ set(test_sources
   utf16_general.cpp
   utf32_general.cpp
   utf8_general.cpp
+  utf8_string.cpp
 )
 
 # file(GLOB ...) is used to validate the above list of test_sources
