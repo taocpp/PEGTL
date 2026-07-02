@@ -7,6 +7,7 @@ All noteworthy changes since the first public [release](https://github.com/taocp
 Not Yet Released
 
 * Added new convenience [rule](Rule-Reference.md) [`list_opt`](Rule-Reference.md#list_opt-r-s-).
+* Added new ASCII [rules](Rule-Reference.md) [`astring`](Rule-Reference.md#astring-p-c-) and [`aistring`](Rule-Reference.md#aistring-p-c-).
 
 ## Version 4.0.0
 

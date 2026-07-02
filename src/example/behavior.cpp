@@ -180,6 +180,19 @@ namespace TAO_PEGTL_NAMESPACE::example
       std::cout << std::endl;
    }
 
+   void table6()
+   {
+      std::cout << "## ASCII String Rules\n\n";
+      {
+         const std::vector< std::string > v = { "", "inf", "infinityx", "iNFi", "infiNiTy" };
+         header( v );
+         row< string< 'i', 'n', 'f', 'i', 'n', 'i', 't', 'y' > >( "string< \"infinity\" >", v );
+         row< istring< 'i', 'n', 'f', 'i', 'n', 'i', 't', 'y' > >( "istring< \"infinity\" >", v );
+         row< astring< 3, 'i', 'n', 'f', 'i', 'n', 'i', 't', 'y' > >( "astring< 3, \"infinity\" >", v );
+         row< aistring< 3, 'i', 'n', 'f', 'i', 'n', 'i', 't', 'y' > >( "aistring< 3, \"infinity\" >", v );
+      }
+   }
+
    void behavior()
    {
       table1();
@@ -187,6 +200,7 @@ namespace TAO_PEGTL_NAMESPACE::example
       table3();
       table4();
       table5();
+      table6();
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE::example

@@ -22,6 +22,8 @@ set(test_sources
   action_match_typed_state.cpp
   apply_mode.cpp
   ascii_any.cpp
+  ascii_astring.cpp
+  ascii_aistring.cpp
   ascii_chars.cpp
   ascii_classes.cpp
   ascii_ellipsis.cpp

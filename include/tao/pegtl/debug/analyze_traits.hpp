@@ -72,6 +72,16 @@ namespace TAO_PEGTL_NAMESPACE
       : analyze_opt_traits<>
    {};
 
+   template< typename Name, std::size_t Prefix, char... Cs >
+   struct analyze_traits< Name, internal::ascii_astring< Prefix, Cs... > >
+      : analyze_any_traits<>
+   {};
+
+   template< typename Name, std::size_t Prefix, char... Cs >
+   struct analyze_traits< Name, internal::ascii_aistring< Prefix, Cs... > >
+      : analyze_any_traits<>
+   {};
+
    template< typename Name, char... Cs >
    struct analyze_traits< Name, internal::ascii_istring< Cs... > >
       : analyze_any_traits<>

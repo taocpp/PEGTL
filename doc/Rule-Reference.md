@@ -221,6 +221,16 @@ These rules are in the *inline* namespace `tao::pegtl::ascii`.
 
 For all ASCII rules the template parameters representing characters are of type `char`.
 
+###### `aistring< P, C... >`
+
+* [Similar to](Rules-and-Grammars.md#ascii-string-rules) `(ascii::)astring< P, C... >`, but:
+* For ASCII letters the match is case insensitive.
+* The `std::size_t P` must be between `0` and sizeof `C...`, excluding edges.
+* If the complete string `C...` matches, consumes that complete string.
+* Otherwise, if the first `P` characters of `C...` match, consumes those `P` characters.
+* [Meta data] and [implementation] mapping:
+  - `ascii::aistring< P, C... >::rule_t` is `internal::ascii_aistring< P, C... >`
+
 ###### `alnum`
 
 * Matches and consumes a single ASCII alphabetic or numeric character.
@@ -244,6 +254,15 @@ For all ASCII rules the template parameters representing characters are of type 
 * [Equivalent] to `(ascii::)range< 0, 127 >`.
 * [Meta data] and [implementation] mapping:
   - `(ascii::)any7::rule_t` is `internal::any< internal::peek_seven >`
+
+###### `astring< P, C... >`
+
+* [Like](Rules-and-Grammars.md#ascii-string-rules) `(ascii::)string< C... >` but also matches one prefix of `C...`.
+* The `std::size_t P` must be between `0` and sizeof `C...`, excluding edges.
+* If the complete string `C...` matches, consumes that complete string.
+* Otherwise, if the first `P` characters of `C...` match, consumes those `P` characters.
+* [Meta data] and [implementation] mapping:
+  - `ascii::astring< P, C... >::rule_t` is `internal::ascii_astring< P, C... >`
 
 ###### `bdigit`
 
@@ -2077,6 +2096,7 @@ Convenience wrappers for enumerated properties that return a value instead of an
 ## Index
 
 * [`action< A, R... >`](#action-a-r-) <sup>[(controlling)](#controlling)</sup>
+* [`aistring< P, C... >`](#aistring-p-c-) <sup>[(ascii)](#ascii)</sup>
 * [`alnum`](#alnum) <sup>[(ascii)](#ascii)</sup>
 * [`alpha`](#alpha) <sup>[(ascii)](#ascii)</sup>
 * [`alphabetic`](#alphabetic) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
@@ -2087,6 +2107,7 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`apply< A... >`](#apply-a-) <sup>[(compat)](#compatibility)</sup>
 * [`apply0< A... >`](#apply0-a-) <sup>[(compat)](#compatibility)</sup>
 * [`ascii_hex_digit`](#ascii_hex_digit) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
+* [`astring< P, C... >`](#astring-p-c-) <sup>[(ascii)](#ascii)</sup>
 * [`at< R... >`](#at-r-) <sup>[(combinators)](#combinators)</sup>
 * [`bidi_class< V >`](#bidi_class-v-) <sup>[(icu rules)](#icu-rules-for-enumerated-properties)</sup>
 * [`bidi_control`](#bidi_control) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>

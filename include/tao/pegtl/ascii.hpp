@@ -57,6 +57,8 @@ namespace TAO_PEGTL_NAMESPACE
       struct shebang : internal::seq< internal::ascii_string< '#', '!' >, internal::until< internal::eolf > > {};
 
       struct any : internal::any< internal::peek_char > {};
+      template< std::size_t Prefix, char... Cs > struct astring : internal::ascii_astring< Prefix, Cs... > {};
+      template< std::size_t Prefix, char... Cs > struct aistring : internal::ascii_aistring< Prefix, Cs... > {};
       template< char... Cs > struct istring : internal::ascii_istring< Cs... > {};
       template< std::size_t Count > struct many : internal::many< Count, internal::peek_char > {};
       template< char... Cs > struct string : internal::ascii_string< Cs... > {};

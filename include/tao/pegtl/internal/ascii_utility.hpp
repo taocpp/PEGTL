@@ -51,6 +51,22 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    }
 
+   template< char... Cs >
+   [[nodiscard]] static std::size_t ascii_astring_equal( const void* r, const std::size_t size ) noexcept
+   {
+      std::size_t result = 0;
+
+      if constexpr( sizeof...( Cs ) > 0 ) {
+         const char* p = static_cast< const char* >( r );
+         (void)( ( ( result < size ) && ascii_char_equal< Cs >( p[ result ] ) && ( ++result, true ) ) && ... );
+      }
+      else {
+         (void)r;
+         (void)size;
+      }
+      return result;
+   }
+
    template< char C, typename D >
    [[nodiscard]] constexpr bool ascii_ichar_equal( const D d ) noexcept
    {
@@ -73,6 +89,22 @@ namespace TAO_PEGTL_NAMESPACE::internal
          (void)r;
          return true;
       }
+   }
+
+   template< char... Cs >
+   [[nodiscard]] static std::size_t ascii_aistring_equal( const void* r, const std::size_t size ) noexcept
+   {
+      std::size_t result = 0;
+
+      if constexpr( sizeof...( Cs ) > 0 ) {
+         const char* p = static_cast< const char* >( r );
+         (void)( ( ( result < size ) && ascii_ichar_equal< Cs >( p[ result ] ) && ( ++result, true ) ) && ... );
+      }
+      else {
+         (void)r;
+         (void)size;
+      }
+      return result;
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
