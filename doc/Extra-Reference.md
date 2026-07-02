@@ -160,6 +160,27 @@ The [parse tree has its own dedicated page](Parse-Tree.md).
 Defines `enum class overflow_mode` with values `local_failure` and `global_failure`.
 This enum is used by [`charconv.hpp`](#charconvhpp) to choose whether integer conversion overflow causes a local failure or a global failure.
 
+###### [`partial_apply1.hpp`](../include/tao/pegtl/extra/partial_apply1.hpp)
+
+An experimental rule that calls actions in an unusual way.
+
+* Based on [`partial< R... >`](Rule-Reference.md#partial-r-) but with major differences:
+* First, `R` must contain at least *two* rules.
+* Second, only succeeds when (at least) the first sub-rule succeeds, i.e.
+* the "partial" matching behavior only starts at the second rule.
+* Equivalent to `seq< R1, partial< R2, ... > >` when `R` is `R1`, `R2`, ...
+* Third, the `R...` are matched with [actions](Actions-and-States.md) disabled, however:
+* Fourth, on success exactly one action is applied
+  - for the last rule in `R...` that matched, and
+  - with an action input spanning from the start of `partial_apply1` to the current input position.
+* Fifth, if actions are enabled for `partial_apply1` **and**
+  - `Action< T >` is not exactly `tao::pegtl::nothing< T >` **then**
+  - `Action< T >` must implement `apply()` or `apply0()` for all `T` in `R...`
+  - (assuming that `Action` is the current action in the parsing run).
+* Meta data and implementation mapping:
+  - `partial_apply1< R... >::rule_t` is `internal::partial_apply1< R... >`
+  - `partial_apply1< R... >::subs_t` is `type_list< R... >`
+
 ###### [`raw_string.hpp`](../include/tao/pegtl/extra/raw_string.hpp)
 
 Rules for parsing [Lua](https://lua.org)-style *long string literals*, also called *raw literals* because they do not support any escape sequences.
@@ -341,6 +362,7 @@ An older version of [`include/tao/pegtl/extra/unescape.hpp`](#unescapehpp).
 * [`overflow_mode.hpp`](#overflow_modehpp) <sup>[(extra)](#extras)</sup>
 * [`parse_tree.hpp`](#parse_treehpp) <sup>[(extra)](#extras)</sup>
 * [`parse_tree_to_dot.hpp`](#parse_tree_to_dothpp) <sup>[(extra)](#extras)</sup>
+* [`partial_apply1.hpp`](#partial_apply1hpp) <sup>[(extra)](#extras)</sup>
 * [`raw_string.hpp`](#raw_stringhpp) <sup>[(extra)](#extras)</sup>
 * [`record.hpp`](#recordhpp) <sup>[(extra)](#extras)</sup>
 * [`rep_one_min_max.hpp`](#rep_one_min_maxhpp) <sup>[(deprecated)](#deprecated)</sup>

@@ -103,6 +103,7 @@ set(test_sources
   extra_nested_exceptions.cpp
   extra_parse_tree.cpp
   extra_parse_tree_to_dot.cpp
+  extra_partial_apply1.cpp
   extra_raw_string.cpp
   extra_record.cpp
   extra_type_to_string.cpp
