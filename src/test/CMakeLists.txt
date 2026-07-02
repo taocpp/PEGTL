@@ -6,6 +6,8 @@ set(test_sources
   action_apply_1.cpp
   action_apply_2.cpp
   action_apply_3.cpp
+  action_apply0_to.cpp
+  action_apply_to.cpp
   action_change_action_and_state.cpp
   action_change_action_and_states.cpp
   action_change_control.cpp
@@ -99,6 +101,7 @@ set(test_sources
   example_semver2.cpp
   example_uri.cpp
   extra_charconv.cpp
+  extra_charconv_to.cpp
   extra_dispatch.cpp
   extra_nested_exceptions.cpp
   extra_parse_tree.cpp
@@ -108,6 +111,7 @@ set(test_sources
   extra_record.cpp
   extra_type_to_string.cpp
   extra_unescape.cpp
+  extra_unescape_to.cpp
   icu_utf16_base.cpp
   icu_utf32_base.cpp
   icu_utf8_base.cpp
@@ -125,6 +129,7 @@ set(test_sources
   int64_general.cpp
   int8_general.cpp
   internal_any.cpp
+  internal_apply_to_call.cpp
   internal_argv_input.cpp
   internal_ascii_utility.cpp
   internal_base_inputs.cpp

@@ -49,6 +49,8 @@
 
 #include <tao/pegtl/action/add_guard.hpp>
 #include <tao/pegtl/action/add_state.hpp>
+#include <tao/pegtl/action/apply0_to.hpp>
+#include <tao/pegtl/action/apply_to.hpp>
 #include <tao/pegtl/action/change_action.hpp>
 #include <tao/pegtl/action/change_action_and_state.hpp>
 #include <tao/pegtl/action/change_action_and_states.hpp>
