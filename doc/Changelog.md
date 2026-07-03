@@ -6,9 +6,10 @@ All noteworthy changes since the first public [release](https://github.com/taocp
 
 Not Yet Released
 
-* Added new convenience [rule](Rule-Reference.md) [`list_opt`](Rule-Reference.md#list_opt-r-s-).
-* Added new ASCII [rules](Rule-Reference.md) [`astring`](Rule-Reference.md#astring-p-c-) and [`aistring`](Rule-Reference.md#aistring-p-c-).
-* Added new extra [rule](Extra-Reference.md) [`partial_apply1`](Extra-Reference.md#partial_apply1hpp).
+* Fixed the [floating point](Example-Reference.md#fphpp) example [grammar](Rules-and-Grammars.md) to accept underscores in the `NAN` payload.
+* Added new convenience [rule](Rules-and-Gramamrs.md) [`list_opt`](Rule-Reference.md#list_opt-r-s-).
+* Added new ASCII [rules](Rules-and-Grammrs.md) [`astring`](Rule-Reference.md#astring-p-c-) and [`aistring`](Rule-Reference.md#aistring-p-c-).
+* Added new extra [rule](Rules-and-Grammars.md) [`partial_apply1`](Extra-Reference.md#partial_apply1hpp).
 * Added new actions `apply_to`, `apply0_to`, `from_chars_to` and `unescape_to` -- TODO: Documentation!
 
 ## Version 4.0.0

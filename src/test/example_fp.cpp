@@ -26,7 +26,10 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< grammar >( __LINE__, __FILE__, "0x1.fp+3", result_type::success );
       verify_rule< grammar >( __LINE__, __FILE__, "-Infinity", result_type::success );
       verify_rule< grammar >( __LINE__, __FILE__, "NaN", result_type::success );
-      verify_rule< grammar >( __LINE__, __FILE__, "nan(payload)", result_type::success );
+      verify_rule< grammar >( __LINE__, __FILE__, "nan(_)", result_type::success );
+      verify_rule< grammar >( __LINE__, __FILE__, "nAn(123)", result_type::success );
+      verify_rule< grammar >( __LINE__, __FILE__, "naN(payload)", result_type::success );
+      verify_rule< grammar >( __LINE__, __FILE__, "NAN(__foo)", result_type::success );
 
       verify_rule< grammar >( __LINE__, __FILE__, "", result_type::local_failure );
       verify_rule< grammar >( __LINE__, __FILE__, "+", result_type::local_failure );
@@ -35,6 +38,8 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< grammar >( __LINE__, __FILE__, "0x", result_type::local_failure );
       verify_rule< grammar >( __LINE__, __FILE__, "0x.p1", result_type::local_failure );
       verify_rule< grammar >( __LINE__, __FILE__, "nan()", result_type::local_failure );
+      verify_rule< grammar >( __LINE__, __FILE__, "nan(%)", result_type::local_failure );
+      verify_rule< grammar >( __LINE__, __FILE__, "nan( )", result_type::local_failure );
       verify_rule< grammar >( __LINE__, __FILE__, "infinityx", result_type::local_failure );
    }
 
