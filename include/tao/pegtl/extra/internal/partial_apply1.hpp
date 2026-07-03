@@ -130,8 +130,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
          if constexpr( A == apply_mode::disabled ) {
-            if( Control< Rule >::template match< apply_mode::disabled, M, Action, Control >( in, st... ) ) {
-               return partial< Rules... >::template match< apply_mode::disabled, rewind_mode::optional, Action, Control >( in, st... );
+            if( Control< Rule >::template match< A, M, Action, Control >( in, st... ) ) {
+               return partial< Rules... >::template match< A, rewind_mode::optional, Action, Control >( in, st... );
             }
             return false;
          }
