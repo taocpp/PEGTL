@@ -57,7 +57,7 @@ namespace TAO_PEGTL_NAMESPACE
    {};
 
    struct json_unescaped
-      : utf8::range< 0x20, 0x10ffff >
+      : utf8::ranges< 0x20, 0x21, 0x23, 0x10ffff >
    {};
 
    struct json_character
