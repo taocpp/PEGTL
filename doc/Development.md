@@ -36,6 +36,7 @@ Version 5.x of the PEGTL will jump to C++20 or C++23.
  * Investigate whether we can use C++20 `std::bit_cast` to improve some of the low-level code.
  * Use C++23 "deducing this" feature to let base class `make_rewind_guard()` return a rewind guard for a derived class.
  * When can we assume the C++17 `charconv` facilities are universally available?
+ * Auto-detect internal rules insead of internal::enable_control?
 
 ### Other Things
 
