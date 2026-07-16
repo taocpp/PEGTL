@@ -26,11 +26,11 @@ How to install the PEGTL, and verify and ensure that the system requirements are
 
 ## Requirements
 
-The PEGTL requires a C++17 enabled compiler like
+The PEGTL requires a C++20 enabled compiler like
 
-* GCC 9 with `--std=c++17`
-* Clang 7 with `--std=c++17`
-* Visual Studio 2019 with `/std:c++17`
+* GCC 11 with `--std=c++20`
+* Clang 13 with `--std=c++20`
+* Visual Studio 2022 with `/std:c++20`
 
 on the mainstream operating systems
 
@@ -47,7 +47,7 @@ It is recommended to *always* compile with *some* optimizations enabled, especia
 
 Larger projects will frequently require the `/bigobj` option when compiling with Visual Studio on Windows.
 
-The PEGTL should also be compatible with other C++17 capable compilers and work on other Unix or Unix-like operating systems.
+The PEGTL should also be compatible with other C++20 capable compilers and work on other Unix or Unix-like operating systems.
 
 
 ## Disabling Exceptions
@@ -176,7 +176,7 @@ find_package(pegtl)
 
 This exports the `taocpp::pegtl` target which can be linked against any other
 target. Linking against `taocpp::pegtl` automatically sets the include
-directories and required flags for C++17 or later. For example:
+directories and required flags for C++20 or later. For example:
 
 ```cmake
 add_executable(myexe mysources...)

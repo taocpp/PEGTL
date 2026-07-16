@@ -16,10 +16,11 @@ The **Parsing Expression Grammar Template Library** (PEGTL) is a zero-dependency
 
 ## Documentation
 
-* [Main Branch](https://github.com/taocpp/PEGTL/blob/main/doc/README.md) &nbsp; <sup>[C++17](https://en.cppreference.com/w/cpp/17.html)</sup>
-* [Version 3.x Branch](https://github.com/taocpp/PEGTL/blob/3.x/doc/README.md) &nbsp; <sup>[C++17](https://en.cppreference.com/w/cpp/17.html)</sup>
-* [Version 2.x Branch](https://github.com/taocpp/PEGTL/blob/2.x/doc/README.md) &nbsp; <sup>[C++11](https://en.cppreference.com/w/cpp/11.html)</sup>
-* [Version 1.x Branch](https://github.com/taocpp/PEGTL/blob/1.x/doc/README.md) &nbsp; <sup>[C++11](https://en.cppreference.com/w/cpp/11.html)</sup>
+* [Main Branch Documentation](https://github.com/taocpp/PEGTL/blob/main/doc/README.md) &nbsp; <sup>[C++20](https://en.cppreference.com/w/cpp/20.html)</sup>
+* [Version 4.x Documentation](https://github.com/taocpp/PEGTL/blob/4.x/doc/README.md) &nbsp; <sup>[C++17](https://en.cppreference.com/w/cpp/17.html)</sup>
+* [Version 3.x Documentation](https://github.com/taocpp/PEGTL/blob/3.x/doc/README.md) &nbsp; <sup>[C++17](https://en.cppreference.com/w/cpp/17.html)</sup>
+* [Version 2.x Documnetation](https://github.com/taocpp/PEGTL/blob/2.x/doc/README.md) &nbsp; <sup>[C++11](https://en.cppreference.com/w/cpp/11.html)</sup>
+* [Version 1.x Documentation](https://github.com/taocpp/PEGTL/blob/1.x/doc/README.md) &nbsp; <sup>[C++11](https://en.cppreference.com/w/cpp/11.html)</sup>
 
 
 ## Introduction

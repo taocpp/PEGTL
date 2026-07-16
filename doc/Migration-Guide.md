@@ -3,6 +3,11 @@
 Notes on incompatible changes that need to be taken into account when updating to a new major version.
 
 
+## Version 5.0.0
+
+* The build system needs to be configured for C++20 or later.
+
+
 ## Version 4.0.0
 
 Version 4.0 contains a large refactoring of the public interface.
