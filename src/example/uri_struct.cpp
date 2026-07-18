@@ -16,6 +16,7 @@ int main()
 #include <string>
 
 #include <tao/pegtl.hpp>
+#include <tao/pegtl/action/builders.hpp>
 #include <tao/pegtl/example/uri.hpp>
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
@@ -37,30 +38,20 @@ namespace example
       explicit uri( ParseInput& in );
    };
 
-   template< std::string uri::* Field >
-   struct bind
-   {
-      template< typename ActionInput >
-      static void apply( const ActionInput& in, uri& u )
-      {
-         u.*Field = in.string();
-      }
-   };
-
    // clang-format off
    template< typename Rule > struct action {};
 
-   template<> struct action< pegtl::uri::scheme > : bind< &uri::scheme > {};
-   template<> struct action< pegtl::uri::authority > : bind< &uri::authority > {};
+   template<> struct action< pegtl::uri::scheme > : pegtl::value_to< &uri::scheme > {};
+   template<> struct action< pegtl::uri::authority > : pegtl::value_to< &uri::authority > {};
    // userinfo: see below
-   template<> struct action< pegtl::uri::host > : bind< &uri::host > {};
-   template<> struct action< pegtl::uri::port > : bind< &uri::port > {};
-   template<> struct action< pegtl::uri::path_noscheme > : bind< &uri::path > {};
-   template<> struct action< pegtl::uri::path_rootless > : bind< &uri::path > {};
-   template<> struct action< pegtl::uri::path_absolute > : bind< &uri::path > {};
-   template<> struct action< pegtl::uri::path_abempty > : bind< &uri::path > {};
-   template<> struct action< pegtl::uri::query > : bind< &uri::query > {};
-   template<> struct action< pegtl::uri::fragment > : bind< &uri::fragment > {};
+   template<> struct action< pegtl::uri::host > : pegtl::value_to< &uri::host > {};
+   template<> struct action< pegtl::uri::port > : pegtl::value_to< &uri::port > {};
+   template<> struct action< pegtl::uri::path_noscheme > : pegtl::value_to< &uri::path > {};
+   template<> struct action< pegtl::uri::path_rootless > : pegtl::value_to< &uri::path > {};
+   template<> struct action< pegtl::uri::path_absolute > : pegtl::value_to< &uri::path > {};
+   template<> struct action< pegtl::uri::path_abempty > : pegtl::value_to< &uri::path > {};
+   template<> struct action< pegtl::uri::query > : pegtl::value_to< &uri::query > {};
+   template<> struct action< pegtl::uri::fragment > : pegtl::value_to< &uri::fragment > {};
    // clang-format on
 
    template<>

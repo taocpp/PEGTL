@@ -17,10 +17,12 @@ int main()
 #include <cstring>
 #include <iomanip>
 #include <iostream>
-#include <stdexcept>
+#include <string>
+#include <string_view>
 #include <vector>
 
 #include <tao/pegtl.hpp>
+#include <tao/pegtl/action/builders.hpp>
 
 namespace TAO_PEGTL_NAMESPACE::expression
 {
@@ -474,23 +476,13 @@ namespace application
 
    template<>
    struct action< literal >
-   {
-      template< typename Input, typename... States >
-      static void apply( const Input& in, result& res, States&&... /*unused*/ )
-      {
-         res.number( std::stoll( in.string() ) );
-      }
-   };
+      : pegtl::value_to< &result::number >
+   {};
 
    template<>
    struct action< pegtl::identifier >
-   {
-      template< typename Input, typename... States >
-      static void apply( const Input& in, result& res, States&&... /*unused*/ )
-      {
-         res.identifier( in.string() );
-      }
-   };
+      : pegtl::value_to< &result::identifier >
+   {};
 
 }  // namespace application
 

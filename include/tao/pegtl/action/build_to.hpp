@@ -2,13 +2,8 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_INCLUDE_TAO_EXTRA_UNESCAPE_TO_HPP
-#define TAO_PEGTL_INCLUDE_TAO_EXTRA_UNESCAPE_TO_HPP
-
-#include <string>
-#include <tuple>
-#include <type_traits>
-#include <utility>
+#ifndef TAO_PEGTL_ACTION_BUILD_TO_HPP
+#define TAO_PEGTL_ACTION_BUILD_TO_HPP
 
 #include "../apply_mode.hpp"
 #include "../config.hpp"
@@ -16,18 +11,21 @@
 #include "../nothing.hpp"
 #include "../rewind_mode.hpp"
 
-#include "../action/internal/apply_to_call.hpp"
-#include "../action/internal/apply_to_traits.hpp"
-
-#include "unescape.hpp"
+#include "internal/builder_utility.hpp"
+#include "internal/deliver_utility.hpp"
+#include "internal/single_rule_action.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   template< auto S, template< typename... > class Unescape = unescape >
-   struct unescape_to
+   template< auto S, typename Producer >
+   struct build_to
       : maybe_nothing
    {
-      // static_assert( std::is_same_v< internal::apply_to_object_t< S >, std::string > );
+      using target_t = internal::delivery_target_t< S >;
+      using result_t = internal::delivery_result_t< S >;
+      using output_t = internal::value_slot< result_t >;
+
+      using selected_action = typename Producer::template action< output_t >;
 
       template< typename Rule,
                 apply_mode A,
@@ -39,12 +37,10 @@ namespace TAO_PEGTL_NAMESPACE
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
          if constexpr( A == apply_mode::enabled ) {
-            std::string unescaped;
+            output_t output;
 
-            if( Control< Rule >::template match< A, M, Unescape, Control >( in, unescaped, st... ) ) {
-               using target_t = internal::apply_to_target_t< S >;
-               target_t& out = std::get< target_t& >( std::tie( st... ) );
-               internal::apply_to_call< S >::call( out, std::move( unescaped ) );
+            if( Control< Rule >::template match< A, M, internal::single_rule_action< Rule, selected_action >::template type, Control >( in, output, st... ) ) {
+               internal::deliver< S >( std::get< target_t& >( std::tie( st... ) ), output.get() );
                return true;
             }
             return false;

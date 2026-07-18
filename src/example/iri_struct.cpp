@@ -14,8 +14,10 @@ int main()
 
 #include <iostream>
 #include <stdexcept>
+#include <string>
 
 #include <tao/pegtl.hpp>
+#include <tao/pegtl/action/builders.hpp>
 #include <tao/pegtl/example/iri.hpp>
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
@@ -37,30 +39,20 @@ namespace example
       explicit iri( ParseInput& in );
    };
 
-   template< std::string iri::* Field >
-   struct bind
-   {
-      template< typename ActionInput >
-      static void apply( const ActionInput& in, iri& i )
-      {
-         i.*Field = in.string();
-      }
-   };
-
    // clang-format off
    template< typename Rule > struct action {};
 
-   template<> struct action< pegtl::iri::scheme > : bind< &iri::scheme > {};
-   template<> struct action< pegtl::iri::iauthority > : bind< &iri::authority > {};
-   // userinfo: see below
-   template<> struct action< pegtl::iri::ihost > : bind< &iri::host > {};
-   template<> struct action< pegtl::iri::port > : bind< &iri::port > {};
-   template<> struct action< pegtl::iri::ipath_noscheme > : bind< &iri::path > {};
-   template<> struct action< pegtl::iri::ipath_rootless > : bind< &iri::path > {};
-   template<> struct action< pegtl::iri::ipath_absolute > : bind< &iri::path > {};
-   template<> struct action< pegtl::iri::ipath_abempty > : bind< &iri::path > {};
-   template<> struct action< pegtl::iri::iquery > : bind< &iri::query > {};
-   template<> struct action< pegtl::iri::ifragment > : bind< &iri::fragment > {};
+   template<> struct action< pegtl::iri::scheme > : pegtl::value_to< &iri::scheme > {};
+   template<> struct action< pegtl::iri::iauthority > : pegtl::value_to< &iri::authority > {};
+   // iuserinfo: see below
+   template<> struct action< pegtl::iri::ihost > : pegtl::value_to< &iri::host > {};
+   template<> struct action< pegtl::iri::port > : pegtl::value_to< &iri::port > {};
+   template<> struct action< pegtl::iri::ipath_noscheme > : pegtl::value_to< &iri::path > {};
+   template<> struct action< pegtl::iri::ipath_rootless > : pegtl::value_to< &iri::path > {};
+   template<> struct action< pegtl::iri::ipath_absolute > : pegtl::value_to< &iri::path > {};
+   template<> struct action< pegtl::iri::ipath_abempty > : pegtl::value_to< &iri::path > {};
+   template<> struct action< pegtl::iri::iquery > : pegtl::value_to< &iri::query > {};
+   template<> struct action< pegtl::iri::ifragment > : pegtl::value_to< &iri::fragment > {};
    // clang-format on
 
    template<>

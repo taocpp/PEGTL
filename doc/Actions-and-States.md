@@ -458,7 +458,7 @@ struct my_action< my_rule >
 };
 ```
 
-For a more complete example of how to build a generic JSON data structure with `change_state` and friends see `src/example/json_build.cpp`.
+For a more complete example of how to build a generic JSON data structure with `change_state` and friends see `src/example/json_classes.cpp`.
 
 
 ## Changing Actions and States

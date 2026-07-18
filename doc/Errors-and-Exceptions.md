@@ -139,7 +139,7 @@ The first catch block catches exactly the parse errors whose position type is us
 The second catch block catches other PEGTL parse errors without assuming a particular position type.
 The final catch block catches other standard exceptions, for example file and stream errors.
 
-The source files `src/example/json_parse.cpp`, `src/example/json_build.cpp`, `src/example/proto3_parse.cpp`, and `src/example/abnf2pegtl.cpp` show variations of this pattern.
+The source files `src/example/json_parse.cpp`, `src/example/json_classes.cpp`, `src/example/proto3_parse.cpp`, and `src/example/abnf2pegtl.cpp` show variations of this pattern.
 
 
 ## Local to Global Failure

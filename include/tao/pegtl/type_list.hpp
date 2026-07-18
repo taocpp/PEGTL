@@ -103,6 +103,27 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename T >
    inline constexpr bool is_type_list_v = is_type_list< T >::value;
 
+   template< typename... >
+   struct types_are_unique;
+
+   template<>
+   struct types_are_unique<>
+      : std::true_type
+   {};
+
+   template< typename... Ts >
+   struct types_are_unique< type_list< Ts... > >
+      : types_are_unique< Ts... >
+   {};
+
+   template< typename T, typename... Ts >
+   struct types_are_unique< T, Ts... >
+      : std::bool_constant< ( !std::is_same_v< T, Ts > && ... ) && types_are_unique< Ts... >::value >
+   {};
+
+   template< typename... Ts >
+   inline constexpr bool types_are_unique_v = types_are_unique< Ts... >::value;
+
 }  // namespace TAO_PEGTL_NAMESPACE
 
 // FCOV_EXCL_FILE

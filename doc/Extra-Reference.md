@@ -22,6 +22,24 @@ The deprecated headers contain functionality from previous versions that was not
 
 The extras can be found in [`include/tao/pegtl/extra/`](../include/tao/pegtl/extra).
 
+###### [`builders.hpp`](../include/tao/pegtl/extra/builders.hpp)
+
+Provides builders that combine the builder actions with the integer conversion from [`charconv.hpp`](#charconvhpp) and the string unescaping from [`unescape.hpp`](#unescapehpp).
+
+```c++
+template< auto S > struct from_chars_to;
+template< typename Rule > using from_chars_for = ...;
+
+template< auto S, template< typename... > class Unescape = unescape > using unescape_to = ...;
+template< typename Rule, template< typename... > class Unescape = unescape > using unescape_for = ...;
+```
+
+The `from_chars` builders can only be used with the integer types and rules from [`charconv.hpp`](#charconvhpp).
+They preserve the optimized flow in which the rule parses and converts the matched input in one step.
+
+The `unescape` builders create a `std::string` and use the supplied `Unescape` action while matching the selected rule.
+The default is [`unescape`](#unescapehpp) but any compatible custom action can be supplied when the grammar uses different escape rules.
+
 ###### [`charconv.hpp`](../include/tao/pegtl/extra/charconv.hpp)
 
 Provides string-to-integer conversion based on [`std::from_chars()`](https://en.cppreference.com/w/cpp/utility/from_chars.html) from the standard [`<charconv>`](https://en.cppreference.com/w/cpp/header/charconv.html) header.
@@ -354,6 +372,7 @@ An older version of [`include/tao/pegtl/extra/unescape.hpp`](#unescapehpp).
 ## Index
 
 * [`alphabet.hpp`](#alphabethpp) <sup>[(deprecated)](#deprecated)</sup>
+* [`builders.hpp`](#buildershpp) <sup>[(extra)](#extras)</sup>
 * [`charconv.hpp`](#charconvhpp) <sup>[(extra)](#extras)</sup>
 * [`dispatch.hpp`](#dispatchhpp) <sup>[(extra)](#extras)</sup>
 * [`if_then.hpp`](#if_thenhpp) <sup>[(deprecated)](#deprecated)</sup>

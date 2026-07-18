@@ -11,7 +11,19 @@ Not Yet Released
 * Added new convenience [rule](Rules-and-Gramamrs.md) [`list_opt`](Rule-Reference.md#list_opt-r-s-).
 * Added new ASCII [rules](Rules-and-Grammrs.md) [`astring`](Rule-Reference.md#astring-p-c-) and [`aistring`](Rule-Reference.md#aistring-p-c-).
 * Added new extra [rule](Rules-and-Grammars.md) [`partial_apply1`](Extra-Reference.md#partial_apply1hpp).
-* Added new actions `apply_to`, `apply0_to`, `from_chars_to` and `unescape_to` -- TODO: Documentation!
+* Added new *builder* actions. -- TODO: Documentation!
+  * Added new primitives `build_to` and `build_for`.
+  * Added new builder-style `create_to` and `create_for`.
+  * Added new builder-style `const_to` and `const_for`.
+  * Added new builder-style `value_to` and `value_for`.
+  * Added new builder-style `multi_to` and `multi_for`.
+  * Added new builder-style `optional_to` and `optional_for`.
+  * Added new builder-style `repeat_to` and `repeat_for`.
+  * Added new builder-style `variant_to` and `variant_for`.
+  * Added new builder-style `cases`, `cases_to` and `cases_for`.
+  * Added new builder-style `from_chars_to` and `from_chars_for`.
+  * Added new builder-style `unescape_to` and `unescape_for`.
+  * Added and updated examples that demonstrate builder actions.
 
 ## Version 4.0.0
 

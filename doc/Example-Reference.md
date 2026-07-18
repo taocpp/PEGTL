@@ -146,10 +146,17 @@ Some actions merely push something onto a stack, while other actions apply some 
 
 Examples of grammars for regular, context-free, and context-sensitive languages.
 
-###### [`csv_1.cpp`](../src/example/csv_1.cpp)
-###### [`csv_2.cpp`](../src/example/csv_2.cpp)
+###### [`csv_builder.cpp`](../src/example/csv_builder.cpp)
 
-Two simple examples for grammars that parse different kinds of [CSV-style](https://en.wikipedia.org/wiki/Comma-separated_values) file formats.
+A parser for very simple [CSV-style](https://en.wikipedia.org/wiki/Comma-separated_values) files that uses builder-style actions.
+
+###### [`csv_manual.cpp`](../src/example/csv_manual.cpp)
+
+A parser for very simple [CSV-style](https://en.wikipedia.org/wiki/Comma-separated_values) files that uses manual actions.
+
+###### [`csv_static.cpp`](../src/example/csv_static.cpp)
+
+A parser for slightly less simple [CSV-style](https://en.wikipedia.org/wiki/Comma-separated_values) files with statically known number of columns.
 
 ###### [`dispatch.cpp`](../src/example/dispatch.cpp)
 
@@ -184,9 +191,13 @@ Performs a grammar analysis on the JSON [grammar](Example-Reference.md#jsonhpp) 
 
 Combines the JSON [grammar](#jsonhpp) with the [parse tree](Parse-Tree.md) to build a generic data structure while parsing.
 
-###### [`json_build.cpp`](../src/example/json_build.cpp)
+###### [`json_builder.cpp`](../src/example/json_builder.cpp)
 
-Extends on `json_parse.cpp` by parsing JSON files into generic JSON data structure.
+Combines the JSON [grammar](#jsonhpp) with a `std::variant`-based data structure using builder-style actions.
+
+###### [`json_classes.cpp`](../src/example/json_classes.cpp)
+
+Extends on `json_parse.cpp` by parsing JSON files into a pointer-based data structure with a separate class for each JSON type.
 
 ###### [`json_count.cpp`](../src/example/json_count.cpp)
 
@@ -364,8 +375,9 @@ Parses its command line arguments.
 * [`behavior.cpp`](#behaviorcpp) <sup>[(program)](#programs)</sup>
 * [`calculator.cpp`](#calculatorcpp) <sup>[(program)](#programs)</sup>
 * [`chomsky_hierarchy.cpp`](#chomsky_hierarchycpp) <sup>[(program)](#programs)</sup>
-* [`csv_1.cpp`](#csv_1cpp) <sup>[(program)](#programs)</sup>
-* [`csv_2.cpp`](#csv_2cpp) <sup>[(program)](#programs)</sup>
+* [`csv_builder.cpp`](#csv_buildercpp) <sup>[(program)](#programs)</sup>
+* [`csv_manual.cpp`](#csv_manualcpp) <sup>[(program)](#programs)</sup>
+* [`csv_static.cpp`](#csv_staticcpp) <sup>[(program)](#programs)</sup>
 * [`dispatch.cpp`](#dispatchcpp) <sup>[(program)](#programs)</sup>
 * [`dynamic_match.cpp`](#dynamic_matchcpp) <sup>[(program)](#programs)</sup>
 * [`escaped.hpp`](#escapedhpp) <sup>[(grammar)](#grammars)</sup>
@@ -382,7 +394,8 @@ Parses its command line arguments.
 * [`json.hpp`](#jsonhpp) <sup>[(grammar)](#grammars)</sup>
 * [`json_analyze.cpp`](#json_analyzecpp) <sup>[(program)](#programs)</sup>
 * [`json_ast.cpp`](#json_astcpp) <sup>[(program)](#programs)</sup>
-* [`json_build.cpp`](#json_buildcpp) <sup>[(program)](#programs)</sup>
+* [`json_builder.cpp`](#json_buildercpp) <sup>[(program)](#programs)</sup>
+* [`json_classes.cpp`](#json_classescpp) <sup>[(program)](#programs)</sup>
 * [`json_count.cpp`](#json_countcpp) <sup>[(program)](#programs)</sup>
 * [`json_coverage.cpp`](#json_coveragecpp) <sup>[(program)](#programs)</sup>
 * [`json_parse.cpp`](#json_parsecpp) <sup>[(program)](#programs)</sup>

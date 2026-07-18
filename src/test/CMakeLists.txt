@@ -6,8 +6,6 @@ set(test_sources
   action_apply_1.cpp
   action_apply_2.cpp
   action_apply_3.cpp
-  action_apply0_to.cpp
-  action_apply_to.cpp
   action_change_action_and_state.cpp
   action_change_action_and_states.cpp
   action_change_control.cpp
@@ -51,6 +49,17 @@ set(test_sources
   base_exceptions.cpp
   base_result.cpp
   base_setup.cpp
+  builder_build.cpp
+  builder_cases.cpp
+  builder_const.cpp
+  builder_create.cpp
+  builder_disabled.cpp
+  builder_json.cpp
+  builder_multi.cpp
+  builder_optional.cpp
+  builder_repeat.cpp
+  builder_value.cpp
+  builder_variant.cpp
   control_apply_typed_state.cpp
   control_input_control.cpp
   control_remove_first_state.cpp
@@ -129,7 +138,6 @@ set(test_sources
   int64_general.cpp
   int8_general.cpp
   internal_any.cpp
-  internal_apply_to_call.cpp
   internal_argv_input.cpp
   internal_ascii_utility.cpp
   internal_base_inputs.cpp

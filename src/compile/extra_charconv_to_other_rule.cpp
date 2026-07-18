@@ -6,8 +6,8 @@
 
 #include <tao/pegtl.hpp>
 
+#include <tao/pegtl/extra/builders.hpp>
 #include <tao/pegtl/extra/charconv.hpp>
-#include <tao/pegtl/extra/charconv_to.hpp>
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 
@@ -39,8 +39,8 @@ struct action< rule >
 int main()
 {
 #if TAO_PEGTL_COMPILE_REJECT
-   // include/tao/pegtl/extra/charconv_to.hpp
-   // static_assert( internal::is_from_chars_v< object_t, typename Rule::rule_t > );
+   // include/tao/pegtl/extra/internal/builder_utility.hpp
+   // static_assert( is_from_chars_or_void_v< Integer, Rule > );
 #endif
 
    target out;

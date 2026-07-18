@@ -52,6 +52,8 @@ namespace TAO_PEGTL_NAMESPACE
             return false;
          }
          else {
+            (void)in;
+            (void)( (void)st, ... );
             static_assert( internal::dependent_false< AddGuard >, "Unable to instantiate guard!" );
          }
       }

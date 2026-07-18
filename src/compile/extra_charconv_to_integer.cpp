@@ -4,7 +4,7 @@
 
 #include "test.hpp"
 
-#include <tao/pegtl/extra/charconv_to.hpp>
+#include <tao/pegtl/extra/builders.hpp>
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 
@@ -21,8 +21,8 @@ struct bool_target
 #if TAO_PEGTL_COMPILE_ACCEPT
 using action = pegtl::from_chars_to< &integer_target::value >;
 #else
-// include/tao/pegtl/extra/charconv_to.hpp
-// static_assert( internal::is_proper_integer_v< object_t > );
+// include/tao/pegtl/extra/builders.hpp
+// static_assert( internal::is_proper_integer_v< internal::delivery_result_t< S > > );
 using action = pegtl::from_chars_to< &bool_target::value >;
 #endif
 
