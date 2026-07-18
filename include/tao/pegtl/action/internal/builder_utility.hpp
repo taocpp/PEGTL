@@ -378,7 +378,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {};
    };
 
-   template< typename Output, template< typename > class Builder, typename... Bindings >
+   template< typename Output, template< typename... > class Builder, typename... Bindings >
    struct compose_action
       : maybe_nothing
    {
