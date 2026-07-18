@@ -15,6 +15,7 @@
 
 #include "../internal/dependent_false.hpp"
 #include "../internal/has_success.hpp"
+#include "../internal/ignore_arguments.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -52,8 +53,7 @@ namespace TAO_PEGTL_NAMESPACE
             return false;
          }
          else {
-            (void)in;
-            (void)( (void)st, ... );
+            internal::ignore_arguments( in, st... );
             static_assert( internal::dependent_false< AddGuard >, "Unable to instantiate guard!" );
          }
       }

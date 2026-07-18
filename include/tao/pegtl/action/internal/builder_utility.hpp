@@ -414,7 +414,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-   template< template< typename > class Builder, typename... Args >
+   template< template< typename... > class Builder, typename... Args >
    struct composed
    {
       template< typename Output >
