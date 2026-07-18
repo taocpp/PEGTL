@@ -23,11 +23,6 @@
 #include <tao/pegtl/normal.hpp>
 #include <tao/pegtl/nothing.hpp>
 #include <tao/pegtl/parse.hpp>
-#if defined( __cpp_exceptions )
-#include <tao/pegtl/parse_error.hpp>
-#include <tao/pegtl/parse_error_base.hpp>
-#include <tao/pegtl/parse_nested.hpp>
-#endif
 #include <tao/pegtl/pegtl_string.hpp>
 #include <tao/pegtl/pointer_position.hpp>
 #include <tao/pegtl/position_with_source.hpp>
@@ -47,13 +42,14 @@
 #include <tao/pegtl/version.hpp>
 #include <tao/pegtl/view_input.hpp>
 
+#if defined( __cpp_exceptions )
+#include <tao/pegtl/parse_error.hpp>
+#include <tao/pegtl/parse_error_base.hpp>
+#include <tao/pegtl/parse_nested.hpp>
+#endif
+
 #include <tao/pegtl/action/add_guard.hpp>
 #include <tao/pegtl/action/add_state.hpp>
-#if defined ( __cpp_exceptions )
-#include <tao/pegtl/action/build_for.hpp>
-#include <tao/pegtl/action/build_to.hpp>
-#include <tao/pegtl/action/builders.hpp>
-#endif
 #include <tao/pegtl/action/change_action.hpp>
 #include <tao/pegtl/action/change_action_and_state.hpp>
 #include <tao/pegtl/action/change_action_and_states.hpp>
@@ -67,11 +63,17 @@
 #include <tao/pegtl/action/enable_action.hpp>
 #include <tao/pegtl/action/limit_consume.hpp>
 #include <tao/pegtl/action/match_typed_state.hpp>
-#include <tao/pegtl/action/multi_traits.hpp>
-#include <tao/pegtl/action/repeat_traits.hpp>
 #include <tao/pegtl/action/require_apply.hpp>
 #include <tao/pegtl/action/require_apply0.hpp>
+
+#if defined ( __cpp_exceptions )
+#include <tao/pegtl/action/build_for.hpp>
+#include <tao/pegtl/action/build_to.hpp>
+#include <tao/pegtl/action/builders.hpp>
+#include <tao/pegtl/action/multi_traits.hpp>
+#include <tao/pegtl/action/repeat_traits.hpp>
 #include <tao/pegtl/action/value_traits.hpp>
+#endif
 
 #include <tao/pegtl/stream/alloc_buffer.hpp>
 #include <tao/pegtl/stream/analyze_traits.hpp>
@@ -97,9 +99,6 @@
 
 #include <tao/pegtl/control/apply_typed_state.hpp>
 #include <tao/pegtl/control/input_control.hpp>
-#if defined( __cpp_exceptions )
-#include <tao/pegtl/control/must_if.hpp>
-#endif
 #include <tao/pegtl/control/remove_first_state.hpp>
 #include <tao/pegtl/control/remove_first_states.hpp>
 #include <tao/pegtl/control/remove_last_states.hpp>
@@ -110,6 +109,10 @@
 #include <tao/pegtl/control/rotate_states_right.hpp>
 #include <tao/pegtl/control/shuffle_states.hpp>
 #include <tao/pegtl/control/state_control.hpp>
+
+#if defined( __cpp_exceptions )
+#include <tao/pegtl/control/must_if.hpp>
+#endif
 
 #include <tao/pegtl/debug/analyze.hpp>
 #include <tao/pegtl/debug/analyze_traits.hpp>

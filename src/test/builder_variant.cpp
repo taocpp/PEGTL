@@ -214,7 +214,11 @@ namespace TAO_PEGTL_NAMESPACE
 
       test_target repeated;
       parse_into< values_rule >( "yes,42,beta,no", repeated );
-      TAO_PEGTL_TEST_ASSERT( repeated.values == std::vector< scalar >( { scalar( true ), scalar( 42 ), scalar( std::string( "beta" ) ), scalar( false ) } ) );
+      TAO_PEGTL_TEST_ASSERT( repeated.values.size() == 4 );
+      TAO_PEGTL_TEST_ASSERT( repeated.values[ 0 ] == scalar( true ) );
+      TAO_PEGTL_TEST_ASSERT( repeated.values[ 1 ] == scalar( 42 ) );
+      TAO_PEGTL_TEST_ASSERT( repeated.values[ 2 ] == scalar( std::string( "beta" ) ) );
+      TAO_PEGTL_TEST_ASSERT( repeated.values[ 3 ] == scalar( false ) );
 
       test_target with_child;
       parse_into< composite_rule >( "[7]", with_child );
