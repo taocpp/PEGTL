@@ -15,6 +15,7 @@ int main()
 #include <string_view>
 #include <tuple>
 #include <utility>
+#include <variant>
 #include <vector>
 
 #include "test.hpp"
@@ -92,6 +93,8 @@ namespace TAO_PEGTL_NAMESPACE
       std::vector< std::pair< std::string, int > > entries;
       std::string group_name;
       std::vector< int > group_values;
+      std::optional< std::vector< int > > maybe_group_values;
+      std::optional< std::variant< int, std::string > > maybe_choice;
       std::string reverse_name;
       int reverse_value = 0;
 
@@ -111,6 +114,17 @@ namespace TAO_PEGTL_NAMESPACE
       {
          group_name = std::move( in_name );
          group_values = std::move( in_values );
+      }
+
+      void set_optional_group( std::string in_name, std::optional< std::vector< int > > in_values )
+      {
+         group_name = std::move( in_name );
+         maybe_group_values = std::move( in_values );
+      }
+
+      void set_optional_choice( std::optional< std::variant< int, std::string > > in_value )
+      {
+         maybe_choice = std::move( in_value );
       }
 
       void set_reverse( const int in_value, std::string in_name )
@@ -196,6 +210,30 @@ namespace TAO_PEGTL_NAMESPACE
       : seq< group_name, one< ':' >, bracketed_numbers, eof >
    {};
 
+   struct optional_group_rule
+      : seq< group_name, one< ':' >, opt< bracketed_numbers >, eof >
+   {};
+
+   struct bad_optional_group_rule
+      : seq< group_name, one< ':' >, opt< bracketed_numbers >, one< '!' > >
+   {};
+
+   struct choice_number
+      : plus< digit >
+   {};
+
+   struct choice_name
+      : plus< alpha >
+   {};
+
+   struct choice
+      : sor< choice_number, choice_name >
+   {};
+
+   struct optional_choice_rule
+      : seq< opt< choice >, eof >
+   {};
+
    struct reverse_name
       : plus< alpha >
    {};
@@ -279,6 +317,26 @@ namespace TAO_PEGTL_NAMESPACE
    {};
 
    template<>
+   struct test_action< optional_group_rule >
+      : multi_to< &test_target::set_optional_group,
+                  group_name,
+                  repeat_for< bracketed_numbers, group_number > >
+   {};
+
+   template<>
+   struct test_action< bad_optional_group_rule >
+      : multi_to< &test_target::set_optional_group,
+                  group_name,
+                  repeat_for< bracketed_numbers, group_number > >
+   {};
+
+   template<>
+   struct test_action< optional_choice_rule >
+      : multi_to< &test_target::set_optional_choice,
+                  variant_for< choice, choice_number, choice_name > >
+   {};
+
+   template<>
    struct test_action< reverse_rule >
       : multi_to< &test_target::set_reverse,
                   reverse_number,
@@ -332,6 +390,39 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( target.group_values == std::vector< int >( { 1, 2, 3 } ) );
       TAO_PEGTL_TEST_ASSERT( target.reverse_name == "reverse" );
       TAO_PEGTL_TEST_ASSERT( target.reverse_value == 9 );
+
+      test_target optional_group_absent;
+      parse_into< optional_group_rule >( "absent:", optional_group_absent );
+      TAO_PEGTL_TEST_ASSERT( !optional_group_absent.maybe_group_values );
+
+      test_target optional_group_empty;
+      parse_into< optional_group_rule >( "empty:[]", optional_group_empty );
+      TAO_PEGTL_TEST_ASSERT( optional_group_empty.maybe_group_values == std::vector< int >() );
+
+      test_target optional_group_present;
+      parse_into< optional_group_rule >( "present:[4,5]", optional_group_present );
+      TAO_PEGTL_TEST_ASSERT( optional_group_present.maybe_group_values == std::vector< int >( { 4, 5 } ) );
+
+      test_target optional_choice_absent;
+      parse_into< optional_choice_rule >( "", optional_choice_absent );
+      TAO_PEGTL_TEST_ASSERT( !optional_choice_absent.maybe_choice );
+
+      test_target optional_choice_number;
+      parse_into< optional_choice_rule >( "6", optional_choice_number );
+      TAO_PEGTL_TEST_ASSERT( optional_choice_number.maybe_choice == std::variant< int, std::string >( 6 ) );
+
+      test_target optional_choice_name;
+      parse_into< optional_choice_rule >( "seven", optional_choice_name );
+      TAO_PEGTL_TEST_ASSERT( optional_choice_name.maybe_choice == std::variant< int, std::string >( std::string( "seven" ) ) );
+
+      test_target nested_failed;
+      nested_failed.group_name = "before";
+      nested_failed.maybe_group_values = std::vector< int >( { 8 } );
+      text_view_input< scan::lf > nested_bad_input( "changed:[1,2]" );
+
+      TAO_PEGTL_TEST_ASSERT( !parse< bad_optional_group_rule, test_action >( nested_bad_input, nested_failed ) );
+      TAO_PEGTL_TEST_ASSERT( nested_failed.group_name == "before" );
+      TAO_PEGTL_TEST_ASSERT( nested_failed.maybe_group_values == std::vector< int >( { 8 } ) );
 
       test_target absent;
       parse_into< optional_rule >( ":", absent );

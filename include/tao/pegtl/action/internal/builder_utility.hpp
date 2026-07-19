@@ -59,12 +59,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename T >
    struct multi_slot< std::optional< T > >
    {
-      using value_t = std::optional< T >;
+      using value_t = T;
 
-      void store( std::optional< T >&& value )
+      void store( T&& value )
       {
          assert( !stored );
-         stored = std::move( value );
+         stored.emplace( std::move( value ) );
       }
 
       [[nodiscard]] std::optional< T >&& get() noexcept

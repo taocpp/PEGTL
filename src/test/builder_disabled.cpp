@@ -41,6 +41,7 @@ namespace TAO_PEGTL_NAMESPACE
       std::vector< int > repeated = { 5 };
       std::variant< int, std::string > variant = std::string( "before" );
       child created;
+      int suppressed = 6;
 
       void set_multi( std::string in_name, const int in_number )
       {
@@ -117,6 +118,18 @@ namespace TAO_PEGTL_NAMESPACE
       : seq< one< '[' >, create_number, one< ']' > >
    {};
 
+   struct suppressed_inner
+      : one< 'x' >
+   {};
+
+   struct suppressing_number
+      : plus< digit >
+   {};
+
+   struct suppressing_rule
+      : seq< suppressed_inner, suppressing_number, eof >
+   {};
+
    template< typename Rule >
    struct child_action
       : nothing< Rule >
@@ -174,6 +187,16 @@ namespace TAO_PEGTL_NAMESPACE
       : create_to< &test_target::created, child, child_action >
    {};
 
+   template<>
+   struct test_action< suppressed_inner >
+      : const_to< &test_target::suppressed, 19 >
+   {};
+
+   template<>
+   struct test_action< suppressing_rule >
+      : multi_to< &test_target::number, suppressing_number >
+   {};
+
    template< typename Rule >
    void parse_disabled( const std::string_view text, test_target& target )
    {
@@ -204,6 +227,12 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( target.repeated == std::vector< int >( { 5 } ) );
       TAO_PEGTL_TEST_ASSERT( target.variant == std::variant< int, std::string >( std::string( "before" ) ) );
       TAO_PEGTL_TEST_ASSERT( target.created == child{ 10 } );
+
+      text_view_input< scan::lf > suppressing_input( "x20" );
+      TAO_PEGTL_TEST_ASSERT( parse< suppressing_rule, test_action >( suppressing_input, target ) );
+      TAO_PEGTL_TEST_ASSERT( suppressing_input.empty() );
+      TAO_PEGTL_TEST_ASSERT( target.number == 20 );
+      TAO_PEGTL_TEST_ASSERT( target.suppressed == 6 );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

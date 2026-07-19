@@ -26,6 +26,8 @@ namespace TAO_PEGTL_NAMESPACE
       std::optional< int > argument = 42;
       std::optional< std::optional< int > > nested;
       std::vector< std::optional< int > > values;
+      std::optional< std::vector< int > > group;
+      std::vector< std::optional< std::vector< int > > > groups;
       bool called = false;
 
       void set( std::optional< int > value ) noexcept
@@ -67,6 +69,26 @@ namespace TAO_PEGTL_NAMESPACE
       : seq< opt< number >, one< '!' > >
    {};
 
+   struct group_number
+      : plus< digit >
+   {};
+
+   struct group
+      : seq< one< '[' >, opt< list< group_number, one< ',' > > >, one< ']' > >
+   {};
+
+   struct optional_group_rule
+      : seq< opt< group >, eof >
+   {};
+
+   struct group_element
+      : seq< one< '<' >, opt< group >, one< '>' > >
+   {};
+
+   struct groups_rule
+      : seq< star< group_element >, eof >
+   {};
+
    template< typename Rule >
    struct test_action
       : nothing< Rule >
@@ -97,6 +119,19 @@ namespace TAO_PEGTL_NAMESPACE
    template<>
    struct test_action< failed_rule >
       : optional_to< &test_target::variable, number >
+   {};
+
+   template<>
+   struct test_action< optional_group_rule >
+      : optional_to< &test_target::group,
+                     repeat_for< group, group_number > >
+   {};
+
+   template<>
+   struct test_action< groups_rule >
+      : repeat_to< &test_target::groups,
+                   optional_for< group_element,
+                                 repeat_for< group, group_number > > >
    {};
 
    template< typename Rule >
@@ -135,6 +170,22 @@ namespace TAO_PEGTL_NAMESPACE
       parse_into< nested_rule >( "()", nested_empty );
       TAO_PEGTL_TEST_ASSERT( nested_empty.nested.has_value() );
       TAO_PEGTL_TEST_ASSERT( !*nested_empty.nested );
+
+      test_target structured_absent;
+      parse_into< optional_group_rule >( "", structured_absent );
+      TAO_PEGTL_TEST_ASSERT( !structured_absent.group );
+
+      test_target structured_empty;
+      parse_into< optional_group_rule >( "[]", structured_empty );
+      TAO_PEGTL_TEST_ASSERT( structured_empty.group == std::vector< int >() );
+
+      test_target structured_present;
+      parse_into< optional_group_rule >( "[4,5]", structured_present );
+      TAO_PEGTL_TEST_ASSERT( structured_present.group == std::vector< int >( { 4, 5 } ) );
+
+      test_target repeated_structured;
+      parse_into< groups_rule >( "<><[]><[6,7]>", repeated_structured );
+      TAO_PEGTL_TEST_ASSERT( repeated_structured.groups == std::vector< std::optional< std::vector< int > > >( { std::nullopt, std::vector< int >(), std::vector< int >( { 6, 7 } ) } ) );
 
       test_target failed;
       text_view_input< scan::lf > failed_input( "7" );
