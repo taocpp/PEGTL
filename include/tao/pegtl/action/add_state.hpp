@@ -65,6 +65,7 @@ namespace TAO_PEGTL_NAMESPACE
          if constexpr( internal::has_success< AddState, void, const ParseInput&, States... > ) {
             s.success( in, st... );
          }
+         TAO_PEGTL_MSVC_IGNORE( in, st... );
       }
    };
 

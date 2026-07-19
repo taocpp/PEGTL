@@ -29,6 +29,7 @@
 
 #include "../internal/enable_control.hpp"
 #include "../internal/has_unwind.hpp"
+#include "../internal/ignore_arguments.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::parse_tree
 {
@@ -290,10 +291,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
             if constexpr( control_has_unwind< Control< Rule >, const ParseInput&, States... > ) {
                Control< Rule >::unwind( in, st... );
             }
-#if defined( _MSC_VER )
-            ( (void)st,
-              ... );
-#endif
+            TAO_PEGTL_MSVC_IGNORE( st... );
          }
       };
 

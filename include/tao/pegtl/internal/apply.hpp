@@ -13,6 +13,7 @@
 
 #include "apply_impl.hpp"
 #include "enable_control.hpp"
+#include "ignore_arguments.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -35,11 +36,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
             return ( apply_impl< Actions >::apply( i2, st... ) && ... );
          }
          else {
-#if defined( _MSC_VER )
-            ( (void)st, ... );
-#endif
             return true;
          }
+         TAO_PEGTL_MSVC_IGNORE( st... );
       }
    };
 

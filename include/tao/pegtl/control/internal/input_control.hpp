@@ -10,6 +10,7 @@
 #include "../../config.hpp"
 
 #include "../../internal/has_unwind.hpp"
+#include "../../internal/ignore_arguments.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -28,9 +29,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          if constexpr( ParseInput::template enable< Rule > ) {
             const_cast< ParseInput& >( in ).template start< Rule >( in, st... );
          }
-#if defined( _MSC_VER )
-         (void)( (void)st, ... );
-#endif
+         TAO_PEGTL_MSVC_IGNORE( st... );
       }
 
       template< typename ParseInput, typename... States >
@@ -42,9 +41,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          if constexpr( Control< Rule >::enable ) {
             Control< Rule >::success( in, st... );
          }
-#if defined( _MSC_VER )
-         (void)( (void)st, ... );
-#endif
+         TAO_PEGTL_MSVC_IGNORE( st... );
       }
 
       template< typename ParseInput, typename... States >
@@ -56,9 +53,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          if constexpr( Control< Rule >::enable ) {
             Control< Rule >::failure( in, st... );
          }
-#if defined( _MSC_VER )
-         (void)( (void)st, ... );
-#endif
+         TAO_PEGTL_MSVC_IGNORE( st... );
       }
 
       template< typename ParseInput, typename... States >
@@ -89,9 +84,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          if constexpr( Control< Rule >::enable && internal::has_unwind< Control< Rule >, void, const ParseInput&, States... > ) {
             Control< Rule >::unwind( in, st... );
          }
-#if defined( _MSC_VER )
-         (void)( (void)st, ... );
-#endif
+         TAO_PEGTL_MSVC_IGNORE( st... );
       }
 
       template< template< typename... > class Action, typename RewindPosition, typename ParseInput, typename... States >
