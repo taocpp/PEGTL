@@ -32,6 +32,7 @@ set(example_sources
   lua53_analyze.cpp
   lua53_parse.cpp
   modulus_match.cpp
+  open_metrics.cpp
   parse_tree.cpp
   parse_tree_user_state.cpp
   proto3_analyze.cpp
