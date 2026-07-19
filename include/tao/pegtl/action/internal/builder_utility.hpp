@@ -387,6 +387,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
       static_assert( sizeof...( Bindings ) == builder_t::size, "arguments must match the constructed value" );
       static_assert( bindings_have_unique_rules< Bindings... >, "arguments must use distinct rules" );
 
+#if defined( __GNUC__ ) && !defined( __clang__ ) && ( __GNUC__ == 16 )
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+#endif
+
       template< typename Rule,
                 apply_mode A,
                 rewind_mode M,
@@ -412,6 +417,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
             return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, st... );
          }
       }
+#if defined( __GNUC__ ) && !defined( __clang__ )
+#pragma GCC diagnostic pop
+#endif
    };
 
    template< template< typename... > class Builder, typename... Args >
