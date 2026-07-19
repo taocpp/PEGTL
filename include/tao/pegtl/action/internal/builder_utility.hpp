@@ -220,7 +220,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 template< typename... > class Control,
                 typename ParseInput,
                 typename... States >
-      [[nodiscard]] static bool match( ParseInput& in, Output& out, States&&... st )
+      [[nodiscard]] static bool match( ParseInput& in, Output& out, [[maybe_unused]] States&&... st )
       {
          if constexpr( A == apply_mode::enabled ) {
             object_t object;
