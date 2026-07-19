@@ -15,6 +15,7 @@
 
 #include "../internal/dependent_false.hpp"
 #include "../internal/has_success.hpp"
+#include "../internal/ignore_arguments.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -54,6 +55,7 @@ namespace TAO_PEGTL_NAMESPACE
          else {
             static_assert( internal::dependent_false< AddGuard >, "Unable to instantiate new guard!" );
          }
+         TAO_PEGTL_MSVC_IGNORE( in, st... );
       }
 
       template< typename ParseInput,

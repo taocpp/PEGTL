@@ -7,6 +7,12 @@
 
 #include "../config.hpp"
 
+#if defined( _MSC_VER )
+#  define TAO_PEGTL_MSVC_IGNORE( ... )  TAO_PEGTL_NAMESPACE::internal::ignore_arguments( __VA_ARGS__ )
+#else
+#  define TAO_PEGTL_MSVC_IGNORE( ... )  while( false )
+#endif
+
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename... Ts >

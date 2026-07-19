@@ -17,12 +17,12 @@ set(example_sources
   indent_aware.cpp
   iri_struct.cpp
   json_analyze.cpp
-  json_ast.cpp
   json_builder.cpp
   json_classes.cpp
   json_count.cpp
   json_coverage.cpp
   json_parse.cpp
+  json_parse_tree.cpp
   json_print_debug.cpp
   json_print_names.cpp
   json_record.cpp

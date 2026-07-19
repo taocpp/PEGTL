@@ -14,8 +14,8 @@ int main()
 #include <iostream>
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/extra/record.hpp>
 #include <tao/pegtl/example/abnf_abnf.hpp>
+#include <tao/pegtl/extra/record.hpp>
 
 #include "abnf_errors.hpp"
 

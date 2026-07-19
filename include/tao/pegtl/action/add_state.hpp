@@ -15,6 +15,7 @@
 
 #include "../internal/dependent_false.hpp"
 #include "../internal/has_success.hpp"
+#include "../internal/ignore_arguments.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -29,7 +30,7 @@ namespace TAO_PEGTL_NAMESPACE
                 template< typename... > class Control,
                 typename ParseInput,
                 typename... States >
-      [[nodiscard]] static bool match( [[maybe_unused]] ParseInput& in, [[maybe_unused]] States&&... st )
+      [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
          if constexpr( std::is_default_constructible_v< AddState > ) {
             AddState s;
@@ -54,6 +55,7 @@ namespace TAO_PEGTL_NAMESPACE
          else {
             static_assert( internal::dependent_false< AddState >, "Unable to instantiate new state!" );
          }
+         TAO_PEGTL_MSVC_IGNORE( in, st... );
       }
 
       template< typename ParseInput,

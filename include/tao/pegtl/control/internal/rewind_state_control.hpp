@@ -44,12 +44,19 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       ~rewind_state_control_guard()
       {
+#if defined( _MSC_VER )
+#pragma warning( push )
+#pragma warning( disable : 4864 )
+#endif
          if( this->active() ) {
             std::apply( []( State& s, auto&... as ) { s.template will_rewind< Rule >( as... ); }, m_tuple );
          }
          else {
             std::apply( []( State& s, auto&... as ) { s.template wont_rewind< Rule >( as... ); }, m_tuple );
          }
+#if defined( _MSC_VER )
+#pragma warning( pop )
+#endif
       }
 
    private:

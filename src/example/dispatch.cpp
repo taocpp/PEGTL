@@ -5,8 +5,8 @@
 #include <iostream>
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/extra/dispatch.hpp>
 #include <tao/pegtl/example/json.hpp>
+#include <tao/pegtl/extra/dispatch.hpp>
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 
