@@ -101,8 +101,8 @@ namespace open_metrics
 
       metric_point() = default;
 
-      explicit metric_point( std::optional< double > timestamp )
-         : timestamp( std::move( timestamp ) )
+      explicit metric_point( std::optional< double > ts )
+         : timestamp( std::move( ts ) )
       {}
 
       Value value;
@@ -119,8 +119,8 @@ namespace open_metrics
 
       metric() = default;
 
-      explicit metric( label_set labels )
-         : labels( std::move( labels ) )
+      explicit metric( label_set ls )
+         : labels( std::move( ls ) )
       {}
 
       label_set labels;
@@ -159,9 +159,9 @@ namespace open_metrics
 
    struct metric_family
    {
-      metric_family( std::string name, metric_family_data_value data )
-         : name( std::move( name ) ),
-           data( std::move( data ) )
+      metric_family( std::string n, metric_family_data_value d )
+         : name( std::move( n ) ),
+           data( std::move( d ) )
       {}
 
       std::string name;

@@ -138,6 +138,7 @@ namespace open_metrics
       {
          sample_state sample{
             .name = std::move( name ),
+            .family_name{},
             .labels = std::move( labels ).value_or( label_set() ),
             .value = value,
             .timestamp = timestamp
