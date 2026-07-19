@@ -32,6 +32,8 @@ namespace TAO_PEGTL_NAMESPACE
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
+         TAO_PEGTL_MSVC_IGNORE( in, st... );
+
          if constexpr( std::is_default_constructible_v< AddState > ) {
             AddState s;
             if( TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, s, st... ) ) {
@@ -55,17 +57,17 @@ namespace TAO_PEGTL_NAMESPACE
          else {
             static_assert( internal::dependent_false< AddState >, "Unable to instantiate new state!" );
          }
-         TAO_PEGTL_MSVC_IGNORE( in, st... );
       }
 
       template< typename ParseInput,
                 typename... States >
       static void success( const ParseInput& in, AddState& s, States&&... st )
       {
+         TAO_PEGTL_MSVC_IGNORE( in, st... );
+
          if constexpr( internal::has_success< AddState, void, const ParseInput&, States... > ) {
             s.success( in, st... );
          }
-         TAO_PEGTL_MSVC_IGNORE( in, st... );
       }
    };
 
