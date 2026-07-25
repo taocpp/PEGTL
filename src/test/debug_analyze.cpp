@@ -78,6 +78,24 @@ namespace TAO_PEGTL_NAMESPACE
          struct rec : sor< seq< rec, alpha >, alpha > {};
          verify_analyze< rec >( __LINE__, __FILE__, true, true );
       } {
+         struct rec : sor< at< one< 'a' > >, rec > {};
+         verify_analyze< rec >( __LINE__, __FILE__, false, true );
+      } {
+         struct tst : strange< any, tst > {};
+         verify_analyze< tst >( __LINE__, __FILE__, true, false );
+      } {
+         struct tst : strange< opt< any >, tst > {};
+         verify_analyze< tst >( __LINE__, __FILE__, true, true );
+      } {
+         struct tst : seq< any, tst > {};
+         verify_analyze< tst >( __LINE__, __FILE__, true, false );
+      } {
+         struct tst : seq< eof, tst, any > {};
+         verify_analyze< tst >( __LINE__, __FILE__, true, true );
+      } {
+         struct tst : sor< eof, tst, any > {};
+         verify_analyze< tst >( __LINE__, __FILE__, false, true );
+      } {
          struct bar;
          struct foo : seq< digit, bar > {};
          struct bar : plus< foo > {};

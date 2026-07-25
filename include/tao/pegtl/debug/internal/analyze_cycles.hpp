@@ -103,7 +103,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
                case analyze_enum::sor: {
                   bool a = true;
                   for( const auto& r : entry.second.subs ) {
-                     a = a && work( find( r ), accum );
+                     a = work( find( r ), accum ) && a;
                   }
                   return a;
                }
