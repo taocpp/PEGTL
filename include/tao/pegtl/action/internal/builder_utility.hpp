@@ -144,7 +144,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             Traits< T >::add( in, result, std::move( value ) );
          }
 
-         [[nodiscard]] T finish() &&
+         [[nodiscard]] T&& finish() && noexcept
          {
             return std::move( result );
          }
@@ -173,7 +173,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          result.emplace( std::in_place_index< I >, std::move( value ) );
       }
 
-      [[nodiscard]] result_t finish() &&
+      [[nodiscard]] result_t&& finish() && noexcept
       {
          assert( result );
          return std::move( *result );
@@ -201,7 +201,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          this->store( std::move( value ) );
       }
 
-      [[nodiscard]] std::optional< T > finish() &&
+      [[nodiscard]] std::optional< T >&& finish() && noexcept
       {
          return std::move( this->stored );
       }
