@@ -2,6 +2,12 @@
 
 All noteworthy changes since the first public [release](https://github.com/taocpp/PEGTL/releases).
 
+## Version 4.0.1
+
+Released TBD
+
+* Fixed [`rematch`](Rule-Reference.md#rematch-r-s-) not doing the right thing with some inputs.
+
 ## Version 4.0.0
 
 Released 2026-06-07

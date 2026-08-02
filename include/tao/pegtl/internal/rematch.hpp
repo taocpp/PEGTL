@@ -17,18 +17,10 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Head, typename... Rules >
-   struct rematch;
-
-   template< typename Head >
-   struct rematch< Head >
-      : seq< Head >
-   {};
-
-   template< typename Head, typename Rule, typename... Rules >
-   struct rematch< Head, Rule, Rules... >
+   struct rematch
    {
       using rule_t = rematch;
-      using subs_t = type_list< Head, Rule, Rules... >;
+      using subs_t = type_list< Head, Rules... >;
 
       template< apply_mode A,
                 rewind_mode,
@@ -41,12 +33,21 @@ namespace TAO_PEGTL_NAMESPACE::internal
          auto m = Control< rematch >::template guard< A, rewind_mode::required, Action, Control >( in, st... );
 
          if( Control< Head >::template match< A, rewind_mode::optional, Action, Control >( in, st... ) ) {
+            const auto p = in.rewind_position();
             rematch_input i2( m, in );
-            return m( ( Control< Rule >::template match< A, rewind_mode::optional, Action, Control >( i2, st... ) && ... && ( i2.restart(), Control< Rules >::template match< A, rewind_mode::optional, Action, Control >( i2, st... ) ) ) );
+            if( ( ( i2.restart(), Control< Rules >::template match< A, rewind_mode::optional, Action, Control >( i2, st... ) ) && ... ) ) {
+               in.rewind_to_position( p );
+               return m( true );
+            }
          }
          return false;
       }
    };
+
+   template< typename Head >
+   struct rematch< Head >
+      : seq< Head >
+   {};
 
    template< typename Head, typename... Rules >
    inline constexpr bool enable_control< rematch< Head, Rules... > > = false;
