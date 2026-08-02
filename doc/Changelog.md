@@ -4,7 +4,7 @@ All noteworthy changes since the first public [release](https://github.com/taocp
 
 ## Version 4.0.1
 
-Released TBD
+Released 2026-08-01
 
 * Fixed [`rematch`](Rule-Reference.md#rematch-r-s-) not doing the right thing with some inputs.
 
