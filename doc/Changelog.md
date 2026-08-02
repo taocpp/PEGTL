@@ -25,6 +25,12 @@ Not Yet Released
   * Added new builder-style `unescape_to` and `unescape_for`.
   * Added and updated examples that demonstrate builder actions.
 
+## Version 4.0.1
+
+Released TBD
+
+* Fixed [`rematch`](Rule-Reference.md#rematch-r-s-) not doing the right thing with some inputs.
+
 ## Version 4.0.0
 
 Released 2026-06-07

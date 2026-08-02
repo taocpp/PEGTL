@@ -13,56 +13,61 @@ namespace TAO_PEGTL_NAMESPACE
       in.consume< any >( 1 );
       internal::rewind_guard rg( in );
       in.consume< any >( 4 );
+
+      const auto end_position = in.rewind_position();
+      const auto* const begin = rg.current();
+      const auto* const end = in.current();
+
       internal::rematch_input ri( rg, in );
-      TAO_PEGTL_TEST_ASSERT( !ri.empty() );
-      TAO_PEGTL_TEST_ASSERT( ri.size() == 4 );
-      TAO_PEGTL_TEST_ASSERT( ri.start() == in.start() + 1 );
-      TAO_PEGTL_TEST_ASSERT( ri.start() + 4 == in.current() );
-      TAO_PEGTL_TEST_ASSERT( ri.current() == in.start() + 1 );
-      TAO_PEGTL_TEST_ASSERT( ri.current() + 4 == in.current() );
-      TAO_PEGTL_TEST_ASSERT( ri.end() == in.current() );
-      const auto pr = ri.rewind_position();
-      ri.consume< any >( 1 );
-      TAO_PEGTL_TEST_ASSERT( !ri.empty() );
-      TAO_PEGTL_TEST_ASSERT( ri.size() == 3 );
-      TAO_PEGTL_TEST_ASSERT( ri.start() == in.start() + 1 );
-      TAO_PEGTL_TEST_ASSERT( ri.start() + 4 == in.current() );
-      TAO_PEGTL_TEST_ASSERT( ri.current() == in.start() + 2 );
-      TAO_PEGTL_TEST_ASSERT( ri.current() + 3 == in.current() );
-      TAO_PEGTL_TEST_ASSERT( ri.previous( pr ) == in.start() + 1 );
-      TAO_PEGTL_TEST_ASSERT( ri.previous( pr ) + 4 == in.current() );
-      TAO_PEGTL_TEST_ASSERT( ri.end() == in.current() );
+      TAO_PEGTL_TEST_ASSERT( ri.empty() );
+      TAO_PEGTL_TEST_ASSERT( ri.size() == 0 );
+      TAO_PEGTL_TEST_ASSERT( ri.start() == begin );
+      TAO_PEGTL_TEST_ASSERT( ri.current() == end );
+      TAO_PEGTL_TEST_ASSERT( ri.current() == in.current() );
+      TAO_PEGTL_TEST_ASSERT( ri.end() == end );
+
       ri.restart();
       TAO_PEGTL_TEST_ASSERT( !ri.empty() );
       TAO_PEGTL_TEST_ASSERT( ri.size() == 4 );
-      TAO_PEGTL_TEST_ASSERT( ri.start() == in.start() + 1 );
-      TAO_PEGTL_TEST_ASSERT( ri.start() + 4 == in.current() );
-      TAO_PEGTL_TEST_ASSERT( ri.current() == in.start() + 1 );
-      TAO_PEGTL_TEST_ASSERT( ri.current() + 4 == in.current() );
-      TAO_PEGTL_TEST_ASSERT( ri.end() == in.current() );
-      ri.private_set_current( ri.start() + 1 );
+      TAO_PEGTL_TEST_ASSERT( ri.current() == begin );
+      TAO_PEGTL_TEST_ASSERT( ri.current() == in.current() );
+      TAO_PEGTL_TEST_ASSERT( ri.end() == end );
+
+      const auto begin_position = ri.rewind_position();
+      ri.consume< any >( 1 );
       TAO_PEGTL_TEST_ASSERT( !ri.empty() );
       TAO_PEGTL_TEST_ASSERT( ri.size() == 3 );
-      TAO_PEGTL_TEST_ASSERT( ri.start() == in.start() + 1 );
-      TAO_PEGTL_TEST_ASSERT( ri.start() + 4 == in.current() );
-      TAO_PEGTL_TEST_ASSERT( ri.current() == in.start() + 2 );
-      TAO_PEGTL_TEST_ASSERT( ri.current() + 3 == in.current() );
-      TAO_PEGTL_TEST_ASSERT( ri.previous( pr ) == in.start() + 1 );
-      TAO_PEGTL_TEST_ASSERT( ri.previous( pr ) + 4 == in.current() );
-      TAO_PEGTL_TEST_ASSERT( ri.end() == in.current() );
-      ri.rewind_to_position( pr );
+      TAO_PEGTL_TEST_ASSERT( ri.start() == begin );
+      TAO_PEGTL_TEST_ASSERT( ri.current() == begin + 1 );
+      TAO_PEGTL_TEST_ASSERT( ri.current() == in.current() );
+      TAO_PEGTL_TEST_ASSERT( ri.end() == end );
+      TAO_PEGTL_TEST_ASSERT( ri.previous( begin_position ) == begin );
+
+      ri.restart();
       TAO_PEGTL_TEST_ASSERT( !ri.empty() );
       TAO_PEGTL_TEST_ASSERT( ri.size() == 4 );
-      TAO_PEGTL_TEST_ASSERT( ri.start() == in.start() + 1 );
-      TAO_PEGTL_TEST_ASSERT( ri.start() + 4 == in.current() );
-      TAO_PEGTL_TEST_ASSERT( ri.current() == in.start() + 1 );
-      TAO_PEGTL_TEST_ASSERT( ri.current() + 4 == in.current() );
-      TAO_PEGTL_TEST_ASSERT( ri.end() == in.current() );
+      TAO_PEGTL_TEST_ASSERT( ri.current() == begin );
+      TAO_PEGTL_TEST_ASSERT( ri.current() == in.current() );
+      TAO_PEGTL_TEST_ASSERT( ri.end() == end );
+
+      ri.consume< any >( 2 );
+      ri.rewind_to_position( begin_position );
+      TAO_PEGTL_TEST_ASSERT( !ri.empty() );
+      TAO_PEGTL_TEST_ASSERT( ri.size() == 4 );
+      TAO_PEGTL_TEST_ASSERT( ri.current() == begin );
+      TAO_PEGTL_TEST_ASSERT( ri.current() == in.current() );
+
+      in.rewind_to_position( end_position );
+      TAO_PEGTL_TEST_ASSERT( ri.empty() );
+      TAO_PEGTL_TEST_ASSERT( ri.size() == 0 );
+      TAO_PEGTL_TEST_ASSERT( ri.current() == end );
+      TAO_PEGTL_TEST_ASSERT( ri.current() == in.current() );
+
       ri.restart();
       ri.consume< any >( 1 );
       const auto p1 = ri.current_position();
       TAO_PEGTL_TEST_ASSERT( p1.count == 2 );
-      const auto p2 = ri.previous_position( pr );
+      const auto p2 = ri.previous_position( begin_position );
       TAO_PEGTL_TEST_ASSERT( p2.count == 1 );
    }
 

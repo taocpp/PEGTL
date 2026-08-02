@@ -17,6 +17,18 @@ namespace TAO_PEGTL_NAMESPACE
    struct E : star< A, B > {};
    struct F : seq< E > {};
 
+   struct rematch_head : string< 'a', '\n', 'b' > {};
+   struct rematch_a : one< 'a' > {};
+   struct rematch_b : one< 'b' > {};
+   struct rematch_check : seq< rematch_a, eol, rematch_b, eof > {};
+   struct rematch_grammar : rematch< rematch_head, rematch_check > {};
+
+   struct rematch_test_kw : TAO_PEGTL_KEYWORD( "test" ) {};
+   struct rematch_keyword : sor< rematch_test_kw > {};
+   struct rematch_identifier : plus< alpha > {};
+   struct rematch_identifier_minus_keyword : minus< rematch_identifier, rematch_keyword > {};
+   struct rematch_minus_grammar : seq< rematch_identifier_minus_keyword, eof > {};
+
 #if defined( __cpp_exceptions )
    struct D2 : sor< try_catch_return_false< if_must< A, B > >, seq< A, C > > {};
 #else
@@ -36,6 +48,48 @@ namespace TAO_PEGTL_NAMESPACE
                                            parse_tree::discard_empty::on< B >,
                                            parse_tree::discard_empty::on< F >,
                                            parse_tree::fold_one::on< E > >;
+
+   template< typename Rule >
+   using rematch_selector = parse_tree::selector< Rule,
+                                                  parse_tree::store_content::on< rematch_a, rematch_b > >;
+
+   template< typename Rule >
+   using rematch_minus_selector = parse_tree::selector< Rule,
+                                                        parse_tree::store_content::on< rematch_test_kw > >;
+
+   template< typename Input >
+   class source_rewind_input
+      : public Input
+   {
+   public:
+      using data_t = typename Input::data_t;
+      using error_position_t = typename Input::error_position_t;
+      using rewind_position_t = error_position_t;
+
+      using Input::Input;
+      using Input::previous;
+      using Input::previous_position;
+
+      [[nodiscard]] auto rewind_position() const
+      {
+         return Input::current_position();
+      }
+
+      [[nodiscard]] const data_t* previous( const rewind_position_t& saved ) const noexcept
+      {
+         return Input::previous( saved.base() );
+      }
+
+      void rewind_to_position( const rewind_position_t& saved ) noexcept
+      {
+         Input::rewind_to_position( saved.base() );
+      }
+
+      [[nodiscard]] auto previous_position( const rewind_position_t& saved ) const
+      {
+         return saved;
+      }
+   };
 
    void unit_test()
    {
@@ -146,6 +200,79 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( internal->children.size() == 2 );
          TAO_PEGTL_TEST_ASSERT( internal->children.front()->is_type< A >() );
          TAO_PEGTL_TEST_ASSERT( internal->children.back()->is_type< C >() );
+      }
+
+      {
+         std::string data( "a\nb" );
+         text_view_input< ascii::scan::lf, char, std::string, std::string > in( "source", data );
+         const auto r = parse_tree::parse< rematch_grammar, rematch_selector >( in );
+         TAO_PEGTL_TEST_ASSERT( r );
+         TAO_PEGTL_TEST_ASSERT( r->children.size() == 2 );
+
+         const auto& a = r->children.front();
+         TAO_PEGTL_TEST_ASSERT( a->is_type< rematch_a >() );
+         TAO_PEGTL_TEST_ASSERT( a->data == "a" );
+         TAO_PEGTL_TEST_ASSERT( a->begin.source == "source" );
+         TAO_PEGTL_TEST_ASSERT( a->begin == text_position_with_source( "source", text_position( 1, 1, 0 ) ) );
+         TAO_PEGTL_TEST_ASSERT( a->end == text_position_with_source( "source", text_position( 1, 2, 1 ) ) );
+
+         const auto& b = r->children.back();
+         TAO_PEGTL_TEST_ASSERT( b->is_type< rematch_b >() );
+         TAO_PEGTL_TEST_ASSERT( b->data == "b" );
+         TAO_PEGTL_TEST_ASSERT( b->begin == text_position_with_source( "source", text_position( 2, 1, 2 ) ) );
+         TAO_PEGTL_TEST_ASSERT( b->end == text_position_with_source( "source", text_position( 2, 2, 3 ) ) );
+      }
+
+      {
+         using input_t = source_rewind_input< text_view_input< ascii::scan::lf, char, std::string, std::string > >;
+
+         std::string data( "a\nb" );
+         input_t in( "source", data );
+         const auto r = parse_tree::parse< rematch_grammar, rematch_selector >( in );
+         TAO_PEGTL_TEST_ASSERT( r );
+         TAO_PEGTL_TEST_ASSERT( r->children.size() == 2 );
+         TAO_PEGTL_TEST_ASSERT( r->children.front()->data == "a" );
+         TAO_PEGTL_TEST_ASSERT( r->children.front()->begin == text_position_with_source( "source", text_position( 1, 1, 0 ) ) );
+         TAO_PEGTL_TEST_ASSERT( r->children.front()->end == text_position_with_source( "source", text_position( 1, 2, 1 ) ) );
+         TAO_PEGTL_TEST_ASSERT( r->children.back()->data == "b" );
+         TAO_PEGTL_TEST_ASSERT( r->children.back()->begin == text_position_with_source( "source", text_position( 2, 1, 2 ) ) );
+         TAO_PEGTL_TEST_ASSERT( r->children.back()->end == text_position_with_source( "source", text_position( 2, 2, 3 ) ) );
+      }
+
+      {
+         std::string data( "a\nb" );
+         view_input< ascii::scan::lf, char, std::string, std::string > in( "source", data );
+         const auto r = parse_tree::parse< rematch_grammar, rematch_selector >( in );
+         TAO_PEGTL_TEST_ASSERT( r );
+         TAO_PEGTL_TEST_ASSERT( r->children.size() == 2 );
+         TAO_PEGTL_TEST_ASSERT( r->children.front()->data == "a" );
+         TAO_PEGTL_TEST_ASSERT( r->children.front()->begin.count == 0 );
+         TAO_PEGTL_TEST_ASSERT( r->children.front()->end.count == 1 );
+         TAO_PEGTL_TEST_ASSERT( r->children.back()->data == "b" );
+         TAO_PEGTL_TEST_ASSERT( r->children.back()->begin.count == 2 );
+         TAO_PEGTL_TEST_ASSERT( r->children.back()->end.count == 3 );
+      }
+
+      {
+         std::string data( "content" );
+         text_view_input< ascii::scan::lf, char, std::string, std::string > in( "source", data );
+         const auto r = parse_tree::parse< rematch_minus_grammar, rematch_minus_selector >( in );
+         TAO_PEGTL_TEST_ASSERT( r );
+         TAO_PEGTL_TEST_ASSERT( r->children.empty() );
+      }
+
+      {
+         std::string data( "testing" );
+         text_view_input< ascii::scan::lf, char, std::string, std::string > in( "source", data );
+         const auto r = parse_tree::parse< rematch_minus_grammar, rematch_minus_selector >( in );
+         TAO_PEGTL_TEST_ASSERT( r );
+         TAO_PEGTL_TEST_ASSERT( r->children.empty() );
+      }
+
+      {
+         std::string data( "test" );
+         text_view_input< ascii::scan::lf, char, std::string, std::string > in( "source", data );
+         TAO_PEGTL_TEST_ASSERT( !parse_tree::parse< rematch_minus_grammar, rematch_minus_selector >( in ) );
       }
    }
 
