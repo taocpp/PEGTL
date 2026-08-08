@@ -32,16 +32,10 @@ namespace TAO_PEGTL_NAMESPACE
          using type = nothing< Rule >;
       };
 
-      template< typename Rule, template< typename, typename... > class Clause, typename Action, typename... Rules >
-      struct tuple_to_action< Rule, std::tuple< Clause< Action, Rules... > > >
+      template< typename Rule, typename Clause >
+      struct tuple_to_action< Rule, std::tuple< Clause > >
       {
-         using type = Action;
-      };
-
-      template< typename Rule, template< template< typename... > class, typename... > class Clause, template< typename... > class Action, typename... Rules >
-      struct tuple_to_action< Rule, std::tuple< Clause< Action, Rules... > > >
-      {
-         using type = Action< Rule >;
+         using type = Clause::template action< Rule >;
       };
 
       template< typename Rule, typename... Clauses >
@@ -66,6 +60,9 @@ namespace TAO_PEGTL_NAMESPACE
    {
       template< typename Rule >
       static constexpr bool enable = ( std::is_same_v< Rule, Rules > || ... );
+
+      template< typename >
+      using action = Action;
    };
 
    template< template< typename... > class Action, typename... Rules >
@@ -73,6 +70,9 @@ namespace TAO_PEGTL_NAMESPACE
    {
       template< typename Rule >
       static constexpr bool enable = ( std::is_same_v< Rule, Rules > || ... );
+
+      template< typename Rule >
+      using action = Action< Rule >;
    };
 
    template< typename Action, typename... Clauses >
@@ -80,6 +80,9 @@ namespace TAO_PEGTL_NAMESPACE
    {
       template< typename Rule >
       static constexpr bool enable = ( ( !Clauses::template enable< Rule > ) && ... );
+
+      template< typename >
+      using action = Action;
    };
 
    template< typename Action, typename... Clauses >
@@ -92,6 +95,9 @@ namespace TAO_PEGTL_NAMESPACE
    {
       template< typename Rule >
       static constexpr bool enable = ( ( !Clauses::template enable< Rule > ) && ... );
+
+      template< typename Rule >
+      using action = Action< Rule >;
    };
 
    template< template< typename... > class Action, typename... Clauses >
