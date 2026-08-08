@@ -62,6 +62,13 @@ namespace TAO_PEGTL_NAMESPACE
    static_assert( std::is_same_v< type_list_concat_t< type_list< int, unsigned >, type_list< char, void > >, type_list< int, unsigned, char, void > > );
    static_assert( std::is_same_v< type_list_concat_t< type_list< int >, type_list< char, void >, type_list< unsigned > >, type_list< int, char, void, unsigned > > );
 
+   static_assert( std::is_same_v< type_list_head_t< int >, int > );
+   static_assert( std::is_same_v< type_list_head_t< int, double >, int > );
+   static_assert( std::is_same_v< type_list_head_t< int, double, char >, int > );
+   static_assert( std::is_same_v< type_list_head_t< type_list< int > >, int > );
+   static_assert( std::is_same_v< type_list_head_t< type_list< int, double > >, int > );
+   static_assert( std::is_same_v< type_list_head_t< type_list< int, double, char > >, int > );
+
 }  // namespace TAO_PEGTL_NAMESPACE
 
 int main()

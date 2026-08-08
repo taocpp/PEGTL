@@ -23,6 +23,30 @@ namespace TAO_PEGTL_NAMESPACE
    using empty_list = type_list<>;
 
    template< typename... >
+   struct type_list_head;
+
+   template< typename Head >
+   struct type_list_head< Head >
+   {
+      using type = Head;
+   };
+
+   template< typename Head, typename... Tail >
+   struct type_list_head< type_list< Head, Tail... > >
+   {
+      using type = Head;
+   };
+
+   template< typename Head, typename... Tail >
+   struct type_list_head< Head, Tail... >
+   {
+      using type = Head;
+   };
+
+   template< typename... Ts >
+   using type_list_head_t = typename type_list_head< Ts... >::type;
+
+   template< typename... >
    struct type_list_append;
 
    template< typename... Ts, typename... As >
