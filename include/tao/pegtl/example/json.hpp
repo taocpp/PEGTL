@@ -29,21 +29,22 @@ namespace TAO_PEGTL_NAMESPACE::json
    struct name_separator : pad< one< ':' >, ws > {};
    struct value_separator : padr< one< ',' > > {};
 
-   struct false_ : string< 'f', 'a', 'l', 's', 'e' > {};  // NOLINT(readability-identifier-naming)
-   struct null : string< 'n', 'u', 'l', 'l' > {};
-   struct true_ : string< 't', 'r', 'u', 'e' > {};  // NOLINT(readability-identifier-naming)
+   struct false_ : string< 'f', 'a', 'l', 's', 'e' > { using case_t = one< 'f' >; };  // NOLINT(readability-identifier-naming)
+   struct null : string< 'n', 'u', 'l', 'l' > { using case_t = one< 'n' >; };
+   struct true_ : string< 't', 'r', 'u', 'e' > { using case_t = one< 't' >; };  // NOLINT(readability-identifier-naming)
 
    struct digits : plus< digit > {};
    struct exp : seq< one< 'e', 'E' >, opt< one< '-', '+' > >, digits > {};
    struct frac : seq< one< '.' >, digits > {};
    struct int_ : sor< one< '0' >, plus< digit > > {};  // NOLINT(readability-identifier-naming)
-   struct number : seq< opt< one< '-' > >, int_, opt< frac >, opt< exp > > {};
+   struct number : seq< opt< one< '-' > >, int_, opt< frac >, opt< exp > > { using case_t = any; };
 
    struct char_ : json_character {};  // NOLINT(readability-identifier-naming)
 
    struct string_content : until< at< one< '"' > >, char_ > {};
    struct string : seq< one< '"' >, string_content, consume< 1 > >
    {
+      using case_t = one< '"' >;
       using content = string_content;
    };
 
@@ -60,6 +61,7 @@ namespace TAO_PEGTL_NAMESPACE::json
    struct array_content : opt< array_element, star< value_separator, next_array_element > > {};
    struct array : seq< begin_array, array_content, end_array >
    {
+      using case_t = one< '[' >;
       using begin = begin_array;
       using end = end_array;
       using element = array_element;
@@ -72,13 +74,14 @@ namespace TAO_PEGTL_NAMESPACE::json
    struct object_content : opt< member, star< value_separator, next_member > > {};
    struct object : seq< begin_object, object_content, end_object >
    {
+      using case_t = one< '{' >;
       using begin = begin_object;
       using end = end_object;
       using element = member;
       using content = object_content;
    };
 
-   struct value : sor< string, number, object, array, false_, true_, null > {};
+   struct value : sor1< null, true_, false_, array, object, string, number > {};
    struct array_element : padr< value > {};
 
    struct text : pad< value, ws > {};

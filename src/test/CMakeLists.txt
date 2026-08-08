@@ -238,6 +238,7 @@ set(test_sources
   rule_seq.cpp
   rule_source.cpp
   rule_sor.cpp
+  rule_sor1.cpp
   rule_star.cpp
   rule_star_must.cpp
   rule_star_partial.cpp

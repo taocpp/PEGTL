@@ -273,6 +273,11 @@ namespace TAO_PEGTL_NAMESPACE
       : analyze_sor_traits< Rule, Rules... >
    {};
 
+   template< typename Name, typename Rule, typename... Rules >
+   struct analyze_traits< Name, internal::sor1< Rule, Rules... > >
+      : analyze_sor_traits< Rule, Rules... >
+   {};
+
    template< typename Name, typename Rule >
    struct analyze_traits< Name, internal::source< Rule > >
       : analyze_opt_traits<>

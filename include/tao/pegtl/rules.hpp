@@ -64,6 +64,7 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Sep, typename Pad, typename... Rules > struct separated_pad : internal::separated_pad< type_list<>, Sep, Pad, Rules... > {};
    template< typename... Rules > struct seq : internal::seq< Rules... > {};
    template< typename... Rules > struct sor : internal::sor< Rules... > {};
+   template< typename... Rules > struct sor1 : internal::sor1< Rules... > {};
    template< typename Rule > struct source : internal::source< Rule > {};
    template< typename Rule, typename... Rules > struct star : internal::star< Rule, Rules... > {};
    template< typename Rule, typename... Rules > struct star_partial : internal::star_partial< Rule, Rules... > {};
