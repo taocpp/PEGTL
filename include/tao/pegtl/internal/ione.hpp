@@ -8,8 +8,8 @@
 #include "../config.hpp"
 
 #include "enable_control.hpp"
-#include "match_mode.hpp"
 #include "ione_not_ione.hpp"
+#include "match_mode.hpp"
 #include "terminal.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal

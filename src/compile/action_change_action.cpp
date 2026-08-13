@@ -32,8 +32,8 @@ struct action< action_rule >
 #if TAO_PEGTL_COMPILE_ACCEPT
    : pegtl::change_action< other_action >
 #else
-// include/tao/pegtl/action/change_action.hpp
-// static_assert( !std::is_same_v< Action< void >, NewAction< void > >, "Old and new action class templates coincide!" );
+   // include/tao/pegtl/action/change_action.hpp
+   // static_assert( !std::is_same_v< Action< void >, NewAction< void > >, "Old and new action class templates coincide!" );
    : pegtl::change_action< action >
 #endif
 {};

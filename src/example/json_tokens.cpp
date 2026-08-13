@@ -109,7 +109,6 @@ namespace example
       : token_char_action
    {};
 
-
    template<>
    struct lexer_action< pegtl::json::string::content >
       : pegtl::change_action_and_state< pegtl::unescape, std::string >
@@ -119,7 +118,6 @@ namespace example
       {
          out.emplace_back( token_type::string, unescaped );
       }
-
    };
 
    template<>

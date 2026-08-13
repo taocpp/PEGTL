@@ -29,7 +29,7 @@ namespace example
       {}
    };
 
-}  // namespace
+}  // namespace example
 
 int main()
 {

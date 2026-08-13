@@ -14,8 +14,8 @@ struct control
 #if TAO_PEGTL_COMPILE_ACCEPT
    : pegtl::remove_last_states_r< 0, pegtl::normal, Rule >
 #else
-// include/tao/pegtl/control/remove_last_states.hpp
-// static_assert( S >= N );
+   // include/tao/pegtl/control/remove_last_states.hpp
+   // static_assert( S >= N );
    : pegtl::remove_last_states_r< 1, pegtl::normal, Rule >
 #endif
 {};

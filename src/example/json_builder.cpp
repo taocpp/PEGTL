@@ -57,16 +57,14 @@ namespace example
    template<>
    struct action< rules::value >
       : pegtl::variant_to<
-         &value::data,
-         pegtl::const_for< rules::null, nullptr >,
-         pegtl::cases< pegtl::case_< rules::false_, false >,
-                       pegtl::case_< rules::true_, true > >,
-         rules::number,
-         pegtl::unescape_for< rules::string_content >,
-         pegtl::repeat_for< rules::array, json_value< rules::array_element > >,
-         pegtl::repeat_for< rules::object, pegtl::multi_for< rules::member,
-                                                             pegtl::unescape_for< rules::key_content >,
-                                                             json_value< rules::member_value > > > >
+           &value::data,
+           pegtl::const_for< rules::null, nullptr >,
+           pegtl::cases< pegtl::case_< rules::false_, false >,
+                         pegtl::case_< rules::true_, true > >,
+           rules::number,
+           pegtl::unescape_for< rules::string_content >,
+           pegtl::repeat_for< rules::array, json_value< rules::array_element > >,
+           pegtl::repeat_for< rules::object, pegtl::multi_for< rules::member, pegtl::unescape_for< rules::key_content >, json_value< rules::member_value > > > >
    {};
 
    // A simple function to do ... something with the parsed JSON.
@@ -93,7 +91,8 @@ namespace example
          else {
             return 1;
          }
-      }, v.data );
+      },
+                         v.data );
    }
 
 }  // namespace example

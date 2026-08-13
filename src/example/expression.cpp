@@ -146,14 +146,14 @@ namespace TAO_PEGTL_NAMESPACE::expression
       {
          operator_maps()
             : prefix( sorted_operator_vector(
-               { prefix_info( "!", 80 ),
-                 prefix_info( "+", 80 ),
-                 prefix_info( "-", 80 ),
-                 prefix_info( "~", 80 ),
-                 prefix_info( "*", 80 ),
-                 prefix_info( "&", 80 ),
-                 prefix_info( "++", 80 ),
-                 prefix_info( "--", 80 ) } ) ),
+                 { prefix_info( "!", 80 ),
+                   prefix_info( "+", 80 ),
+                   prefix_info( "-", 80 ),
+                   prefix_info( "~", 80 ),
+                   prefix_info( "*", 80 ),
+                   prefix_info( "&", 80 ),
+                   prefix_info( "++", 80 ),
+                   prefix_info( "--", 80 ) } ) ),
               infix_postfix( sorted_operator_vector(
                  { infix_postfix_info( "::", 99, 100 ),  // Special: Followed by identifier (or template-space-identifer, which we don't support yet).
                    infix_postfix_info( ".*", 37, 38 ),
@@ -214,10 +214,8 @@ namespace TAO_PEGTL_NAMESPACE::expression
       {
          template< apply_mode A,
                    rewind_mode M,
-                   template< typename... >
-                   class Action,
-                   template< typename... >
-                   class Control,
+                   template< typename... > class Action,
+                   template< typename... > class Control,
                    typename ParseInput >
          [[nodiscard]] static bool match( ParseInput& in, const std::string_view sv ) noexcept( noexcept( match_string_view( in, sv ) ) )
          {
@@ -241,10 +239,8 @@ namespace TAO_PEGTL_NAMESPACE::expression
       {
          template< apply_mode A,
                    rewind_mode M,
-                   template< typename... >
-                   class Action,
-                   template< typename... >
-                   class Control,
+                   template< typename... > class Action,
+                   template< typename... > class Control,
                    typename ParseInput,
                    typename Result,
                    typename Config >
@@ -259,10 +255,8 @@ namespace TAO_PEGTL_NAMESPACE::expression
       {
          template< apply_mode A,
                    rewind_mode M,
-                   template< typename... >
-                   class Action,
-                   template< typename... >
-                   class Control,
+                   template< typename... > class Action,
+                   template< typename... > class Control,
                    typename ParseInput,
                    typename Result,
                    typename Config >
@@ -284,10 +278,8 @@ namespace TAO_PEGTL_NAMESPACE::expression
       {
          template< apply_mode A,
                    rewind_mode M,
-                   template< typename... >
-                   class Action,
-                   template< typename... >
-                   class Control,
+                   template< typename... > class Action,
+                   template< typename... > class Control,
                    typename ParseInput,
                    typename Result,
                    typename Config >
@@ -357,10 +349,8 @@ namespace TAO_PEGTL_NAMESPACE::expression
 
       template< apply_mode A,
                 rewind_mode M,
-                template< typename... >
-                class Action,
-                template< typename... >
-                class Control,
+                template< typename... > class Action,
+                template< typename... > class Control,
                 typename ParseInput,
                 typename Result >
       [[nodiscard]] static bool match( ParseInput& in, Result& res )
@@ -371,10 +361,8 @@ namespace TAO_PEGTL_NAMESPACE::expression
 
       template< apply_mode A,
                 rewind_mode M,
-                template< typename... >
-                class Action,
-                template< typename... >
-                class Control,
+                template< typename... > class Action,
+                template< typename... > class Control,
                 typename ParseInput,
                 typename Result,
                 typename Config >
