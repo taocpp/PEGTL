@@ -85,15 +85,15 @@ template< typename T >
    return tmp.substr( 0, end );
 }
 
-#elif( __GNUC__ == 9 ) && ( __GNUC_MINOR__ < 3 )
+#elif( ( __GNUC__ == 9 ) && ( __GNUC_MINOR__ < 3 ) ) || ( ( __GNUC__ == 16 ) && ( __GNUC_MINOR__ < 2 ) )
 
 #if !defined( __cpp_rtti )
-#error "RTTI support required for GCC 9.1/9.2"
+#error "RTTI support required for GCC 9.1/9.2/16.1"
 #else
 
 #include <typeinfo>
 
-// GCC 9.1 and 9.2 have a bug that leads to truncated __PRETTY_FUNCTION__ names,
+// GCC 9.1/9.2/16.1 have a bug that leads to truncated __PRETTY_FUNCTION__ names,
 // see https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91155
 template< typename T >
 [[nodiscard]] constexpr std::string_view TAO_PEGTL_NAMESPACE::demangle() noexcept
