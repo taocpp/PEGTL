@@ -5,7 +5,7 @@
 #ifndef TAO_PEGTL_INTERNAL_DEMANGLE_CLANG_HPP
 #define TAO_PEGTL_INTERNAL_DEMANGLE_CLANG_HPP
 
-#if ( ( __GNUC__ == 9 ) && ( __GNUC_MINOR__ < 3 ) ) || ( __GNUC__ == 16 )
+#if ( ( __GNUC__ == 9 ) && ( __GNUC_MINOR__ < 3 ) ) || ( ( __GNUC__ == 16 ) && ( __GNUC_MINOR__ < 2 ) )
 
 // GCC 9.1 and 9.2 can truncate __PRETTY_FUNCTION__.
 // The bug was fixed in 9.3 but is back again in 16.1.
