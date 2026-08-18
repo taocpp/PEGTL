@@ -23,7 +23,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename ParseInput >
       [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( in.size( Num ) ) )
       {
-         (void)in.size( Num );
+         ( void )in.size( Num );
          return true;
       }
    };

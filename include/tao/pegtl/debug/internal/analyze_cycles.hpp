@@ -168,7 +168,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       explicit analyze_cycles( const int verbose )
          : analyze_cycles_impl( verbose )
       {
-         (void)analyze_insert< Grammar >( m_entries );
+         ( void )analyze_insert< Grammar >( m_entries );
       }
    };
 

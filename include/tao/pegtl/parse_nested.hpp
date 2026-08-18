@@ -39,7 +39,7 @@ namespace TAO_PEGTL_NAMESPACE
          Control< Rule >::raise_nested( am, in, st... );
       }
 #else
-      (void)am;
+      ( void )am;
       return parse< Rule, Action, Control, A, M >( in, st... );
 #endif
    }

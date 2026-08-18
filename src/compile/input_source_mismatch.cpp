@@ -20,6 +20,6 @@ using input = pegtl::text_view_input< pegtl::default_eol, char, std::string, int
 
 int main()
 {
-   (void)sizeof( input );
+   ( void )sizeof( input );
    return 0;
 }

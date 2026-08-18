@@ -20,6 +20,6 @@ using rule = pegtl::partial_apply1< pegtl::one< 'a' > >;
 
 int main()
 {
-   (void)sizeof( rule );
+   ( void )sizeof( rule );
    return 0;
 }

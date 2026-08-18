@@ -28,7 +28,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
-         (void)( Control< Rules >::template match< A, rewind_mode::required, Action, Control >( in, st... ) && ... );
+         ( void )( Control< Rules >::template match< A, rewind_mode::required, Action, Control >( in, st... ) && ... );
          return true;
       }
    };

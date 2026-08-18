@@ -167,7 +167,7 @@ namespace TAO_PEGTL_NAMESPACE
       }
       {
          view_input<> in( "bd" );
-         TAO_PEGTL_TEST_THROWS( (void)parse< test_grammar, test_action, test_shuffle_control >( in, i, f, b, z ) );
+         TAO_PEGTL_TEST_THROWS( ( void )parse< test_grammar, test_action, test_shuffle_control >( in, i, f, b, z ) );
       }
    }
 

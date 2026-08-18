@@ -20,6 +20,6 @@ using position = pegtl::position_with_source< const std::string, pegtl::pointer_
 
 int main()
 {
-   (void)sizeof( position );
+   ( void )sizeof( position );
    return 0;
 }

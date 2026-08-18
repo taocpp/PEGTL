@@ -15,7 +15,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    inline constexpr bool has_restart = false;
 
    template< typename Input >
-   inline constexpr bool has_restart< Input, decltype( (void)std::declval< Input >().restart() ) > = true;
+   inline constexpr bool has_restart< Input, decltype( ( void )std::declval< Input >().restart() ) > = true;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

@@ -74,14 +74,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
       [[nodiscard]] const data_t* begin_of_line( const error_position_t& pos, const std::size_t max = 135 ) const noexcept
       {
          // assert( pos.column > 0 );
-         return previous( pos ) - (std::min)( max, pos.column - 1 );
+         return previous( pos ) - ( std::min )( max, pos.column - 1 );
       }
 
       [[nodiscard]] const data_t* end_of_line_or_file( const error_position_t& pos, const std::size_t max = 135 ) const
       {
          using grammar = until< at< sor< eof, eol_rule > >, any< typename eol_rule::eol_lazy_peek > >;
          const data_t* p = previous( pos );  // TODO: Start earlier?
-         const std::size_t s = (std::min)( max, std::size_t( this->end() - p ) );
+         const std::size_t s = ( std::min )( max, std::size_t( this->end() - p ) );
          scan_input< data_t > in( p, s );
          if( normal< grammar >::template match< apply_mode::disabled, rewind_mode::optional, nothing, normal >( in ) ) {
             return in.current();

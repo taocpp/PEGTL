@@ -24,7 +24,7 @@ using selector = pegtl::parse_tree::selector< selected_rule, pegtl::parse_tree::
 int main()
 {
 #if TAO_PEGTL_COMPILE_ACCEPT
-   (void)sizeof( selector );
+   ( void )sizeof( selector );
 #endif
    return 0;
 }

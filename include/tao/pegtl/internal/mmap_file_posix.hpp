@@ -75,7 +75,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             const std::error_code ec( errno, std::system_category() );
             throw std::filesystem::filesystem_error( "fstat() failed", path, ec );
 #else
-            (void)path;
+            ( void )path;
             std::perror( "fstat() failed" );
             std::terminate();
 #endif
@@ -102,7 +102,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             const std::error_code ec( errno, std::system_category() );
             throw std::filesystem::filesystem_error( "mmap() failed", path, ec );
 #else
-            (void)path;
+            ( void )path;
             std::perror( "mmap() failed" );
             std::terminate();
 #endif

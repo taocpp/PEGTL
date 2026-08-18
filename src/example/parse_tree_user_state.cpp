@@ -36,6 +36,6 @@ int main()
    example::user_state state;
    pegtl::text_view_input input( "" );
    auto root = pegtl::parse_tree::parse< pegtl::success, example::selector, example::work >( input, state );
-   (void)root;
+   ( void )root;
    return 0;
 }

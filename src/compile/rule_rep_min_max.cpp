@@ -18,6 +18,6 @@ using rule = pegtl::rep_min_max< 2, 1, pegtl::any >;
 
 int main()
 {
-   (void)sizeof( rule );
+   ( void )sizeof( rule );
    return 0;
 }

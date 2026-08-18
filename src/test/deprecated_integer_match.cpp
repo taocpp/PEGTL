@@ -78,7 +78,7 @@ namespace TAO_PEGTL_NAMESPACE
    {
       std::uint16_t result = 0;
       view_input<> in( sv );
-      TAO_PEGTL_TEST_THROWS( (void)internal::match_and_convert_unsigned_with_maximum_throws( in, result ) );
+      TAO_PEGTL_TEST_THROWS( ( void )internal::match_and_convert_unsigned_with_maximum_throws( in, result ) );
    }
 
    void test_unsigned_with_maximum_throws()

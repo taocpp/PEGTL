@@ -38,7 +38,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
                case Open:
                   marker_size = i + 1;
                   in.template consume< raw_string_open >( marker_size );
-                  (void)Control< eol >::template match< A, M, Action, Control >( in );
+                  ( void )Control< eol >::template match< A, M, Action, Control >( in );
                   return true;
                case Marker:
                   break;

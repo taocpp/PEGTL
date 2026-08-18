@@ -19,6 +19,6 @@ using rule = pegtl::utf8::string< 0xd800 >;
 
 int main()
 {
-   (void)sizeof( rule );
+   ( void )sizeof( rule );
    return 0;
 }

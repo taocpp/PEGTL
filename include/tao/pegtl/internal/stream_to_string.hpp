@@ -17,7 +17,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    [[nodiscard]] std::string stream_to_string( const Ts&... ts )
    {
       std::ostringstream oss;
-      (void)( oss << ... << ts );
+      ( void )( oss << ... << ts );
       return std::move( oss ).str();
    }
 

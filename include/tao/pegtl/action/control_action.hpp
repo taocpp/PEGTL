@@ -21,7 +21,7 @@ namespace TAO_PEGTL_NAMESPACE
       inline constexpr bool action_has_unwind = false;
 
       template< typename Rule, template< typename... > class Action, typename ParseInput, typename... States >
-      inline constexpr bool action_has_unwind< decltype( (void)Action< Rule >::unwind( std::declval< const ParseInput& >(), std::declval< States&& >()... ) ), Rule, Action, ParseInput, States... > = true;
+      inline constexpr bool action_has_unwind< decltype( ( void )Action< Rule >::unwind( std::declval< const ParseInput& >(), std::declval< States&& >()... ) ), Rule, Action, ParseInput, States... > = true;
 
    }  // namespace internal
 

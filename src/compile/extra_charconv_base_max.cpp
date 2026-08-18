@@ -18,6 +18,6 @@ using rule = pegtl::from_chars_nothrow< int, 37 >;
 
 int main()
 {
-   (void)sizeof( rule );
+   ( void )sizeof( rule );
    return 0;
 }
