@@ -5,8 +5,8 @@
 #include <type_traits>
 
 #include "test.hpp"
-#include "verify_ctrl.hpp"
 #include "verify_char.hpp"
+#include "verify_ctrl.hpp"
 #include "verify_meta.hpp"
 #include "verify_rule.hpp"
 

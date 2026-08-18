@@ -18,6 +18,6 @@ using rule = pegtl::astring< 0, 'a', 'b' >;
 
 int main()
 {
-   (void)sizeof( rule );
+   ( void )sizeof( rule );
    return 0;
 }

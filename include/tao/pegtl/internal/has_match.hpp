@@ -30,7 +30,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
              template< typename... > class Control,
              typename ParseInput,
              typename... States >
-   inline constexpr bool has_match< decltype( (void)Action< Rule >::template match< Rule, A, M, Action, Control >( std::declval< ParseInput& >(), std::declval< States&& >()... ), bool() ), Rule, A, M, Action, Control, ParseInput, States... > = true;
+   inline constexpr bool has_match< decltype( ( void )Action< Rule >::template match< Rule, A, M, Action, Control >( std::declval< ParseInput& >(), std::declval< States&& >()... ), bool() ), Rule, A, M, Action, Control, ParseInput, States... > = true;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

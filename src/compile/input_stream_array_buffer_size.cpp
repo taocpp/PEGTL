@@ -18,6 +18,6 @@ using input = pegtl::array_cstring_input< pegtl::tao_stream_eol, void, void, 8, 
 
 int main()
 {
-   (void)sizeof( input );
+   ( void )sizeof( input );
    return 0;
 }

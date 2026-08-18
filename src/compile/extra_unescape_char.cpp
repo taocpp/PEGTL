@@ -18,6 +18,6 @@ using action = pegtl::unescape_char<>;
 
 int main()
 {
-   (void)sizeof( action );
+   ( void )sizeof( action );
    return 0;
 }

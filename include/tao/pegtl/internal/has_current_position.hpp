@@ -15,7 +15,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    inline constexpr bool has_current_position = false;
 
    template< typename C >
-   inline constexpr bool has_current_position< C, decltype( (void)std::declval< C >().current_position(), void() ) > = true;
+   inline constexpr bool has_current_position< C, decltype( ( void )std::declval< C >().current_position(), void() ) > = true;
 
    // The (void) is to shut up a warning from GCC 9 and 10 about the return value of the nodiscard-function current_position() being ignored.
 

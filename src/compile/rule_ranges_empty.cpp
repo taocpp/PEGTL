@@ -18,6 +18,6 @@ using rule = pegtl::ranges<>;
 
 int main()
 {
-   (void)sizeof( rule );
+   ( void )sizeof( rule );
    return 0;
 }

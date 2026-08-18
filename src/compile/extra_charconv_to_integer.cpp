@@ -28,6 +28,6 @@ using action = pegtl::from_chars_to< &bool_target::value >;
 
 int main()
 {
-   (void)sizeof( action );
+   ( void )sizeof( action );
    return 0;
 }

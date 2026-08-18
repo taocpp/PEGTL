@@ -66,7 +66,7 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( !in.empty() );
          TAO_PEGTL_TEST_ASSERT( in.size() == 6 );
          TAO_PEGTL_TEST_ASSERT( in.current() == start + 5 );
-         (void)p;
+         ( void )p;
       }
       TAO_PEGTL_TEST_ASSERT( !in.empty() );
       TAO_PEGTL_TEST_ASSERT( in.size() == 6 );
@@ -77,7 +77,7 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( !in.empty() );
          TAO_PEGTL_TEST_ASSERT( in.size() == 5 );
          TAO_PEGTL_TEST_ASSERT( in.current() == start + 6 );
-         (void)p;
+         ( void )p;
       }
       TAO_PEGTL_TEST_ASSERT( !in.empty() );
       TAO_PEGTL_TEST_ASSERT( in.size() == 5 );
@@ -88,7 +88,7 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( !in.empty() );
          TAO_PEGTL_TEST_ASSERT( in.size() == 4 );
          TAO_PEGTL_TEST_ASSERT( in.current() == start + 7 );
-         (void)p;
+         ( void )p;
       }
       TAO_PEGTL_TEST_ASSERT( !in.empty() );
       TAO_PEGTL_TEST_ASSERT( in.size() == 4 );

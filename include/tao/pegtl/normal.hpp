@@ -78,7 +78,7 @@ namespace TAO_PEGTL_NAMESPACE
          }
 #else
          static_assert( internal::dependent_false< Rule >, "Exception support required for normal< Rule >::raise()!" );
-         (void)in;
+         ( void )in;
          std::terminate();
 #endif
       }
@@ -95,7 +95,7 @@ namespace TAO_PEGTL_NAMESPACE
          }
 #else
          static_assert( internal::dependent_false< Rule >, "Exception support required for normal< Rule >::raise_nested()!" );
-         (void)am;
+         ( void )am;
          std::terminate();
 #endif
       }

@@ -3,8 +3,8 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
-#include "verify_ctrl.hpp"
 #include "verify_char.hpp"
+#include "verify_ctrl.hpp"
 #include "verify_meta.hpp"
 
 namespace TAO_PEGTL_NAMESPACE

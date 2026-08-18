@@ -18,6 +18,6 @@ using rule = pegtl::aistring< 1, 'a' >;
 
 int main()
 {
-   (void)sizeof( rule );
+   ( void )sizeof( rule );
    return 0;
 }

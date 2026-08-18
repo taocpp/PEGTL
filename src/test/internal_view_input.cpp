@@ -80,7 +80,7 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( in.size() == 3 );
          {
             const auto p = in.rewind_position();
-            (void)p;
+            ( void )p;
             TAO_PEGTL_TEST_ASSERT( in.current() == data + 2 );
             in.consume< std::string >( 1 );
             TAO_PEGTL_TEST_ASSERT( in.current() == data + 3 );

@@ -146,14 +146,14 @@ namespace TAO_PEGTL_NAMESPACE::expression
       {
          operator_maps()
             : prefix( sorted_operator_vector(
-               { prefix_info( "!", 80 ),
-                 prefix_info( "+", 80 ),
-                 prefix_info( "-", 80 ),
-                 prefix_info( "~", 80 ),
-                 prefix_info( "*", 80 ),
-                 prefix_info( "&", 80 ),
-                 prefix_info( "++", 80 ),
-                 prefix_info( "--", 80 ) } ) ),
+                 { prefix_info( "!", 80 ),
+                   prefix_info( "+", 80 ),
+                   prefix_info( "-", 80 ),
+                   prefix_info( "~", 80 ),
+                   prefix_info( "*", 80 ),
+                   prefix_info( "&", 80 ),
+                   prefix_info( "++", 80 ),
+                   prefix_info( "--", 80 ) } ) ),
               infix_postfix( sorted_operator_vector(
                  { infix_postfix_info( "::", 99, 100 ),  // Special: Followed by identifier (or template-space-identifer, which we don't support yet).
                    infix_postfix_info( ".*", 37, 38 ),
@@ -214,10 +214,8 @@ namespace TAO_PEGTL_NAMESPACE::expression
       {
          template< apply_mode A,
                    rewind_mode M,
-                   template< typename... >
-                   class Action,
-                   template< typename... >
-                   class Control,
+                   template< typename... > class Action,
+                   template< typename... > class Control,
                    typename ParseInput >
          [[nodiscard]] static bool match( ParseInput& in, const std::string_view sv ) noexcept( noexcept( match_string_view( in, sv ) ) )
          {
@@ -241,10 +239,8 @@ namespace TAO_PEGTL_NAMESPACE::expression
       {
          template< apply_mode A,
                    rewind_mode M,
-                   template< typename... >
-                   class Action,
-                   template< typename... >
-                   class Control,
+                   template< typename... > class Action,
+                   template< typename... > class Control,
                    typename ParseInput,
                    typename Result,
                    typename Config >
@@ -259,17 +255,15 @@ namespace TAO_PEGTL_NAMESPACE::expression
       {
          template< apply_mode A,
                    rewind_mode M,
-                   template< typename... >
-                   class Action,
-                   template< typename... >
-                   class Control,
+                   template< typename... > class Action,
+                   template< typename... > class Control,
                    typename ParseInput,
                    typename Result,
                    typename Config >
          [[nodiscard]] static bool match( ParseInput& in, Result& res, const Config& cfg, const unsigned /*unused*/ )
          {
             if( const auto* info = match_prefix( in, cfg.max_prefix_length, cfg.prefix ) ) {
-               (void)Control< must< star< ignored >, expression< Literal, Identifier > > >::template match< A, M, Action, Control >( in, res, cfg, info->prefix_binding_power );
+               ( void )Control< must< star< ignored >, expression< Literal, Identifier > > >::template match< A, M, Action, Control >( in, res, cfg, info->prefix_binding_power );
                if constexpr( A == apply_mode::enabled ) {
                   res.prefix( info->name );
                }
@@ -284,10 +278,8 @@ namespace TAO_PEGTL_NAMESPACE::expression
       {
          template< apply_mode A,
                    rewind_mode M,
-                   template< typename... >
-                   class Action,
-                   template< typename... >
-                   class Control,
+                   template< typename... > class Action,
+                   template< typename... > class Control,
                    typename ParseInput,
                    typename Result,
                    typename Config >
@@ -295,16 +287,16 @@ namespace TAO_PEGTL_NAMESPACE::expression
          {
             if( const auto* info = match_infix_postfix( in, cfg.max_infix_postfix_length, cfg.infix_postfix, min ) ) {
                if( info->name == "?" ) {
-                  (void)Control< must< star< ignored >, expression< Literal, Identifier > > >::template match< A, M, Action, Control >( in, res, cfg, 0 );
-                  (void)Control< must< star< ignored >, string_view_rule > >::template match< A, M, Action, Control >( in, info->other );
-                  (void)Control< must< star< ignored >, expression< Literal, Identifier > > >::template match< A, M, Action, Control >( in, res, cfg, info->right_binding_power );
+                  ( void )Control< must< star< ignored >, expression< Literal, Identifier > > >::template match< A, M, Action, Control >( in, res, cfg, 0 );
+                  ( void )Control< must< star< ignored >, string_view_rule > >::template match< A, M, Action, Control >( in, info->other );
+                  ( void )Control< must< star< ignored >, expression< Literal, Identifier > > >::template match< A, M, Action, Control >( in, res, cfg, info->right_binding_power );
                   if constexpr( A == apply_mode::enabled ) {
                      res.ternary( info->name, info->other );
                   }
                   return true;
                }
                if( ( info->name == "." ) || ( info->name == "::" ) || ( info->name == "->" ) ) {
-                  (void)Control< must< star< ignored >, Identifier > >::template match< A, M, Action, Control >( in, res, cfg, 0 );
+                  ( void )Control< must< star< ignored >, Identifier > >::template match< A, M, Action, Control >( in, res, cfg, 0 );
                   if constexpr( A == apply_mode::enabled ) {
                      res.infix( info->name );
                   }
@@ -312,15 +304,15 @@ namespace TAO_PEGTL_NAMESPACE::expression
                }
                if( ( info->name == "(" ) || ( info->name == "[" ) ) {
                   const std::size_t size = res.string_stack.size();  // TODO: Determine number of arguments without relying on res!!!
-                  (void)Control< must< star< ignored >, opt< list_must< expression< Literal, Identifier >, one< ',' >, ignored > > > >::template match< A, M, Action, Control >( in, res, cfg, 0 );
-                  (void)Control< must< star< ignored >, string_view_rule > >::template match< A, M, Action, Control >( in, info->other );
+                  ( void )Control< must< star< ignored >, opt< list_must< expression< Literal, Identifier >, one< ',' >, ignored > > > >::template match< A, M, Action, Control >( in, res, cfg, 0 );
+                  ( void )Control< must< star< ignored >, string_view_rule > >::template match< A, M, Action, Control >( in, info->other );
                   if constexpr( A == apply_mode::enabled ) {
                      res.call( info->name, info->other, res.string_stack.size() - size );
                   }
                   return true;
                }
                if( info->is_infix() ) {
-                  (void)Control< must< star< ignored >, expression< Literal, Identifier > > >::template match< A, M, Action, Control >( in, res, cfg, info->right_binding_power );
+                  ( void )Control< must< star< ignored >, expression< Literal, Identifier > > >::template match< A, M, Action, Control >( in, res, cfg, info->right_binding_power );
                   if constexpr( A == apply_mode::enabled ) {
                      res.infix( info->name );
                   }
@@ -357,10 +349,8 @@ namespace TAO_PEGTL_NAMESPACE::expression
 
       template< apply_mode A,
                 rewind_mode M,
-                template< typename... >
-                class Action,
-                template< typename... >
-                class Control,
+                template< typename... > class Action,
+                template< typename... > class Control,
                 typename ParseInput,
                 typename Result >
       [[nodiscard]] static bool match( ParseInput& in, Result& res )
@@ -371,10 +361,8 @@ namespace TAO_PEGTL_NAMESPACE::expression
 
       template< apply_mode A,
                 rewind_mode M,
-                template< typename... >
-                class Action,
-                template< typename... >
-                class Control,
+                template< typename... > class Action,
+                template< typename... > class Control,
                 typename ParseInput,
                 typename Result,
                 typename Config >

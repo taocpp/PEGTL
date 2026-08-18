@@ -66,7 +66,7 @@
 #include <tao/pegtl/action/require_apply.hpp>
 #include <tao/pegtl/action/require_apply0.hpp>
 
-#if defined ( __cpp_exceptions )
+#if defined( __cpp_exceptions )
 #include <tao/pegtl/action/build_for.hpp>
 #include <tao/pegtl/action/build_to.hpp>
 #include <tao/pegtl/action/builders.hpp>

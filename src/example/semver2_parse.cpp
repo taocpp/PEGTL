@@ -11,7 +11,8 @@ namespace pegtl = TAO_PEGTL_NAMESPACE;
 
 int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
-   struct grammar : pegtl::seq< pegtl::semver2::valid_semver, pegtl::eof > {};
+   struct grammar : pegtl::seq< pegtl::semver2::valid_semver, pegtl::eof >
+   {};
 
    for( int i = 1; i < argc; ++i ) {
       pegtl::argv_input in( argv, i );

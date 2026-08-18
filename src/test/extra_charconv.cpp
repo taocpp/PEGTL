@@ -146,20 +146,20 @@ namespace TAO_PEGTL_NAMESPACE
          view_input in( input );
          static_assert( std::is_integral_v< Integral > );
          Integral state = value + 1;
-         TAO_PEGTL_TEST_THROWS( (void)parse< from_chars_throws< void > >( in, state ) );
+         TAO_PEGTL_TEST_THROWS( ( void )parse< from_chars_throws< void > >( in, state ) );
       }
       // Test rule.
       {
          view_input in( input );
          static_assert( std::is_integral_v< Integral > );
          Integral state = value + 1;
-         TAO_PEGTL_TEST_THROWS( (void)parse< from_chars_throws< Integral > >( in, state ) );
+         TAO_PEGTL_TEST_THROWS( ( void )parse< from_chars_throws< Integral > >( in, state ) );
       }
       // Test action.
       {
          view_input in( input );
          Integral state = value + 1;
-         TAO_PEGTL_TEST_THROWS( (void)parse< everything, test_action >( in, state ) );
+         TAO_PEGTL_TEST_THROWS( ( void )parse< everything, test_action >( in, state ) );
       }
    }
 
@@ -230,15 +230,15 @@ namespace TAO_PEGTL_NAMESPACE
       Integral state = 0;
       {
          view_input in( input );
-         TAO_PEGTL_TEST_THROWS( (void)parse< from_xchars_throws< void > >( in, state ) );
+         TAO_PEGTL_TEST_THROWS( ( void )parse< from_xchars_throws< void > >( in, state ) );
       }
       {
          view_input in( input );
-         TAO_PEGTL_TEST_THROWS( (void)parse< from_xchars_throws< Integral > >( in, state ) );
+         TAO_PEGTL_TEST_THROWS( ( void )parse< from_xchars_throws< Integral > >( in, state ) );
       }
       {
          view_input in( input );
-         TAO_PEGTL_TEST_THROWS( (void)parse< hex_everything, test_action >( in, state ) );
+         TAO_PEGTL_TEST_THROWS( ( void )parse< hex_everything, test_action >( in, state ) );
       }
    }
 
@@ -304,7 +304,7 @@ namespace TAO_PEGTL_NAMESPACE
       from_chars_rule_success< from_xchars_nothrow< int > >( "-f", int( -15 ) );
       from_chars_rule_success< from_xchars_nothrow< int > >( "0xff", int( 0 ), 3 );
 
-      from_xchars_local_failure< int >( "");
+      from_xchars_local_failure< int >( "" );
       from_xchars_local_failure< unsigned >( "" );
       from_xchars_local_failure< int >( "g" );
       from_xchars_local_failure< unsigned >( "g" );

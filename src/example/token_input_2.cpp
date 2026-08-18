@@ -69,7 +69,7 @@ namespace example
 int main()
 {
    const std::vector< example::my_token > v{
-      { example::my_type::beta, "first" },
+      { example::my_type::beta, "first"  },
       { example::my_type::beta, "second" }
    };
    example::token_input in( v );

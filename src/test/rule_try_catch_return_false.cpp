@@ -72,7 +72,7 @@ namespace TAO_PEGTL_NAMESPACE
       }
       {
          text_view_input< scan::lf > in( "c" );
-         TAO_PEGTL_TEST_THROWS( (void)parse< try_catch_std_return_false< throw_custom >, throwing_action >( in ) );
+         TAO_PEGTL_TEST_THROWS( ( void )parse< try_catch_std_return_false< throw_custom >, throwing_action >( in ) );
       }
    }
 
@@ -85,7 +85,7 @@ namespace TAO_PEGTL_NAMESPACE
       }
       {
          text_view_input< scan::lf > in( "s" );
-         TAO_PEGTL_TEST_THROWS( (void)parse< try_catch_type_return_false< custom_error, throw_std >, throwing_action >( in ) );
+         TAO_PEGTL_TEST_THROWS( ( void )parse< try_catch_type_return_false< custom_error, throw_std >, throwing_action >( in ) );
       }
    }
 

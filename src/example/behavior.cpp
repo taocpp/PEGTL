@@ -50,7 +50,7 @@ namespace TAO_PEGTL_NAMESPACE::example
       }
       std::cout << "\n|--|";
       for( const auto& s : v ) {
-         (void)s;
+         ( void )s;
          std::cout << "--|";
       }
       std::cout << "\n";

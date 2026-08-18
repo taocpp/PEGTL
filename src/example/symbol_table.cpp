@@ -61,7 +61,7 @@ namespace example
       template< typename ActionInput >
       static void apply( const ActionInput& in, state& st )
       {
-         (void)pegtl::from_chars_throws< void >::apply( in, st.converted );
+         ( void )pegtl::from_chars_throws< void >::apply( in, st.converted );
       }
    };
 

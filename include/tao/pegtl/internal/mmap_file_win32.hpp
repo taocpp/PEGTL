@@ -108,7 +108,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             std::error_code ec( ::GetLastError(), std::system_category() );
             throw std::filesystem::filesystem_error( "GetFileSizeEx() failed", path, ec );
 #else
-            (void)path;
+            ( void )path;
             std::perror( "GetFileSizeEx() failed" );
             std::terminate();
 #endif
@@ -163,7 +163,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          std::error_code ec( ::GetLastError(), std::system_category() );
          throw std::filesystem::filesystem_error( "CreateFileMappingW() failed", path, ec );
 #else
-         (void)path;
+         ( void )path;
          std::perror( "CreateFileMappingW() failed" );
          std::terminate();
 #endif

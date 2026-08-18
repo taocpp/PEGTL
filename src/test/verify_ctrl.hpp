@@ -30,11 +30,7 @@ namespace TAO_PEGTL_NAMESPACE::test
 
    [[nodiscard]] inline bool operator==( const verify_ctrl_counts& lhs, const verify_ctrl_counts& rhs ) noexcept
    {
-      return ( lhs.start == rhs.start ) &&
-             ( lhs.success == rhs.success ) &&
-             ( lhs.failure == rhs.failure ) &&
-             ( lhs.apply == rhs.apply ) &&
-             ( lhs.apply0 == rhs.apply0 );
+      return ( lhs.start == rhs.start ) && ( lhs.success == rhs.success ) && ( lhs.failure == rhs.failure ) && ( lhs.apply == rhs.apply ) && ( lhs.apply0 == rhs.apply0 );
    }
 
    [[nodiscard]] inline bool operator!=( const verify_ctrl_counts& lhs, const verify_ctrl_counts& rhs ) noexcept
@@ -87,9 +83,8 @@ namespace TAO_PEGTL_NAMESPACE::test
                 typename ParseInput,
                 typename StateRule,
                 typename... States >
-      static auto apply( const RewindPosition& begin, const ParseInput& in, verify_ctrl_state< StateRule >& state, States&&... st )
-         noexcept( noexcept( normal< ControlRule >::template apply< Action >( begin, in, state, st... ) ) )
-            -> decltype( normal< ControlRule >::template apply< Action >( begin, in, state, st... ) )
+      static auto apply( const RewindPosition& begin, const ParseInput& in, verify_ctrl_state< StateRule >& state, States&&... st ) noexcept( noexcept( normal< ControlRule >::template apply< Action >( begin, in, state, st... ) ) )
+         -> decltype( normal< ControlRule >::template apply< Action >( begin, in, state, st... ) )
       {
          if constexpr( std::is_same_v< ControlRule, StateRule > ) {
             ++state.apply;
@@ -101,9 +96,8 @@ namespace TAO_PEGTL_NAMESPACE::test
                 typename RewindPosition,
                 typename ParseInput,
                 typename... States >
-      static auto apply( const RewindPosition& begin, const ParseInput& in, States&&... st )
-         noexcept( noexcept( normal< ControlRule >::template apply< Action >( begin, in, st... ) ) )
-            -> decltype( normal< ControlRule >::template apply< Action >( begin, in, st... ) )
+      static auto apply( const RewindPosition& begin, const ParseInput& in, States&&... st ) noexcept( noexcept( normal< ControlRule >::template apply< Action >( begin, in, st... ) ) )
+         -> decltype( normal< ControlRule >::template apply< Action >( begin, in, st... ) )
       {
          return normal< ControlRule >::template apply< Action >( begin, in, st... );
       }
@@ -112,9 +106,8 @@ namespace TAO_PEGTL_NAMESPACE::test
                 typename ParseInput,
                 typename StateRule,
                 typename... States >
-      static auto apply0( const ParseInput& in, verify_ctrl_state< StateRule >& state, States&&... st )
-         noexcept( noexcept( normal< ControlRule >::template apply0< Action >( in, state, st... ) ) )
-            -> decltype( normal< ControlRule >::template apply0< Action >( in, state, st... ) )
+      static auto apply0( const ParseInput& in, verify_ctrl_state< StateRule >& state, States&&... st ) noexcept( noexcept( normal< ControlRule >::template apply0< Action >( in, state, st... ) ) )
+         -> decltype( normal< ControlRule >::template apply0< Action >( in, state, st... ) )
       {
          if constexpr( std::is_same_v< ControlRule, StateRule > ) {
             ++state.apply0;
@@ -125,9 +118,8 @@ namespace TAO_PEGTL_NAMESPACE::test
       template< template< typename... > class Action,
                 typename ParseInput,
                 typename... States >
-      static auto apply0( const ParseInput& in, States&&... st )
-         noexcept( noexcept( normal< ControlRule >::template apply0< Action >( in, st... ) ) )
-            -> decltype( normal< ControlRule >::template apply0< Action >( in, st... ) )
+      static auto apply0( const ParseInput& in, States&&... st ) noexcept( noexcept( normal< ControlRule >::template apply0< Action >( in, st... ) ) )
+         -> decltype( normal< ControlRule >::template apply0< Action >( in, st... ) )
       {
          return normal< ControlRule >::template apply0< Action >( in, st... );
       }
@@ -264,11 +256,11 @@ namespace TAO_PEGTL_NAMESPACE::test
          return;
       }
       TAO_PEGTL_TEST_FAILED( label << " result received/expected [ " << result << " / " << expected_result << " ]"
-                             << " start received/expected [ " << received.start << " / " << expected.start << " ]"
-                             << " success received/expected [ " << received.success << " / " << expected.success << " ]"
-                             << " failure received/expected [ " << received.failure << " / " << expected.failure << " ]"
-                             << " apply received/expected [ " << received.apply << " / " << expected.apply << " ]"
-                             << " apply0 received/expected [ " << received.apply0 << " / " << expected.apply0 << " ]" );
+                                   << " start received/expected [ " << received.start << " / " << expected.start << " ]"
+                                   << " success received/expected [ " << received.success << " / " << expected.success << " ]"
+                                   << " failure received/expected [ " << received.failure << " / " << expected.failure << " ]"
+                                   << " apply received/expected [ " << received.apply << " / " << expected.apply << " ]"
+                                   << " apply0 received/expected [ " << received.apply0 << " / " << expected.apply0 << " ]" );
    }
 
    template< typename Rule, template< typename... > class Action, typename ParseInput >

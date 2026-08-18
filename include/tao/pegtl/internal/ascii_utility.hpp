@@ -46,7 +46,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return ( ascii_char_equal< Cs >( *t++ ) && ... );
       }
       else {
-         (void)r;
+         ( void )r;
          return true;
       }
    }
@@ -58,11 +58,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       if constexpr( sizeof...( Cs ) > 0 ) {
          const char* p = static_cast< const char* >( r );
-         (void)( ( ( result < size ) && ascii_char_equal< Cs >( p[ result ] ) && ( ++result, true ) ) && ... );
+         ( void )( ( ( result < size ) && ascii_char_equal< Cs >( p[ result ] ) && ( ++result, true ) ) && ... );
       }
       else {
-         (void)r;
-         (void)size;
+         ( void )r;
+         ( void )size;
       }
       return result;
    }
@@ -86,7 +86,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return ( ascii_ichar_equal< Cs >( *t++ ) && ... );
       }
       else {
-         (void)r;
+         ( void )r;
          return true;
       }
    }
@@ -98,11 +98,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       if constexpr( sizeof...( Cs ) > 0 ) {
          const char* p = static_cast< const char* >( r );
-         (void)( ( ( result < size ) && ascii_ichar_equal< Cs >( p[ result ] ) && ( ++result, true ) ) && ... );
+         ( void )( ( ( result < size ) && ascii_ichar_equal< Cs >( p[ result ] ) && ( ++result, true ) ) && ... );
       }
       else {
-         (void)r;
-         (void)size;
+         ( void )r;
+         ( void )size;
       }
       return result;
    }

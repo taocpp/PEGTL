@@ -15,7 +15,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    inline constexpr bool has_start = false;
 
    template< typename Input >
-   inline constexpr bool has_start< Input, decltype( (void)std::declval< Input >().start() ) > = true;
+   inline constexpr bool has_start< Input, decltype( ( void )std::declval< Input >().start() ) > = true;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 
