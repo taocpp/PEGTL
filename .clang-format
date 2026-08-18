@@ -88,7 +88,7 @@ SpaceBeforeRangeBasedForLoopColon: true
 SpaceInEmptyParentheses: false
 SpacesBeforeTrailingComments: 2
 SpacesInAngles: true
-SpacesInCStyleCastParentheses: false
+SpacesInCStyleCastParentheses: true
 SpacesInParentheses: true
 SpacesInSquareBrackets: true
 TabWidth: 8
