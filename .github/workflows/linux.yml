@@ -24,6 +24,10 @@ jobs:
             compiler: g++-13
           - os: ubuntu-24.04
             compiler: g++-14
+          - os: ubuntu-26.04
+            compiler: g++-15
+          - os: ubuntu-26.04
+            compiler: g++-16
           - os: ubuntu-24.04
             compiler: clang++-16
           - os: ubuntu-24.04
@@ -35,9 +39,15 @@ jobs:
 
     steps:
       - name: Install Dependencies
+        env:
+          compiler: ${{ matrix.platform.compiler }}
         run: |
+          set -x
           sudo apt -qq update
           sudo apt -qq install -y ninja-build --no-install-recommends --no-install-suggests
+          if [[ "${compiler}" = g++-16 ]]; then
+            sudo apt -qq install -y g++-16 --no-install-recommends --no-install-suggests
+          fi
 
       - uses: actions/checkout@v4
 
