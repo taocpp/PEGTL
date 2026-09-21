@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.2.9
+
+Released 2026-09-21
+
+* Updated demangle workaround for GCC 16.1 only.
+
 ## 3.2.8
 
 Released 2024-09-14
@@ -676,4 +682,4 @@ Released 2008
 Development of the PEGTL started in November 2007 as an experiment in C++0x.
 It is based on ideas from the YARD library by Christopher Diggins.
 
-Copyright (c) 2007-2022 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2007-2026 Dr. Colin Hirsch and Daniel Frey
