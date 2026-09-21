@@ -16,9 +16,8 @@ jobs:
       fail-fast: false
       matrix:
         build_type: [Debug, Release]
-        os: [windows-2022, windows-2025]
 
-    runs-on: ${{ matrix.os }}
+    runs-on: windows-2025
 
     steps:
     - uses: actions/checkout@v4
@@ -44,9 +43,8 @@ jobs:
       fail-fast: false
       matrix:
         build_type: [Debug, Release]
-        os: [windows-2022, windows-2025]
 
-    runs-on: ${{ matrix.os }}
+    runs-on: windows-2025
 
     steps:
     - uses: actions/checkout@v4
