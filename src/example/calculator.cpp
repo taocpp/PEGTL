@@ -183,6 +183,7 @@ namespace example
    // Here the actual grammar starts.
 
    using namespace TAO_PEGTL_NAMESPACE;
+   using TAO_PEGTL_NAMESPACE::eof;  // Prevent collision with MinGW ::eof().
 
    // Comments are introduced by a '#' and proceed to the end-of-line/file.
 
