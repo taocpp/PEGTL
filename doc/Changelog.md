@@ -2,6 +2,12 @@
 
 All noteworthy changes since the first public [release](https://github.com/taocpp/PEGTL/releases).
 
+## 4.0.2
+
+Released 2026-09-21
+
+* Updated demangle workaround for GCC 16.1 only.
+
 ## Version 4.0.1
 
 Released 2026-08-01
@@ -180,6 +186,12 @@ Released 2026-06-07
 
 The deprecated headers have been moved to `include/tao/pegtl/deprecated/`.
 Please let us know if you (still) need them.
+
+## 3.2.9
+
+Released 2026-09-21
+
+* Updated demangle workaround for GCC 16.1 only.
 
 ## Version 3.2.8
 
