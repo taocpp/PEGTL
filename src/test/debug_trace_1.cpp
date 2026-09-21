@@ -9,6 +9,7 @@
 namespace testcase
 {
    using namespace TAO_PEGTL_NAMESPACE;
+   using TAO_PEGTL_NAMESPACE::eof;  // Prevent collision with MinGW ::eof().
 
 #if defined( __cpp_exceptions )
    using grammar = seq< sor< try_catch_return_false< must< one< 'a' > > >, one< 'F' > >, eof >;
