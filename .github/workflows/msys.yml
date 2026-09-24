@@ -35,25 +35,14 @@ jobs:
     - uses: msys2/setup-msys2@v2
       with:
         msystem: ${{matrix.platform}}
-        install: >-
-          bison
-          dos2unix
-          git
         pacboy: >-
           cc:p
           cmake:p
           ninja:p
-          pkgconf:p
         update: true
 
-    - run: cmake -E make_directory build
-      shell: msys2 {0}
+    - run: cmake -S . -B build -GNinja -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
 
-    - working-directory: build/
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+    - run: cmake --build build
 
-    - working-directory: build/
-      run: cmake --build .
-
-    - working-directory: build/
-      run: ctest --output-on-failure
+    - run: ctest --test-dir build --output-on-failure

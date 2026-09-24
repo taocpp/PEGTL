@@ -24,10 +24,6 @@ jobs:
 
     - run: sudo apt-get install -yq clang-tools
 
-    - run: scan-build cmake -E make_directory build
+    - run: scan-build cmake -S . -B build -GNinja
 
-    - working-directory: build/
-      run: scan-build cmake $GITHUB_WORKSPACE
-
-    - working-directory: build/
-      run: scan-build cmake --build .
+    - run: scan-build cmake --build build

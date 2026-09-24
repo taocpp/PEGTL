@@ -56,17 +56,16 @@ jobs:
 
       - name: Configure CMake
         run: |
-          cmake -S $GITHUB_WORKSPACE -B build \
+          cmake -S . -B build \
           -GNinja \
           -DCMAKE_CXX_COMPILER=${{ matrix.platform.compiler }} \
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
 
       - name: Build project
-        run: cmake --build build/
+        run: cmake --build build
 
       - name: Run tests
-        working-directory: build/
-        run: ctest -C ${{ matrix.build_type }} --output-on-failure
+        run: ctest --test-dir build --output-on-failure
 
   linux-gcc-extra:
     strategy:
@@ -79,19 +78,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - uses: seanmiddleditch/gha-setup-ninja@v5
 
-    - run: cmake -E make_directory build
+    # Compile-test fixtures use exception-dependent APIs such as must.
+    - run: cmake -S . -B build -GNinja -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_CXX_FLAGS="${{ matrix.flags }}" -DPEGTL_BUILD_COMPILE_TESTS=${{ matrix.flags != '-fno-exceptions' && 'ON' || 'OFF' }}
 
-    - working-directory: build/
-      # Compile-test fixtures use exception-dependent APIs such as must.
-      run: cmake $GITHUB_WORKSPACE -GNinja -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_CXX_FLAGS="${{ matrix.flags }}" -DPEGTL_BUILD_COMPILE_TESTS=${{ matrix.flags != '-fno-exceptions' && 'ON' || 'OFF' }}
+    - run: cmake --build build
 
-    - working-directory: build/
-      run: cmake --build .
-
-    - working-directory: build/
-      run: ctest --output-on-failure
+    - run: ctest --test-dir build --output-on-failure
 
   linux-clang-extra:
     strategy:
@@ -107,16 +100,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - uses: seanmiddleditch/gha-setup-ninja@v5
 
-    - run: cmake -E make_directory build
+    # Compile-test fixtures use exception-dependent APIs such as must.
+    - run: cmake -S . -B build -GNinja -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_CXX_FLAGS="${{ matrix.flags }}" -DPEGTL_BUILD_COMPILE_TESTS=${{ matrix.flags != '-fno-exceptions' && 'ON' || 'OFF' }}
 
-    - working-directory: build/
-      # Compile-test fixtures use exception-dependent APIs such as must.
-      run: cmake $GITHUB_WORKSPACE -GNinja -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_CXX_FLAGS="${{ matrix.flags }}" -DPEGTL_BUILD_COMPILE_TESTS=${{ matrix.flags != '-fno-exceptions' && 'ON' || 'OFF' }}
+    - run: cmake --build build
 
-    - working-directory: build/
-      run: cmake --build .
-
-    - working-directory: build/
-      run: ctest --output-on-failure
+    - run: ctest --test-dir build --output-on-failure

@@ -20,16 +20,11 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - run: cmake -E make_directory build
+    - run: cmake -S . -B build -GNinja -DCMAKE_BUILD_TYPE=Debug -DPEGTL_BUILD_EXAMPLES=OFF -DCMAKE_CXX_FLAGS="-coverage"
 
-    - working-directory: build/
-      run: cmake $GITHUB_WORKSPACE -DPEGTL_BUILD_EXAMPLES=OFF -DCMAKE_CXX_FLAGS="-coverage"
+    - run: cmake --build build
 
-    - working-directory: build/
-      run: cmake --build .
-
-    - working-directory: build/
-      run: ctest --output-on-failure
+    - run: ctest --test-dir build --output-on-failure
 
     - name: Upload coverage reports to Codecov with GitHub Action
       uses: codecov/codecov-action@v4.2.0
