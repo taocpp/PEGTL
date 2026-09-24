@@ -27,6 +27,6 @@ jobs:
     - run: ctest --test-dir build --output-on-failure
 
     - name: Upload coverage reports to Codecov with GitHub Action
-      uses: codecov/codecov-action@v4.2.0
+      uses: codecov/codecov-action@v7.1.1
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
