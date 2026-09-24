@@ -22,12 +22,6 @@ jobs:
         include:
           - llvm: 18
             build_type: Debug
-            os: macos-15-intel
-          - llvm: 18
-            build_type: Release
-            os: macos-15-intel
-          - llvm: 18
-            build_type: Debug
             os: macos-15
           - llvm: 18
             build_type: Release
@@ -65,7 +59,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-15-intel, macos-26]
+        os: [macos-26]
         build_type: [Debug, Release]
     runs-on: ${{ matrix.os }}
 

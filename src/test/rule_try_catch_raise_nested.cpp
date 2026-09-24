@@ -16,13 +16,6 @@ int main()
 }
 #else
 
-#if defined( TAO_PEGTL_TRACE_EXCEPTIONS ) && TAO_PEGTL_TRACE_EXCEPTIONS
-#include <cstdio>
-#define TAO_PEGTL_EXCEPTION_TRACE( message ) std::fputs( message "\n", stderr )
-#else
-#define TAO_PEGTL_EXCEPTION_TRACE( message ) ( (void)0 )
-#endif
-
 #include <stdexcept>
 #include <vector>
 
@@ -97,7 +90,6 @@ namespace TAO_PEGTL_NAMESPACE
    void test_std()
    {
       {
-         TAO_PEGTL_EXCEPTION_TRACE( "test_std: wrap std::runtime_error" );
          text_view_input< scan::lf > in( "s" );
          try {
             parse< try_catch_std_raise_nested< throw_std >, throwing_action >( in );
@@ -107,7 +99,6 @@ namespace TAO_PEGTL_NAMESPACE
          }
       }
       {
-         TAO_PEGTL_EXCEPTION_TRACE( "test_std: propagate custom_error" );
          text_view_input< scan::lf > in( "c" );
          try {
             parse< try_catch_std_raise_nested< throw_custom >, throwing_action >( in );
@@ -121,7 +112,6 @@ namespace TAO_PEGTL_NAMESPACE
    void test_type()
    {
       {
-         TAO_PEGTL_EXCEPTION_TRACE( "test_type: wrap custom_error" );
          text_view_input< scan::lf > in( "c" );
          try {
             parse< try_catch_type_raise_nested< custom_error, throw_custom >, throwing_action >( in );
@@ -131,7 +121,6 @@ namespace TAO_PEGTL_NAMESPACE
          }
       }
       {
-         TAO_PEGTL_EXCEPTION_TRACE( "test_type: propagate std::runtime_error" );
          text_view_input< scan::lf > in( "s" );
          try {
             parse< try_catch_type_raise_nested< custom_error, throw_std >, throwing_action >( in );
@@ -144,7 +133,6 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
-      TAO_PEGTL_EXCEPTION_TRACE( "verify control" );
       verify_ctrl_enabled< try_catch_raise_nested<> >( __LINE__, __FILE__, "" );
       verify_ctrl_disabled< internal::try_catch_raise_nested< parse_error_base > >( __LINE__, __FILE__, "" );
       verify_ctrl_enabled< try_catch_raise_nested< one< 'a' > > >( __LINE__, __FILE__, "a" );
@@ -154,19 +142,16 @@ namespace TAO_PEGTL_NAMESPACE
       verify_ctrl_enabled< try_catch_any_raise_nested< one< 'a' > > >( __LINE__, __FILE__, "a" );
       verify_ctrl_disabled< internal::try_catch_raise_nested< void, one< 'a' > > >( __LINE__, __FILE__, "a" );
 
-      TAO_PEGTL_EXCEPTION_TRACE( "verify sequences" );
       verify_seqs< try_catch_raise_nested >();
       verify_seqs< try_catch_any_raise_nested >();
       verify_seqs< try_catch_std_raise_nested >();
       verify_seqs< test_try_catch_type_rule >();
 
-      TAO_PEGTL_EXCEPTION_TRACE( "verify nested parse errors" );
       verify_nested< test_try_catch_rule >();
       verify_nested< test_try_catch_any_rule >();
 
       test_std();
       test_type();
-      TAO_PEGTL_EXCEPTION_TRACE( "all exception tests completed" );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
