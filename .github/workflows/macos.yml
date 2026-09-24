@@ -14,7 +14,8 @@ permissions:
   contents: read
 
 jobs:
-  xcode:
+  macos-llvm:
+    name: LLVM ${{ matrix.llvm }} (${{ matrix.os }}, ${{ matrix.build_type }})
     strategy:
       fail-fast: false
       matrix:
@@ -52,6 +53,35 @@ jobs:
           -GNinja \
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
           -DCMAKE_CXX_COMPILER="$(brew --prefix llvm@${{ matrix.llvm }})/bin/clang++"
+
+    - name: Build project
+      run: cmake --build build
+
+    - name: Run tests
+      run: ctest --test-dir build --output-on-failure
+
+  macos-appleclang:
+    name: AppleClang (${{ matrix.os }}, ${{ matrix.build_type }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-15-intel, macos-26]
+        build_type: [Debug, Release]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - uses: actions/checkout@v7
+
+    - name: Show Apple toolchain
+      run: |
+        xcode-select -p
+        xcrun clang++ --version
+
+    - name: Configure CMake
+      run: |
+        cmake -S . -B build -GNinja \
+          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+          -DCMAKE_CXX_COMPILER="$(xcrun --find clang++)"
 
     - name: Build project
       run: cmake --build build
