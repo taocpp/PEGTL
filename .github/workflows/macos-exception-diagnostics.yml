@@ -1,0 +1,63 @@
+name: macOS exception diagnostics
+
+on:
+  push:
+    paths-ignore:
+      - 'README.md'
+      - 'doc/**'
+  pull_request:
+    paths-ignore:
+      - 'README.md'
+      - 'doc/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Temporary investigation of AppleClang's Intel Release exception failure.
+jobs:
+  exceptions:
+    name: AppleClang Intel (-O${{ matrix.optimization }}, trace=${{ matrix.trace }})
+    runs-on: macos-15-intel
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        optimization: [0, 1, 2, 3]
+        trace: [0, 1]
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
+
+    steps:
+    - uses: actions/checkout@v7
+
+    - name: Show environment
+      run: |
+        sw_vers
+        uname -m
+        xcrun clang++ --version
+        xcrun --show-sdk-path
+
+    - name: Configure failing test
+      run: |
+        cmake -S . -B build -GNinja \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DCMAKE_CXX_COMPILER="$(xcrun --find clang++)" \
+          -DCMAKE_CXX_FLAGS_RELEASE="-O${{ matrix.optimization }} -DNDEBUG -g -DTAO_PEGTL_TRACE_EXCEPTIONS=${{ matrix.trace }}" \
+          -DPEGTL_BUILD_EXAMPLES=OFF \
+          -DPEGTL_BUILD_COMPILE_TESTS=OFF
+
+    - name: Build failing test
+      run: cmake --build build --target pegtl-test-rule_try_catch_raise_nested --verbose
+
+    - name: Run failing test
+      id: test
+      run: ctest --test-dir build --verbose -R '^pegtl-test-rule_try_catch_raise_nested$'
+
+    - name: Capture backtrace after failure
+      if: ${{ failure() && steps.test.outcome == 'failure' }}
+      run: |
+        xcrun lldb --batch \
+          --one-line 'run' \
+          --one-line-on-crash 'thread backtrace all' \
+          -- build/src/test/pegtl-test-rule_try_catch_raise_nested
