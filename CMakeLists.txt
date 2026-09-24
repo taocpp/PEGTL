@@ -55,6 +55,10 @@ option(PEGTL_BUILD_TESTS "Build test programs" ${PEGTL_IS_MAIN_PROJECT})
 if(PEGTL_BUILD_TESTS)
   enable_testing()
   add_subdirectory(src/test)
+  option(PEGTL_BUILD_COMPILE_TESTS "Enable compile accept/reject tests" ON)
+  if(PEGTL_BUILD_COMPILE_TESTS)
+    add_subdirectory(src/compile)
+  endif()
 endif()
 
 # examples

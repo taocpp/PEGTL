@@ -84,7 +84,8 @@ jobs:
     - run: cmake -E make_directory build
 
     - working-directory: build/
-      run: cmake $GITHUB_WORKSPACE -GNinja -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_CXX_FLAGS="${{ matrix.flags }}"
+      # Compile-test fixtures use exception-dependent APIs such as must.
+      run: cmake $GITHUB_WORKSPACE -GNinja -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_CXX_FLAGS="${{ matrix.flags }}" -DPEGTL_BUILD_COMPILE_TESTS=${{ matrix.flags != '-fno-exceptions' && 'ON' || 'OFF' }}
 
     - working-directory: build/
       run: cmake --build .
@@ -111,7 +112,8 @@ jobs:
     - run: cmake -E make_directory build
 
     - working-directory: build/
-      run: cmake $GITHUB_WORKSPACE -GNinja -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_CXX_FLAGS="${{ matrix.flags }}"
+      # Compile-test fixtures use exception-dependent APIs such as must.
+      run: cmake $GITHUB_WORKSPACE -GNinja -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_CXX_FLAGS="${{ matrix.flags }}" -DPEGTL_BUILD_COMPILE_TESTS=${{ matrix.flags != '-fno-exceptions' && 'ON' || 'OFF' }}
 
     - working-directory: build/
       run: cmake --build .
