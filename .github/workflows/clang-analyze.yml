@@ -26,4 +26,12 @@ jobs:
 
     - run: scan-build cmake -S . -B build -GNinja
 
-    - run: scan-build cmake --build build
+    - run: scan-build --status-bugs -o build/analyzer-reports cmake --build build
+
+    - name: Upload analyzer reports
+      if: always()
+      uses: actions/upload-artifact@v7
+      with:
+        name: clang-analyzer-reports
+        path: build/analyzer-reports
+        if-no-files-found: ignore
