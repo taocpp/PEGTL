@@ -45,8 +45,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {
          if constexpr( Errors::template message< Rule > != nullptr ) {
             constexpr const char* p = Errors::template message< Rule >;
-            throw_parse_error( p, in );
             TAO_PEGTL_MSVC_IGNORE( st... );
+            throw_parse_error( p, in );
          }
          else {
             if constexpr( !internal::has_error_message< Rule > ) {
@@ -61,8 +61,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {
          if constexpr( Errors::template message< Rule > != nullptr ) {
             constexpr const char* p = Errors::template message< Rule >;
-            throw_parse_error_with_nested( p, am );
             TAO_PEGTL_MSVC_IGNORE( in, st... );
+            throw_parse_error_with_nested( p, am );
          }
          else {
             if constexpr( !internal::has_error_message< Rule > ) {
