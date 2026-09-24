@@ -45,7 +45,7 @@ jobs:
         brew update
         brew install llvm@${{ matrix.llvm }}
 
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
     - name: Configure CMake
       run: |
         cmake -S . -B build \

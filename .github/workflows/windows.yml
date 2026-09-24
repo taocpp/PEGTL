@@ -23,7 +23,7 @@ jobs:
     runs-on: windows-2025
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
 
     - name: Configure Visual Studio Environment
       uses: ilammy/msvc-dev-cmd@v1.13.0
@@ -46,7 +46,7 @@ jobs:
     runs-on: windows-2025
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
 
     - name: Configure Visual Studio Environment
       uses: ilammy/msvc-dev-cmd@v1.13.0
