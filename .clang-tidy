@@ -20,7 +20,7 @@ Checks: >-
   llvm-*,
   -llvm-namespace-comment,
   misc-*,
-  -misc-include-cleaner
+  -misc-include-cleaner,
   -misc-no-recursion,
   -misc-non-private-member-variables-in-classes,
   -misc-unused-alias-decls,
