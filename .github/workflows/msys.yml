@@ -10,6 +10,9 @@ on:
       - 'README.md'
       - 'doc/**'
 
+permissions:
+  contents: read
+
 jobs:
   msys2:
     strategy:
