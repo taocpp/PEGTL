@@ -1,5 +1,10 @@
 cmake_minimum_required(VERSION 3.8...3.19)
 
+option(PEGTL_BUILD_ICU_TESTS "Enable ICU test programs" OFF)
+if(PEGTL_BUILD_ICU_TESTS)
+  find_package(ICU REQUIRED COMPONENTS uc)
+endif()
+
 set(test_sources
   action_add_guard.cpp
   action_add_state.cpp
@@ -318,6 +323,13 @@ foreach(testsourcefile ${test_sources})
     add_test(NAME ${exename} WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMAND ${exename})
   endif()
 endforeach()
+
+if(PEGTL_BUILD_ICU_TESTS)
+  foreach(target IN ITEMS pegtl-test-icu_utf8_base pegtl-test-icu_utf16_base pegtl-test-icu_utf32_base)
+    target_compile_definitions(${target} PRIVATE TAO_PEGTL_TEST_ICU)
+    target_link_libraries(${target} PRIVATE ICU::uc)
+  endforeach()
+endif()
 
 if(glob_test_sources)
   foreach(ignored_source_file ${glob_test_sources})
