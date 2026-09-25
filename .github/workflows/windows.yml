@@ -10,6 +10,9 @@ on:
       - 'README.md'
       - 'doc/**'
 
+permissions:
+  contents: read
+
 jobs:
   windows-msvc:
     strategy:
@@ -20,23 +23,19 @@ jobs:
     runs-on: windows-2025
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
 
     - name: Configure Visual Studio Environment
       uses: ilammy/msvc-dev-cmd@v1.13.0
 
-    - name: Install Ninja
-      uses: seanmiddleditch/gha-setup-ninja@v4
-
     - name: Configure CMake
-      run: cmake ${{ github.workspace }} -G "Ninja" -B build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+      run: cmake -S . -B build -GNinja -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
 
     - name: Build project
-      run: cmake --build ${{ github.workspace }}\build --config ${{ matrix.build_type }}
+      run: cmake --build build
 
     - name: Run tests
-      working-directory: ${{ github.workspace }}\build
-      run: ctest -C ${{ matrix.build_type }} --output-on-failure
+      run: ctest --test-dir build --output-on-failure
 
   windows-clang:
     strategy:
@@ -47,19 +46,15 @@ jobs:
     runs-on: windows-2025
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
 
     - name: Configure Visual Studio Environment
       uses: ilammy/msvc-dev-cmd@v1.13.0
 
-    - name: Install Ninja
-      uses: seanmiddleditch/gha-setup-ninja@v4
-
     - name: Configure CMake
-      run: cmake -S ${{ github.workspace }} -B build -G "Ninja" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_C_COMPILER=clang-cl -DCMAKE_CXX_COMPILER=clang-cl
+      run: cmake -S . -B build -GNinja -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_C_COMPILER=clang-cl -DCMAKE_CXX_COMPILER=clang-cl
 
     - name: Build project
-      run: cmake --build ${{ github.workspace }}\build --config ${{ matrix.build_type }}
+      run: cmake --build build
 
-    - working-directory: ${{ github.workspace }}\build
-      run: ctest -C ${{ matrix.build_type }} --output-on-failure
+    - run: ctest --test-dir build --output-on-failure

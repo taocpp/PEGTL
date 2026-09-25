@@ -10,21 +10,28 @@ on:
       - 'README.md'
       - 'doc/**'
 
+permissions:
+  contents: read
+
 jobs:
   clang-analyze:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
 
     - run: sudo apt-get update -yq
 
     - run: sudo apt-get install -yq clang-tools
 
-    - run: scan-build cmake -E make_directory build
+    - run: scan-build cmake -S . -B build -GNinja
 
-    - working-directory: build/
-      run: scan-build cmake $GITHUB_WORKSPACE
+    - run: scan-build --status-bugs -o build/analyzer-reports cmake --build build
 
-    - working-directory: build/
-      run: scan-build cmake --build .
+    - name: Upload analyzer reports
+      if: always()
+      uses: actions/upload-artifact@v7
+      with:
+        name: clang-analyzer-reports
+        path: build/analyzer-reports
+        if-no-files-found: ignore

@@ -10,12 +10,15 @@ on:
       - 'README.md'
       - 'doc/**'
 
+permissions:
+  contents: read
+
 jobs:
   clang-tidy:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
 
     - name: Install Dependencies
       run: |
@@ -23,12 +26,8 @@ jobs:
         sudo apt-get -qq install -y clang-tidy --no-install-recommends --no-install-suggests
 
     - name: Generate Compilation Database
-      run: cmake -S . -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+      run: cmake -S . -B build -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 
-    - name: Run clang-tidy on Header Files
+    - name: Run clang-tidy on configured sources and included PEGTL headers
       continue-on-error: true
-      run: find include/ -type f \( -name "*.hpp" -a ! -name "integer_bswap_win32.hpp" -a ! -name "mmap_file_win32.hpp" \) | xargs -P $(nproc) -I {} clang-tidy -quiet -p build {} -- -std=c++20 -Iinclude
-
-    - name: Run clang-tidy on tests and examples files
-      continue-on-error: true
-      run: find src/ -type f -name "*.cpp" | xargs -P $(nproc) -I {} clang-tidy -quiet -p build {} -- -std=c++20 -Iinclude
+      run: run-clang-tidy -p build -quiet -j "$(nproc)" -header-filter='(^|/)include/tao/'

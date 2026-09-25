@@ -1,0 +1,51 @@
+name: Linux ICU
+
+on:
+  push:
+    paths-ignore:
+      - 'README.md'
+      - 'doc/**'
+  pull_request:
+    paths-ignore:
+      - 'README.md'
+      - 'doc/**'
+
+permissions:
+  contents: read
+
+jobs:
+  linux-icu:
+    strategy:
+      fail-fast: false
+      matrix:
+        cxx: [g++, clang++]
+    runs-on: ubuntu-24.04
+
+    env:
+      CXX: ${{ matrix.cxx }}
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install ICU
+        run: |
+          sudo apt-get update -yq
+          sudo apt-get install -y libicu-dev --no-install-recommends
+
+      - name: Configure CMake
+        run: |
+          cmake -S . -B build -GNinja \
+            -DPEGTL_BUILD_TESTS=ON \
+            -DPEGTL_BUILD_EXAMPLES=OFF \
+            -DPEGTL_BUILD_ICU_TESTS=ON \
+            -DCMAKE_BUILD_TYPE=Debug
+
+      - name: Build ICU tests
+        run: |
+          cmake --build build --target \
+            pegtl-test-icu_utf8_base \
+            pegtl-test-icu_utf16_base \
+            pegtl-test-icu_utf32_base
+
+      - name: Run ICU tests
+        run: ctest --test-dir build --output-on-failure --no-tests=error -R '^pegtl-test-icu_utf(8|16|32)_base$'
