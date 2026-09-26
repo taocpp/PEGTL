@@ -5,10 +5,12 @@ on:
     paths-ignore:
       - 'README.md'
       - 'doc/**'
+      - 'src/example/**'
   pull_request:
     paths-ignore:
       - 'README.md'
       - 'doc/**'
+      - 'src/example/**'
 
 permissions:
   contents: read
@@ -28,6 +30,21 @@ jobs:
     - name: Generate Compilation Database
       run: cmake -S . -B build -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 
-    - name: Run clang-tidy on configured sources and included PEGTL headers
+    - name: Run clang-tidy on headers
       continue-on-error: true
-      run: run-clang-tidy -p build -quiet -j "$(nproc)" -header-filter='(^|/)include/tao/'
+      run: |
+        find include/ -type f \( -name '*.hpp' -a ! -name 'integer_bswap_win32.hpp' -a ! -name 'mmap_file_win32.hpp' \) -print0 |
+          xargs -0 -P "$(nproc)" -I '{}' clang-tidy -quiet -header-filter='^$' '{}' -- -x c++ -std=c++20 -Iinclude
+
+    - name: Run clang-tidy on ipp headers
+      continue-on-error: true
+      run: |
+        status=0
+        clang-tidy -quiet -header-filter='(^|/)int_rules\.ipp$' include/tao/pegtl/binary/uint8.hpp -- -x c++ -std=c++20 -Iinclude || status=1
+        clang-tidy -quiet -header-filter='(^|/)utf_rules\.ipp$' include/tao/pegtl/unicode/utf8.hpp -- -x c++ -std=c++20 -Iinclude || status=1
+        clang-tidy -quiet -header-filter='(^|/)icu_rules\.ipp$' include/tao/pegtl/unicode/icu8.hpp -- -x c++ -std=c++20 -Iinclude || status=1
+        exit "${status}"
+
+    - name: Run clang-tidy on examples
+      continue-on-error: true
+      run: run-clang-tidy -p build -quiet -j "$(nproc)" -header-filter='^$' '.*/src/example/.*\.cpp$'
