@@ -50,7 +50,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
 
       template< typename Rule >
-      void consume( const std::size_t count ) noexcept
+      void consume( const std::size_t count )
       {
          // assert( count <= buffer_used_size() );
          scan_input< data_t > in( this->current(), count );

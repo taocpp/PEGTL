@@ -67,7 +67,7 @@ namespace TAO_PEGTL_NAMESPACE
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
-         internal::limit_guard< Maximum, ParseInput > bg( in );
+         const internal::limit_guard< Maximum, ParseInput > bg( in );
          if( TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, st... ) ) {
             if( in.empty() && ( bg.m_end != in.current() ) ) {
 #if defined( __cpp_exceptions )

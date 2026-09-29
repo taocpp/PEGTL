@@ -32,8 +32,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
             constexpr std::size_t s = Peek::template size< ParseInput >();
 
             static_assert( s > 0 );
-            static_assert( s < ( 1ull << 20 ) );
-            static_assert( Count < ( 1ull << 40 ) );
+            static_assert( s < ( 1ULL << 20 ) );
+            static_assert( Count < ( 1ULL << 40 ) );
 
             if( in.size( Count * s ) >= ( Count * s ) ) {
                in.template consume< many >( Count * s );

@@ -22,10 +22,10 @@
 #include "../text_position.hpp"
 
 #include "at.hpp"
-#include "text_consume.hpp"
 #include "eof.hpp"
 #include "sor.hpp"
 #include "text_input.hpp"
+#include "text_consume.hpp"
 #include "until.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
@@ -75,7 +75,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
 
       template< typename Rule >
-      void consume( const std::size_t count ) noexcept
+      void consume( const std::size_t count )
       {
          scan_input< data_t > in( this->current(), count );
          text_consume< Eol, Rule >( m_position, in );

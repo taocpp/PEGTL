@@ -65,7 +65,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          auto m = Control< unordered >::template guard< A, M, Action, Control >( in, st... );
 
          for( std::size_t i = 0; i < rule_count; ++i ) {
-            if( !( ( ( b.test( Indices ) == false ) && ( Control< Rules >::template match< A, ( ( Indices == ( rule_count - 1 ) ) ? rewind_mode::optional : rewind_mode::required ), Action, Control >( in, st... ) ) && ( b.set( Indices ), true ) ) || ... ) ) {
+            if( !( ( ( !b.test( Indices ) ) && ( Control< Rules >::template match< A, ( ( Indices == ( rule_count - 1 ) ) ? rewind_mode::optional : rewind_mode::required ), Action, Control >( in, st... ) ) && ( b.set( Indices ), true ) ) || ... ) ) {
                return m( Optional );
             }
          }

@@ -5,11 +5,13 @@
 #ifndef TAO_PEGTL_DEBUG_INTERNAL_ANALYZE_ENUM_HPP
 #define TAO_PEGTL_DEBUG_INTERNAL_ANALYZE_ENUM_HPP
 
+#include <cstdint>
+
 #include "../../config.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   enum class analyze_enum
+   enum class analyze_enum : std::uint8_t
    {
       any,
       opt,

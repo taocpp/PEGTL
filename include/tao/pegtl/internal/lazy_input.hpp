@@ -20,9 +20,9 @@
 
 #include "any.hpp"
 #include "at.hpp"
-#include "lazy_scan_traits.hpp"
 #include "eof.hpp"
 #include "input_with_lines.hpp"
+#include "lazy_scan_traits.hpp"
 #include "scan_input.hpp"
 #include "sor.hpp"
 #include "until.hpp"

@@ -5,12 +5,10 @@ on:
     paths-ignore:
       - 'README.md'
       - 'doc/**'
-      - 'src/example/**'
   pull_request:
     paths-ignore:
       - 'README.md'
       - 'doc/**'
-      - 'src/example/**'
 
 permissions:
   contents: read

@@ -41,7 +41,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    {
       // Assumes input is a non-empty sequence of digits; returns false on overflow.
 
-      for( char c : input ) {
+      for( const char c : input ) {
          if( !accumulate_digit< Integer, Maximum >( result, c ) ) {
             return false;
          }
