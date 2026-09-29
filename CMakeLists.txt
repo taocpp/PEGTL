@@ -67,6 +67,11 @@ if(PEGTL_BUILD_EXAMPLES)
   add_subdirectory(src/example)
 endif()
 
+# linting
+if(PEGTL_IS_MAIN_PROJECT)
+  add_subdirectory(src/lint)
+endif()
+
 # Make package findable by CMake
 configure_file(.cmake/pegtl-config.cmake.in pegtl-config.cmake @ONLY)
 
