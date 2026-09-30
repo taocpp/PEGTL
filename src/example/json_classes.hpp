@@ -14,7 +14,7 @@
 
 namespace example
 {
-   enum class json_type
+   enum class json_type : std::uint8_t
    {
       array,
       boolean,
@@ -164,7 +164,7 @@ namespace example
                   r += h[ c & 0x0f ];
                   continue;
                }
-               r += c;  // Assume valid UTF-8.
+               r += static_cast< char >( c );  // Assume valid UTF-8.
                break;
          }
       }

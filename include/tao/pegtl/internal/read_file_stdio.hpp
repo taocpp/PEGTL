@@ -54,7 +54,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    {
       void operator()( FILE* f ) const noexcept
       {
-         std::fclose( f );
+         (void)std::fclose( f );
       }
    };
 

@@ -80,7 +80,7 @@ namespace example
    struct grammar : pegtl::until< pegtl::eof, pegtl::must< line > > {};
    // clang-format on
 
-   enum class type
+   enum class type : std::uint8_t
    {
       def,
       if_,

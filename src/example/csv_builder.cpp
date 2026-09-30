@@ -38,7 +38,7 @@ namespace example
    struct file : pegtl::until< pegtl::eof, line > {};
    // clang-format on
 
-   using row = std::vector< unsigned long >;
+   using row = std::vector< std::uint64_t >;
 
    struct result_data
    {

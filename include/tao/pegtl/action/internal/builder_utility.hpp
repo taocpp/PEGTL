@@ -82,7 +82,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
    }
 
    template< template< typename... > class Traits, typename T, typename... Args >
-   [[nodiscard]] T make_multi_impl( long /*unused*/, Args&&... args )
+   [[nodiscard]] T make_multi_impl( long /*unused*/, Args&&... args )  // NOLINT(google-runtime-int)
+
    {
       return T( std::forward< Args >( args )... );
    }

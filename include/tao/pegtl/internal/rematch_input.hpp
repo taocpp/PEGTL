@@ -43,6 +43,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       void operator=( rematch_input_impl&& ) = delete;
       void operator=( const rematch_input_impl& ) = delete;
 
+      ~rematch_input_impl() = default;
+
       [[nodiscard]] bool empty() const noexcept
       {
          return current() == end();

@@ -40,7 +40,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          constexpr std::size_t s = integer_input_size< data_t, ParseInput >();
 
          if( in.size( s + offset ) >= ( s + offset ) ) {
-            const data_t t = Endian::template get< data_t >( in.current( offset ) );
+            const auto t = Endian::template get< data_t >( in.current( offset ) );
             return pair_t( t, s );
          }
          return pair_t();

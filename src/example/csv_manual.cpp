@@ -40,7 +40,7 @@ namespace example
 
    // Data structure to store the result of a parsing run:
 
-   using result_data = std::vector< std::vector< unsigned long > >;
+   using result_data = std::vector< std::vector< std::uint64_t > >;
 
    // Action and control classes to fill in the above data structure:
 
@@ -56,7 +56,7 @@ namespace example
       {
          assert( !data.empty() );
          std::stringstream ss( in.string() );
-         unsigned long v;
+         std::uint64_t v = 0;
          ss >> v;
          data.back().push_back( v );
       }

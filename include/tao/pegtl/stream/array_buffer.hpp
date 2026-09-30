@@ -23,7 +23,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       static_assert( Chunk < Size );
 
       template< typename... As >
-      array_buffer( As&&... as )
+      explicit array_buffer( As&&... as )
          : m_reader( std::forward< As >( as )... )
       {}
 

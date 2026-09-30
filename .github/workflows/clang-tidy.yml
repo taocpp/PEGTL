@@ -31,7 +31,7 @@ jobs:
         clang-tidy -dump-config
 
     - name: Generate Compilation Database
-      run: cmake -S . -B build -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+      run: cmake -S . -B build -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPEGTL_BUILD_LINT=ON
 
     - name: Run clang-tidy on stand-alone headers
       id: headers

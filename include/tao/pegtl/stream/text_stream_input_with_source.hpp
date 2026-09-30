@@ -43,7 +43,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       static_assert( std::is_same_v< InputSource, ErrorSource >, "TODO?" );
 
       template< typename S, typename... Ts >
-      text_stream_input_with_source( S&& s, Ts&&... ts )
+      explicit text_stream_input_with_source( S&& s, Ts&&... ts )
          : stream_input_base< Buffer >( std::forward< Ts >( ts )... ),
            m_position( std::forward< S >( s ) )
       {}

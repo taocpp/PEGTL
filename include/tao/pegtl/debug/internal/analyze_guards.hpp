@@ -18,7 +18,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    {
    public:
       template< typename... Ts >
-      set_stack_guard( std::set< Cs... >& set, Ts&&... ts )
+      explicit set_stack_guard( std::set< Cs... >& set, Ts&&... ts )
          : m_i( set.emplace( std::forward< Ts >( ts )... ) ),
            m_s( set )
       {}
@@ -54,7 +54,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    {
    public:
       template< typename... Ts >
-      vector_stack_guard( std::vector< Cs... >& vector, Ts&&... ts )
+      explicit vector_stack_guard( std::vector< Cs... >& vector, Ts&&... ts )
          : m_s( vector )
       {
          m_s.emplace_back( std::forward< Ts >( ts )... );

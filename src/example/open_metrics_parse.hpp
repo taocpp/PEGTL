@@ -5,6 +5,7 @@
 #ifndef TAO_PEGTL_SRC_EXAMPLE_OPEN_METRICS_PARSE_HPP
 #define TAO_PEGTL_SRC_EXAMPLE_OPEN_METRICS_PARSE_HPP
 
+#include <cstdint>
 #include <filesystem>
 #include <optional>
 #include <stdexcept>
@@ -85,7 +86,7 @@ namespace open_metrics
       return metric.metric_points.emplace_back( timestamp );
    }
 
-   enum class sample_component
+   enum class sample_component : std::uint8_t
    {
       value,
       count,
@@ -117,19 +118,19 @@ namespace open_metrics
          return std::move( metrics );
       }
 
-      void type_descriptor( std::string&& name, const metric_type type )
+      void type_descriptor( const std::string& name, const metric_type type )
       {
          if( !metrics.metric_families.emplace( name, make_family( name, type ) ).second ) {
             throw std::runtime_error( "TYPE must be the first item for metric family " + name );
          }
       }
 
-      void unit_descriptor( std::string&& name, std::string&& value )
+      void unit_descriptor( const std::string& name, std::string&& value )
       {
          descriptor_string( name, std::move( value ), "unit", &metric_family::unit );
       }
 
-      void help_descriptor( std::string&& name, std::string&& value )
+      void help_descriptor( const std::string& name, std::string&& value )
       {
          descriptor_string( name, std::move( value ), "help", &metric_family::help );
       }
@@ -154,21 +155,21 @@ namespace open_metrics
       {
          switch( type ) {
             case metric_type::unknown:
-               return metric_family( name, unknown_family_data() );
+               return { name, unknown_family_data() };
             case metric_type::gauge:
-               return metric_family( name, gauge_family_data() );
+               return { name, gauge_family_data() };
             case metric_type::counter:
-               return metric_family( name, counter_family_data() );
+               return { name, counter_family_data() };
             case metric_type::stateset:
-               return metric_family( name, state_set_family_data() );
+               return { name, state_set_family_data() };
             case metric_type::info:
-               return metric_family( name, info_family_data() );
+               return { name, info_family_data() };
             case metric_type::histogram:
-               return metric_family( name, histogram_family_data() );
+               return { name, histogram_family_data() };
             case metric_type::gaugehistogram:
-               return metric_family( name, gauge_histogram_family_data() );
+               return { name, gauge_histogram_family_data() };
             case metric_type::summary:
-               return metric_family( name, summary_family_data() );
+               return { name, summary_family_data() };
          }
          throw std::runtime_error( "invalid metric family type" );
       }

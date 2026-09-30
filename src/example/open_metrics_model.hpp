@@ -101,8 +101,8 @@ namespace open_metrics
 
       metric_point() = default;
 
-      explicit metric_point( std::optional< double > ts )
-         : timestamp( std::move( ts ) )
+      explicit metric_point( const std::optional< double >& ts )
+         : timestamp( ts )
       {}
 
       Value value;

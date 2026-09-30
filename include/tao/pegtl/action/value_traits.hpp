@@ -108,7 +108,8 @@ namespace TAO_PEGTL_NAMESPACE
       [[nodiscard]] static T convert( const ActionInput& in )
       {
          std::size_t consumed = 0;
-         long long value;
+         using ll_t = long long;  // NOLINT(google-runtime-int))
+         ll_t value;  // NOLINT(cppcoreguidelines-init-variables)
          try {
             value = std::stoll( in.string(), &consumed );
          }
@@ -118,8 +119,8 @@ namespace TAO_PEGTL_NAMESPACE
          if( consumed != in.size() ) {
             throw_parse_error( "trailing garbage after signed integer", in );
          }
-         if constexpr( sizeof( T ) < sizeof( long long ) ) {
-            if( ( value < static_cast< long long >( std::numeric_limits< T >::lowest() ) ) || ( value > static_cast< long long >( std::numeric_limits< T >::max() ) ) ) {
+         if constexpr( sizeof( T ) < sizeof( ll_t ) ) {
+            if( ( value < static_cast< ll_t >( std::numeric_limits< T >::lowest() ) ) || ( value > static_cast< ll_t >( std::numeric_limits< T >::max() ) ) ) {
                throw_parse_error( "signed integer overflow", in );
             }
          }
@@ -134,7 +135,8 @@ namespace TAO_PEGTL_NAMESPACE
       [[nodiscard]] static T convert( const ActionInput& in )
       {
          std::size_t consumed = 0;
-         unsigned long long value;
+         using ull_t = unsigned long long;  // NOLINT(google-runtime-int)
+         ull_t value;  // NOLINT(cppcoreguidelines-init-variables)
          try {
             value = std::stoull( in.string(), &consumed );
          }
@@ -144,8 +146,8 @@ namespace TAO_PEGTL_NAMESPACE
          if( consumed != in.size() ) {
             throw_parse_error( "trailing garbage after unsigned integer", in );
          }
-         if constexpr( sizeof( T ) < sizeof( unsigned long long ) ) {
-            if( value > static_cast< unsigned long long >( std::numeric_limits< T >::max() ) ) {
+         if constexpr( sizeof( T ) < sizeof( ull_t ) ) {
+            if( value > static_cast< ull_t >( std::numeric_limits< T >::max() ) ) {
                throw_parse_error( "unsigned integer overflow", in );
             }
          }

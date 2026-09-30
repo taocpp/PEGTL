@@ -60,7 +60,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          : copy_input( in_array.data(), in_array.size() )
       {}
 
-      explicit copy_input( const std::initializer_list< data_t >& init )
+      explicit copy_input( const std::initializer_list< data_t >& init )  // NOLINT(google-explicit-constructor)
          : m_container( init ),
            m_current( m_container.data() )
       {}

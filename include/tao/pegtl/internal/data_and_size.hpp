@@ -49,7 +49,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
 
    private:
-      Data m_data;
+      Data m_data;  // NOLINT(cppcoreguidelines-pro-type-member-init)
       Size m_size = 0;
    };
 

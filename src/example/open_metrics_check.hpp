@@ -92,7 +92,7 @@ namespace open_metrics
          [[nodiscard]] static bool is_snake_case( const std::string& name )
          {
             for( const char c : name ) {
-               if( !( ( c >= 'a' && c <= 'z' ) || ( c >= '0' && c <= '9' ) || ( c == '_' ) ) ) {
+               if( ( c < 'a' || c > 'z' ) && ( c < '0' || c > '9' ) && ( c != '_' ) ) {
                   return false;
                }
             }

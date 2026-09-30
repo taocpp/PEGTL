@@ -23,7 +23,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       constexpr std::size_t s = integer_input_size< char32_t, ParseInput >();
 
       if( in.size( s + offset ) >= ( s + offset ) ) {
-         const char32_t t = Endian::template get< char32_t >( in.current( offset ) );
+         const auto t = Endian::template get< char32_t >( in.current( offset ) );
 
          if( is_utf32_codepoint( t ) ) {
             return { t, s };

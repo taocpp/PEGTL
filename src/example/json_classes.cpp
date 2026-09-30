@@ -71,7 +71,7 @@ namespace example
       static void apply( const ActionInput& in, json_state& state )
       {
          std::stringstream ss( in.string() );
-         long double v;
+         long double v = 0;
          ss >> v;  // NOTE: not quite correct for JSON but we'll use it for this simple example.
          state.result = std::make_shared< number_json >( v );
       }

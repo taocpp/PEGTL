@@ -24,8 +24,8 @@
 #include "at.hpp"
 #include "eof.hpp"
 #include "sor.hpp"
-#include "text_input.hpp"
 #include "text_consume.hpp"
+#include "text_input.hpp"
 #include "until.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
@@ -51,7 +51,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       static_assert( std::is_same_v< InputSource, ErrorSource >, "TODO?" );
 
       template< typename S, typename... Ts >
-      text_input_with_source( S&& s, Ts&&... ts )
+      explicit text_input_with_source( S&& s, Ts&&... ts )
          : Input( std::forward< Ts >( ts )... ),
            m_position( std::forward< S >( s ) )
       {}

@@ -59,7 +59,8 @@ jobs:
           cmake -S . -B build \
           -GNinja \
           -DCMAKE_CXX_COMPILER=${{ matrix.platform.compiler }} \
-          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+          -DPEGTL_BUILD_LINT=ON
 
       - name: Build project
         run: cmake --build build
@@ -80,7 +81,7 @@ jobs:
     - uses: actions/checkout@v7
 
     # Compile-test fixtures use exception-dependent APIs such as must.
-    - run: cmake -S . -B build -GNinja -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_CXX_FLAGS="${{ matrix.flags }}" -DPEGTL_BUILD_COMPILE_TESTS=${{ matrix.flags != '-fno-exceptions' && 'ON' || 'OFF' }}
+    - run: cmake -S . -B build -GNinja -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_CXX_FLAGS="${{ matrix.flags }}" -DPEGTL_BUILD_COMPILE_TESTS=${{ matrix.flags != '-fno-exceptions' && 'ON' || 'OFF' }} -DPEGTL_BUILD_LINT=${{ matrix.flags != '-fno-exceptions' && 'ON' || 'OFF' }}
 
     - run: cmake --build build
 
@@ -102,7 +103,7 @@ jobs:
     - uses: actions/checkout@v7
 
     # Compile-test fixtures use exception-dependent APIs such as must.
-    - run: cmake -S . -B build -GNinja -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_CXX_FLAGS="${{ matrix.flags }}" -DPEGTL_BUILD_COMPILE_TESTS=${{ matrix.flags != '-fno-exceptions' && 'ON' || 'OFF' }}
+    - run: cmake -S . -B build -GNinja -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_CXX_FLAGS="${{ matrix.flags }}" -DPEGTL_BUILD_COMPILE_TESTS=${{ matrix.flags != '-fno-exceptions' && 'ON' || 'OFF' }} -DPEGTL_BUILD_LINT=${{ matrix.flags != '-fno-exceptions' && 'ON' || 'OFF' }}
 
     - run: cmake --build build
 

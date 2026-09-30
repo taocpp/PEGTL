@@ -68,7 +68,8 @@ if(PEGTL_BUILD_EXAMPLES)
 endif()
 
 # linting
-if(PEGTL_IS_MAIN_PROJECT)
+option(PEGTL_BUILD_LINT "Build lint programs" OFF)
+if(PEGTL_BUILD_LINT)
   add_subdirectory(src/lint)
 endif()
 

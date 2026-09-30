@@ -11,10 +11,10 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename T >
-   inline constexpr bool is_proper_signed_v = type_list_contains_v< T, type_list< signed char, signed short, signed int, signed long, signed long long > >;
+   inline constexpr bool is_proper_signed_v = type_list_contains_v< T, type_list< signed char, signed short, signed int, signed long, signed long long > >;  // NOLINT(google-runtime-int)
 
    template< typename T >
-   inline constexpr bool is_proper_unsigned_v = type_list_contains_v< T, type_list< unsigned char, unsigned short, unsigned int, unsigned long, unsigned long long > >;
+   inline constexpr bool is_proper_unsigned_v = type_list_contains_v< T, type_list< unsigned char, unsigned short, unsigned int, unsigned long, unsigned long long > >;  // NOLINT(google-runtime-int)
 
    template< typename T >
    inline constexpr bool is_proper_integer_v = is_proper_signed_v< T > || is_proper_unsigned_v< T >;

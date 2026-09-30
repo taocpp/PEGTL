@@ -58,7 +58,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       if constexpr( sizeof...( Cs ) > 0 ) {
          const char* p = static_cast< const char* >( r );
-         (void)( ( ( result < size ) && ascii_char_equal< Cs >( p[ result ] ) && ( ++result, true ) ) && ... );
+         (void)( ( ( result < size ) && ascii_char_equal< Cs >( p[ result ] ) && ( ++result, true ) ) && ... );  // NOLINT(bugprone-inc-dec-in-conditions)
       }
       else {
          (void)r;
@@ -98,7 +98,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       if constexpr( sizeof...( Cs ) > 0 ) {
          const char* p = static_cast< const char* >( r );
-         (void)( ( ( result < size ) && ascii_ichar_equal< Cs >( p[ result ] ) && ( ++result, true ) ) && ... );
+         (void)( ( ( result < size ) && ascii_ichar_equal< Cs >( p[ result ] ) && ( ++result, true ) ) && ... );  // NOLINT(bugprone-inc-dec-in-conditions)
       }
       else {
          (void)r;

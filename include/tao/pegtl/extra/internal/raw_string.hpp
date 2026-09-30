@@ -112,7 +112,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
-         std::size_t marker_size;
+         std::size_t marker_size;  // NOLINT(cppcoreguidelines-init-variables)
          if( Control< raw_string_open< Open, Marker > >::template match< A, M, Action, Control >( in, marker_size ) ) {
             if( Control< content >::template match< A, M, Action, Control >( in, marker_size, st... ) ) {
                in.template consume< raw_string_close >( marker_size );
