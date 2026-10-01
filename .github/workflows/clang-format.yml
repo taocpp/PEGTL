@@ -15,16 +15,22 @@ permissions:
 
 jobs:
   clang-format:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
 
     steps:
       - uses: actions/checkout@v7
 
-      - run: |
-          clang-format --version
-          clang-format --dump-config
+      - name: Install clang-format
+        run: |
+          sudo apt-get -qq update -yq
+          sudo apt-get -qq install -y clang-format-22 --no-install-recommends --no-install-suggests
 
-      - uses: DoozyX/clang-format-lint-action@v0.20
-        with:
-          extensions: 'hpp,cpp'
-          clangFormatVersion: 20
+      - name: Show clang-format configuration
+        run: |
+          clang-format-22 --version
+          clang-format-22 -style=file -dump-config
+
+      - name: Run clang-format
+        run: |
+          git ls-files -z -- '*.hpp' '*.cpp' |
+            xargs -0 -r clang-format-22 -style=file --dry-run --Werror

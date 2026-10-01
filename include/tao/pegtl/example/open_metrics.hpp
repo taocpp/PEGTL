@@ -20,6 +20,7 @@ namespace TAO_PEGTL_NAMESPACE::open_metrics
    // PEG-ified version of the Open Metrics text format version 1.0.0.
    // Use with an input that only accepts line-feed '\n' as end-of-line!
 
+   // clang-format off
    struct BS : one< '\\' > {};
    struct EQ : one< '=' > {};
    struct DOT : one< '.' > {};
@@ -96,6 +97,7 @@ namespace TAO_PEGTL_NAMESPACE::open_metrics
 
    struct content : sor< metric_descriptor, sample > {};
    struct exposition : until< trailer, content > {};
+   // clang-format on
 
 }  // namespace TAO_PEGTL_NAMESPACE::open_metrics
 
