@@ -37,12 +37,14 @@ jobs:
         clang-tidy-22 -dump-config
 
     - name: Generate Compilation Database
-      run: cmake -S . -B build \
-             -DCMAKE_CXX_COMPILER=clang++-22 \
-             -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-             -DPEGTL_BUILD_TESTS=OFF \
-             -DPEGTL_BUILD_EXAMPLES=ON \
-             -DPEGTL_BUILD_LINT=ON
+      run: |
+        cmake -S . -B build \
+          -DCMAKE_CXX_COMPILER=clang++-22 \
+          -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+          -DPEGTL_BUILD_TESTS=OFF \
+          -DPEGTL_BUILD_EXAMPLES=ON \
+          -DPEGTL_BUILD_LINT=ON
+        test -s build/compile_commands.json
 
     - name: Run clang-tidy on stand-alone headers
       id: headers
