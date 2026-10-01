@@ -343,7 +343,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
    // The objects required as state by the actions.
 
    example::stacks s;
-   example::operators b;
+   const example::operators b;
 
    for( int i = 1; i < argc; ++i ) {
       // Parse and process the command-line arguments as calculator expressions...
