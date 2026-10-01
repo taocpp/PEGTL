@@ -21,7 +21,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       static_assert( !std::is_reference_v< Data > );
       static_assert( !std::is_member_pointer_v< Data > );
 
-      data_and_size() noexcept = default;
+      data_and_size() noexcept = default;  // NOLINT(cppcoreguidelines-pro-type-member-init)
 
       data_and_size( const Data d, const Size s ) noexcept
          : m_data( d ),
@@ -49,7 +49,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
 
    private:
-      Data m_data;  // NOLINT(cppcoreguidelines-pro-type-member-init)
+      Data m_data;
       Size m_size = 0;
    };
 

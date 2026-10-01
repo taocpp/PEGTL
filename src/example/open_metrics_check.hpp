@@ -91,7 +91,7 @@ namespace open_metrics
 
          [[nodiscard]] static bool is_snake_case( const std::string& name )
          {
-            for( const char c : name ) {
+            for( const char c : name ) {  // NOLINT(readability-use-anyofallof)
                if( ( c < 'a' || c > 'z' ) && ( c < '0' || c > '9' ) && ( c != '_' ) ) {
                   return false;
                }
@@ -161,7 +161,7 @@ namespace open_metrics
             }
          }
 
-         void validate_family( const metric_family& family )
+         void validate_family( const metric_family& family )  // NOLINT(readability-convert-member-functions-to-static)
          {
             const std::string where = family_location( family.name );
 

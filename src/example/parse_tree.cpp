@@ -103,7 +103,7 @@ namespace example
       struct cache
       {
          std::size_t pos = 0;
-         std::array< void*, N > data;
+         std::array< void*, N > data{};
 
          cache() = default;
 
@@ -139,7 +139,11 @@ namespace example
          }
       };
 
-      static cache< 32 > the_cache;
+      namespace
+      {
+         cache< 32 > the_cache;
+
+      }  // namespace
 
    }  // namespace internal
 

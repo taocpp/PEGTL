@@ -16,7 +16,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    // This uses a hack to call private member functions of a class, described here:
    // https://github.com/facebook/folly/blob/master/folly/memory/UninitializedMemoryHacks.h
 
-   namespace  // NOLINT(google-build-namespaces)
+   namespace  // NOLINT(google-build-namespaces,cert-dcl59-cpp)
    {
       struct odr_helper;
 
@@ -135,7 +135,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       struct no_init_byte
       {
          std::byte b;
-         no_init_byte() noexcept {}  // NOLINT(modernize-use-equals-default)
+         no_init_byte() noexcept {}  // NOLINT(modernize-use-equals-default,cppcoreguidelines-pro-type-member-init)
       };
 
       static_assert( sizeof( std::vector< std::byte > ) == sizeof( std::vector< no_init_byte > ) );

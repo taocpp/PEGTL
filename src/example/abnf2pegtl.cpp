@@ -445,7 +445,7 @@ namespace TAO_PEGTL_NAMESPACE
 
          std::string get_rulename( const node_ptr& n, const bool print_forward_declarations )
          {
-            const std::string v = get_rulename( n );
+            std::string v = get_rulename( n );
             const auto it = find_rule( rules, v );
             if( it != rules.rend() ) {
                return *it;

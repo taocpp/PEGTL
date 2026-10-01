@@ -14,7 +14,7 @@ int main()
 #include "open_metrics_check.hpp"
 #include "open_metrics_parse.hpp"
 
-int main( int argc, char** argv )
+int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
    for( int i = 1; i < argc; ++i ) {
       const auto metrics = open_metrics::parse( argv[ i ] );

@@ -25,7 +25,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    [[nodiscard]] inline int file_open( const std::filesystem::path& path )
    {
       errno = 0;
-      const int fh = ::open( path.c_str(),
+      const int fh = ::open( path.c_str(),  // NOLINT(cppcoreguidelines-pro-type-vararg)
                              O_RDONLY
 #if defined( O_CLOEXEC )
                                 | O_CLOEXEC
@@ -67,7 +67,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    private:
       [[nodiscard]] std::size_t file_size( const std::filesystem::path& path ) const
       {
-         struct stat st;
+         struct stat st;  // NOLINT(cppcoreguidelines-pro-type-member-init)
          errno = 0;
          if( ::fstat( fd, &st ) < 0 ) {
             // LCOV_EXCL_START
