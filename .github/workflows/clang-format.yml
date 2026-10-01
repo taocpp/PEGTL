@@ -32,5 +32,5 @@ jobs:
 
       - name: Run clang-format
         run: |
-          git ls-files -z -- '*.hpp' '*.cpp' |
+          git ls-files -z -- '*.hpp' '*.cpp' '*.ipp' |
             xargs -0 -r clang-format-22 -style=file --dry-run --Werror

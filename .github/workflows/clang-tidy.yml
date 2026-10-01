@@ -13,6 +13,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   clang-tidy:
     runs-on: ubuntu-26.04
@@ -27,11 +31,18 @@ jobs:
 
     - name: Show clang-tidy configuration
       run: |
+        clang++-22 --version
         clang-tidy-22 --version
+        clang-tidy-22 --verify-config
         clang-tidy-22 -dump-config
 
     - name: Generate Compilation Database
-      run: cmake -S . -B build -DCMAKE_CXX_COMPILER=clang++-22 -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPEGTL_BUILD_LINT=ON
+      run: cmake -S . -B build \
+             -DCMAKE_CXX_COMPILER=clang++-22 \
+             -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+             -DPEGTL_BUILD_TESTS=OFF \
+             -DPEGTL_BUILD_EXAMPLES=ON \
+             -DPEGTL_BUILD_LINT=ON
 
     - name: Run clang-tidy on stand-alone headers
       id: headers
