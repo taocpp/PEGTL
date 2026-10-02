@@ -46,7 +46,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       Position begin;
       Position end;
 
-      basic_node() noexcept = default;
+      basic_node() noexcept = default;  // NOLINT(bugprone-crtp-constructor-accessibility)
 
       basic_node( basic_node&& ) = delete;
       basic_node( const basic_node& ) = delete;
@@ -326,7 +326,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
    using selector = internal::selector_t< decltype( std::tuple_cat( std::declval< internal::select_tuple< Rule, Collections > >()... ) ) >;
 
    template< typename Base >
-   struct apply
+   struct apply  // NOLINT(bugprone-crtp-constructor-accessibility)
       : std::true_type
    {
       template< typename... Rules >

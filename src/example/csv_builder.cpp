@@ -71,7 +71,7 @@ int main( int argc, char** argv )
          assert( !row.empty() );  // The grammar doesn't allow empty value lines.
          std::cout << row.front();
          for( std::size_t j = 1; j < row.size(); ++j ) {
-            std::cout << ", " << row[ j ];
+            std::cout << ", " << row.at( j );
          }
          std::cout << std::endl;
       }

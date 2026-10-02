@@ -61,7 +61,7 @@ int main()
    std::string str;
 
    while( !std::getline( std::cin, str ).fail() ) {
-      if( str.empty() || str[ 0 ] == 'q' || str[ 0 ] == 'Q' ) {
+      if( str.empty() || ( str.at( 0 ) == 'q' ) || ( str.at( 0 ) == 'Q' ) ) {
          break;
       }
       double d = 0.0;

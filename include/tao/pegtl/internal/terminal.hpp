@@ -13,7 +13,7 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Rule, typename Peek >
-   struct terminal
+   struct terminal  //NOLINT(bugprone-crtp-constructor-accessibility)
    {
       using rule_t = Rule;
       using subs_t = empty_list;

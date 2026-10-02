@@ -30,7 +30,7 @@ namespace TAO_PEGTL_NAMESPACE::example
 
    void print( const std::string& s )
    {
-      if( ( s.size() == 1 ) && static_cast< bool >( s[ 0 ] & static_cast< char >( 0x80 ) ) ) {
+      if( ( s.size() == 1 ) && static_cast< bool >( s.at( 0 ) & static_cast< char >( 0x80 ) ) ) {
          std::cout << " \"\\xA4\" |";
       }
       else {

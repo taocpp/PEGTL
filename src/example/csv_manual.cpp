@@ -100,7 +100,7 @@ int main( int argc, char** argv )
          assert( !line.empty() );  // The grammar doesn't allow empty lines.
          std::cout << line.front();
          for( std::size_t j = 1; j < line.size(); ++j ) {
-            std::cout << ", " << line[ j ];
+            std::cout << ", " << line.at( j );
          }
          std::cout << std::endl;
       }

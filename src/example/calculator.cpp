@@ -303,7 +303,7 @@ namespace example
       static void apply( const ActionInput& in, const operators& /*unused*/, stacks& s )
       {
          std::stringstream ss( in.string() );
-         long v;
+         long v{};
          ss >> v;
          s.push( v );
       }

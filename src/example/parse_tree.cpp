@@ -113,7 +113,7 @@ namespace example
          ~cache()
          {
             while( pos != 0 ) {
-               ::operator delete( data[ --pos ] );
+               ::operator delete( data.at( --pos ) );
             }
          }
 
@@ -123,7 +123,7 @@ namespace example
          void* get( std::size_t sz )
          {
             if( pos != 0 ) {
-               return data[ --pos ];
+               return data.at( --pos );
             }
             return ::operator new( sz );
          }
@@ -131,7 +131,7 @@ namespace example
          void put( void* p )
          {
             if( pos < N ) {
-               data[ pos++ ] = p;
+               data.at( pos++ ) = p;
             }
             else {
                ::operator delete( p );

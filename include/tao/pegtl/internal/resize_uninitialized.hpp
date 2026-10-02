@@ -1,4 +1,4 @@
-// Copyright (c) 2021-2025 Daniel Frey and Dr. Colin Hirsch
+// Copyright (c) 2021-2026 Daniel Frey and Dr. Colin Hirsch
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -16,7 +16,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    // This uses a hack to call private member functions of a class, described here:
    // https://github.com/facebook/folly/blob/master/folly/memory/UninitializedMemoryHacks.h
 
-   namespace  // NOLINT(google-build-namespaces,cert-dcl59-cpp)
+   namespace  // NOLINT
    {
       struct odr_helper;
 

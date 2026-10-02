@@ -59,7 +59,7 @@ namespace example
       template< typename... S >
       static void init( std::tuple< S... >& t, std::vector< std::string >& v )
       {
-         std::get< I >( t ) = std::move( v[ I ] );
+         std::get< I >( t ) = std::move( v.at( I ) );
          tuple_init< I - 1 >::init( t, v );
       }
    };
@@ -70,7 +70,7 @@ namespace example
       template< typename... S >
       static void init( std::tuple< S... >& t, std::vector< std::string >& v )
       {
-         std::get< 0 >( t ) = std::move( v[ 0 ] );
+         std::get< 0 >( t ) = std::move( v.at( 0 ) );
       }
    };
 
