@@ -36,6 +36,12 @@ jobs:
         clang-tidy-22 --verify-config
         clang-tidy-22 -dump-config
 
+    - name: Show example clang-tidy config
+      run: clang-tidy-22 --dump-config src/example/hello_world.cpp -- -std=c++20 -Iinclude
+
+    - name: Show lint clang-tidy config
+      run: clang-tidy-22 --dump-config src/lint/rules.cpp -- -std=c++20 -Iinclude
+
     - name: Generate Compilation Database
       run: |
         cmake -S . -B build \
