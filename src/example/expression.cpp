@@ -241,10 +241,8 @@ namespace TAO_PEGTL_NAMESPACE::expression
       {
          template< apply_mode A,
                    rewind_mode M,
-                   template< typename... >
-                   class Action,
-                   template< typename... >
-                   class Control,
+                   template< typename... > class Action,
+                   template< typename... > class Control,
                    typename ParseInput,
                    typename Result,
                    typename Config >
@@ -259,10 +257,8 @@ namespace TAO_PEGTL_NAMESPACE::expression
       {
          template< apply_mode A,
                    rewind_mode M,
-                   template< typename... >
-                   class Action,
-                   template< typename... >
-                   class Control,
+                   template< typename... > class Action,
+                   template< typename... > class Control,
                    typename ParseInput,
                    typename Result,
                    typename Config >
@@ -284,10 +280,8 @@ namespace TAO_PEGTL_NAMESPACE::expression
       {
          template< apply_mode A,
                    rewind_mode M,
-                   template< typename... >
-                   class Action,
-                   template< typename... >
-                   class Control,
+                   template< typename... > class Action,
+                   template< typename... > class Control,
                    typename ParseInput,
                    typename Result,
                    typename Config >
@@ -357,10 +351,8 @@ namespace TAO_PEGTL_NAMESPACE::expression
 
       template< apply_mode A,
                 rewind_mode M,
-                template< typename... >
-                class Action,
-                template< typename... >
-                class Control,
+                template< typename... > class Action,
+                template< typename... > class Control,
                 typename ParseInput,
                 typename Result >
       [[nodiscard]] static bool match( ParseInput& in, Result& res )
@@ -371,10 +363,8 @@ namespace TAO_PEGTL_NAMESPACE::expression
 
       template< apply_mode A,
                 rewind_mode M,
-                template< typename... >
-                class Action,
-                template< typename... >
-                class Control,
+                template< typename... > class Action,
+                template< typename... > class Control,
                 typename ParseInput,
                 typename Result,
                 typename Config >

@@ -200,7 +200,7 @@ namespace open_metrics
             validate_sample_names( family.name, Data::type );
 
             for( std::size_t i = 0; i < data.metrics.size(); ++i ) {
-               const auto& metric = data.metrics[ i ];
+               const auto& metric = data.metrics.at( i );
                const std::string metric_where = metric_location( family.name, i );
 
                validate_labels( metric_where, metric.labels );
@@ -210,7 +210,7 @@ namespace open_metrics
                   warning( metric_where, "label names differ from the first Metric in the MetricFamily" );
                }
                for( std::size_t j = 0; j < i; ++j ) {
-                  if( data.metrics[ j ].labels == metric.labels ) {
+                  if( data.metrics.at( j ).labels == metric.labels ) {
                      error( metric_where, "duplicate Metric LabelSet" );
                   }
                }
@@ -246,7 +246,7 @@ namespace open_metrics
             bool has_explicit_timestamp = false;
             std::optional< double > previous_timestamp;
             for( std::size_t i = 0; i < metric.metric_points.size(); ++i ) {
-               const auto& point = metric.metric_points[ i ];
+               const auto& point = metric.metric_points.at( i );
                const std::string point_where = point_location( family, metric_index, i );
 
                if( point.timestamp ) {
@@ -427,7 +427,7 @@ namespace open_metrics
          {
             std::optional< double > previous;
             for( std::size_t i = 0; i < metric.metric_points.size(); ++i ) {
-               const auto& point = metric.metric_points[ i ];
+               const auto& point = metric.metric_points.at( i );
                const auto total = point.value.total;
                if( !std::isnan( total ) ) {
                   if( previous && ( total < *previous ) ) {
@@ -452,8 +452,8 @@ namespace open_metrics
             label_set common = *metric_labels.front();
             for( std::size_t i = 1; i < metric_labels.size(); ++i ) {
                for( auto j = common.begin(); j != common.end(); ) {
-                  const auto found = metric_labels[ i ]->find( j->first );
-                  if( found == metric_labels[ i ]->end() || ( found->second != j->second ) ) {
+                  const auto found = metric_labels.at( i )->find( j->first );
+                  if( found == metric_labels.at( i )->end() || ( found->second != j->second ) ) {
                      j = common.erase( j );
                   }
                   else {

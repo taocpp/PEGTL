@@ -26,8 +26,8 @@ struct action< action_rule >
 #if TAO_PEGTL_COMPILE_ACCEPT
    : pegtl::maybe_nothing
 #else
-// include/tao/pegtl/match.hpp
-// static_assert( !( has_apply && is_nothing ), "Unexpected apply() detected in action!" );
+   // include/tao/pegtl/match.hpp
+   // static_assert( !( has_apply && is_nothing ), "Unexpected apply() detected in action!" );
    : pegtl::nothing< action_rule >
 #endif
 {

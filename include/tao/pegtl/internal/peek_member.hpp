@@ -20,7 +20,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    // For data members of type 'T' or 'const T'.
 
-   template< typename C, typename T, T C::*P >
+   template< typename C, typename T, T C::* P >
    struct peek_member_impl< T C::*, P, std::enable_if_t< std::is_member_object_pointer_v< T C::* > > >
    {
       using data_t = std::decay_t< T >;
@@ -35,7 +35,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    // For data members of type 'T*' or 'const T*' -- will this case ever be used?
 
-   template< typename C, typename T, T* C::*P >
+   template< typename C, typename T, T* C::* P >
    struct peek_member_impl< T* C::*, P, std::enable_if_t< std::is_member_object_pointer_v< T* C::* > > >
    {
       using data_t = std::decay_t< T >;
@@ -115,7 +115,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    // For member getter functions that return a T.
 
-   template< bool N, typename C, typename T, T ( C::*P )() const noexcept( N ) >
+   template< bool N, typename C, typename T, T ( C::* P )() const noexcept( N ) >
    struct peek_member_impl< T ( C::* )() const noexcept( N ), P >
    {
       using data_t = T;
@@ -133,7 +133,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    // For member getter functions that return a const T&.
 
-   template< bool N, typename C, typename T, const T& ( C::*P )() const noexcept( N ) >
+   template< bool N, typename C, typename T, const T& ( C::* P )() const noexcept( N ) >
    struct peek_member_impl< const T& ( C::* )() const noexcept( N ), P >
    {
       using data_t = T;
@@ -148,7 +148,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    // For member getter functions that return a const T*.
 
-   template< bool N, typename C, typename T, const T* ( C::*P )() const noexcept( N ) >
+   template< bool N, typename C, typename T, const T* ( C::* P )() const noexcept( N ) >
    struct peek_member_impl< const T* ( C::* )() const noexcept( N ), P >
    {
       using data_t = T;
@@ -247,7 +247,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-   template< typename C, typename T, T ( C::*P )() const noexcept( true ) >
+   template< typename C, typename T, T ( C::* P )() const noexcept( true ) >
    struct peek_member_impl< T ( C::* )() const noexcept( true ), P >
    {
       using data_t = T;
@@ -263,7 +263,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-   template< typename C, typename T, T ( C::*P )() const noexcept( false ) >
+   template< typename C, typename T, T ( C::* P )() const noexcept( false ) >
    struct peek_member_impl< T ( C::* )() const noexcept( false ), P >
    {
       using data_t = T;
@@ -279,7 +279,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-   template< typename C, typename T, const T& ( C::*P )() const noexcept( true ) >
+   template< typename C, typename T, const T& ( C::* P )() const noexcept( true ) >
    struct peek_member_impl< const T& ( C::* )() const noexcept( true ), P >
    {
       using data_t = T;
@@ -292,7 +292,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-   template< typename C, typename T, const T& ( C::*P )() const noexcept( false ) >
+   template< typename C, typename T, const T& ( C::* P )() const noexcept( false ) >
    struct peek_member_impl< const T& ( C::* )() const noexcept( false ), P >
    {
       using data_t = T;
@@ -305,7 +305,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-   template< typename C, typename T, const T* ( C::*P )() const noexcept( true ) >
+   template< typename C, typename T, const T* ( C::* P )() const noexcept( true ) >
    struct peek_member_impl< const T* ( C::* )() const noexcept( true ), P >
    {
       using data_t = T;
@@ -318,7 +318,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-   template< typename C, typename T, const T* ( C::*P )() const noexcept( false ) >
+   template< typename C, typename T, const T* ( C::* P )() const noexcept( false ) >
    struct peek_member_impl< const T* ( C::* )() const noexcept( false ), P >
    {
       using data_t = T;

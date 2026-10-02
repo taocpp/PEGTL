@@ -86,7 +86,9 @@ namespace TAO_PEGTL_NAMESPACE
       int state = 7;
       called = false;
       seen_value = 0;
-      const std::vector< member_token > data = { { 7, "seven" } };
+      const std::vector< member_token > data = {
+         { 7, "seven" }
+      };
       member_input in( data );
       TAO_PEGTL_TEST_ASSERT( parse< member::function< &member_token::value, is_state_value > >( in, state ) );
       TAO_PEGTL_TEST_ASSERT( called );

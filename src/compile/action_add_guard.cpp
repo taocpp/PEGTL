@@ -35,8 +35,8 @@ struct action< guarded_rule >
 #if TAO_PEGTL_COMPILE_ACCEPT
    : pegtl::add_guard< constructible_guard >
 #else
-// include/tao/pegtl/action/add_guard.hpp
-// static_assert( internal::dependent_false< AddGuard >, "Unable to instantiate guard!" );
+   // include/tao/pegtl/action/add_guard.hpp
+   // static_assert( internal::dependent_false< AddGuard >, "Unable to instantiate guard!" );
    : pegtl::add_guard< unconstructible_guard >
 #endif
 {};

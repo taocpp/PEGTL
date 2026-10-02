@@ -89,10 +89,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
       // Assumes result == 0 and that input is an optional sign followed by a non-empty sequence of digits; returns false on overflow.
 
       static_assert( std::is_signed_v< Signed > );
-      if( input[ 0 ] == '-' ) {
+      if( input.at( 0 ) == '-' ) {
          return convert_negative< Signed >( result, std::string_view( input.data() + 1, input.size() - 1 ) );
       }
-      const auto offset = static_cast< unsigned >( input[ 0 ] == '+' );
+      const auto offset = static_cast< unsigned >( input.at( 0 ) == '+' );
       return convert_positive< Signed >( result, std::string_view( input.data() + offset, input.size() - offset ) );
    }
 

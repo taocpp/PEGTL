@@ -17,7 +17,7 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-  template< typename... Rules >
+   template< typename... Rules >
    struct analyze_any_traits
    {
       // Consumption-on-success is always true; assumes bounded repetition of conjunction of sub-rules.

@@ -35,8 +35,8 @@ struct action< stateful_rule >
 #if TAO_PEGTL_COMPILE_ACCEPT
    : pegtl::add_state< constructible_state >
 #else
-// include/tao/pegtl/action/add_state.hpp
-// static_assert( internal::dependent_false< AddState >, "Unable to instantiate new state!" );
+   // include/tao/pegtl/action/add_state.hpp
+   // static_assert( internal::dependent_false< AddState >, "Unable to instantiate new state!" );
    : pegtl::add_state< unconstructible_state >
 #endif
 {};

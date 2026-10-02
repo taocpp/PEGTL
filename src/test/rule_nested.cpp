@@ -89,7 +89,7 @@ namespace TAO_PEGTL_NAMESPACE
    void test_failure3()
    {
       outer_input in( {
-         { "foo",  1 },
+         { "foo", 1 },
          { "foo", 1 }
       } );
       TAO_PEGTL_TEST_ASSERT( in.size() == 2 );

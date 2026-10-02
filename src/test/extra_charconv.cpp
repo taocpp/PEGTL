@@ -304,7 +304,7 @@ namespace TAO_PEGTL_NAMESPACE
       from_chars_rule_success< from_xchars_nothrow< int > >( "-f", int( -15 ) );
       from_chars_rule_success< from_xchars_nothrow< int > >( "0xff", int( 0 ), 3 );
 
-      from_xchars_local_failure< int >( "");
+      from_xchars_local_failure< int >( "" );
       from_xchars_local_failure< unsigned >( "" );
       from_xchars_local_failure< int >( "g" );
       from_xchars_local_failure< unsigned >( "g" );
