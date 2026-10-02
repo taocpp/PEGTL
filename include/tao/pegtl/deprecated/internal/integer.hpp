@@ -68,9 +68,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       constexpr Unsigned maximum = static_cast< Unsigned >( ( std::numeric_limits< Signed >::max )() ) + 1;
       Unsigned temporary = 0;
       if( accumulate_digits< Unsigned, maximum >( temporary, input ) ) {
-         result = ( temporary == maximum )
-                     ? ( std::numeric_limits< Signed >::min )()
-                     : -static_cast< Signed >( temporary );
+         result = ( temporary == maximum ) ? ( std::numeric_limits< Signed >::min )() : -static_cast< Signed >( temporary );
          return true;
       }
       return false;
