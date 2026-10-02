@@ -34,6 +34,8 @@ Checks: >-
   -google-readability-todo,
   llvm-*,
   -llvm-header-guard,
+  -llvm-prefer-static-over-anonymous-namespace,
+  -llvm-use-ranges,
   misc-*,
   -misc-include-cleaner,
   -misc-no-recursion,
