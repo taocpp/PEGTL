@@ -5,4 +5,5 @@ Checks: >-
   -bugprone-throwing-static-initialization,
   -google-runtime-int,
   -google-runtime-float,
-  -misc-use-internal-linkage
+  -misc-use-internal-linkage,
+  -modernize-use-designated-initializers

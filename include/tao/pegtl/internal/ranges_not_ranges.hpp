@@ -34,10 +34,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
          constexpr Data cs[] = { Cs... };
 
          if constexpr( sizeof...( Cs ) % 2 == 0 ) {
-            return ( test_impl< Data, cs[ 2 * Is ], cs[ 2 * Is + 1 ] >( c ) || ... );
+            return ( test_impl< Data, cs[ 2 * Is ], cs[ ( 2 * Is ) + 1 ] >( c ) || ... );
          }
          else {
-            return ( test_impl< Data, cs[ 2 * Is ], cs[ 2 * Is + 1 ] >( c ) || ... ) || ( c == cs[ sizeof...( Cs ) - 1 ] );
+            return ( test_impl< Data, cs[ 2 * Is ], cs[ ( 2 * Is ) + 1 ] >( c ) || ... ) || ( c == cs[ sizeof...( Cs ) - 1 ] );
          }
       }
 

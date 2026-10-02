@@ -73,7 +73,7 @@ namespace TAO_PEGTL_NAMESPACE::expression
          {
             if( right_binding_power > 0 ) {
                assert( std::min( left_binding_power, right_binding_power ) & 1 );
-               assert( 2 * std::min( left_binding_power, right_binding_power ) + 1 == left_binding_power + right_binding_power );
+               assert( ( ( 2 * std::min( left_binding_power, right_binding_power ) ) + 1 ) == ( left_binding_power + right_binding_power ) );
             }
             assert( left_binding_power > 0 );
          }
