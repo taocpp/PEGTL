@@ -2,8 +2,6 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#include <type_traits>
-
 #include "test.hpp"
 #include "verify_char.hpp"
 #include "verify_ctrl.hpp"
@@ -35,21 +33,11 @@ namespace TAO_PEGTL_NAMESPACE
          verify_char< range< 'a', 'f' > >( __LINE__, __FILE__, c, ( 'a' <= c ) && ( c <= 'f' ) );
          verify_char< range< 20, 120 > >( __LINE__, __FILE__, c, is_range );
       }
-      if constexpr( std::is_unsigned_v< char > ) {
-         for( int i = 128; i < 256; ++i ) {
-            const auto c = char( i );
+      for( int i = 128; i < 256; ++i ) {
+         const auto c = char( i );
 
-            verify_char< range< 'a', 'f' > >( __LINE__, __FILE__, c, false );
-            verify_char< range< 20, 120 > >( __LINE__, __FILE__, c, false );
-         }
-      }
-      else {  // std::is_signed_v< char >
-         for( int i = -128; i < 0; ++i ) {
-            const auto c = char( i );
-
-            verify_char< range< 'a', 'f' > >( __LINE__, __FILE__, c, false );
-            verify_char< range< 20, 120 > >( __LINE__, __FILE__, c, false );
-         }
+         verify_char< range< 'a', 'f' > >( __LINE__, __FILE__, c, false );
+         verify_char< range< 20, 120 > >( __LINE__, __FILE__, c, false );
       }
    }
 

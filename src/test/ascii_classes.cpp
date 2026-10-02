@@ -55,7 +55,7 @@ namespace TAO_PEGTL_NAMESPACE
          const bool is_bdigit = ( c == '0' ) || ( c == '1' );
          const bool is_digit = ( '0' <= c ) && ( c <= '9' );
          const bool is_odigit = ( '0' <= c ) && ( c <= '7' );
-         const bool is_cntrl = ( !( c & char( 0x80 ) ) && ( c <= 31 ) ) || ( c == 127 );
+         const bool is_cntrl = ( c <= 31 ) || ( c == 127 );
          const bool is_lower = ( 'a' <= c ) && ( c <= 'z' );
          const bool is_print = ( ( ' ' <= c ) && ( c <= 126 ) );
          const bool is_graph = ( ( ' ' < c ) && ( c <= 126 ) );
@@ -96,49 +96,25 @@ namespace TAO_PEGTL_NAMESPACE
          verify_char< ascii::upper >( __LINE__, __FILE__, c, is_upper );
          verify_char< ascii::xdigit >( __LINE__, __FILE__, c, is_xdigit );
       }
-      if constexpr( std::is_unsigned_v< char > ) {
-         for( int i = 128; i < 256; ++i ) {
-            const auto c = char( i );
+      for( int i = 128; i < 256; ++i ) {
+         const auto c = char( i );
 
-            verify_char< ascii::alnum >( __LINE__, __FILE__, c, false );
-            verify_char< ascii::alpha >( __LINE__, __FILE__, c, false );
-            verify_char< ascii::bdigit >( __LINE__, __FILE__, c, false );
-            verify_char< ascii::blank >( __LINE__, __FILE__, c, false );
-            verify_char< ascii::cntrl >( __LINE__, __FILE__, c, false );
-            verify_char< ascii::digit >( __LINE__, __FILE__, c, false );
-            verify_char< ascii::odigit >( __LINE__, __FILE__, c, false );
-            verify_char< ascii::graph >( __LINE__, __FILE__, c, false );
-            verify_char< ascii::identifier_first >( __LINE__, __FILE__, c, false );
-            verify_char< ascii::identifier_other >( __LINE__, __FILE__, c, false );
-            verify_char< ascii::lower >( __LINE__, __FILE__, c, false );
-            verify_char< ascii::print >( __LINE__, __FILE__, c, false );
-            verify_char< ascii::punct >( __LINE__, __FILE__, c, false );
-            verify_char< ascii::space >( __LINE__, __FILE__, c, false );
-            verify_char< ascii::upper >( __LINE__, __FILE__, c, false );
-            verify_char< ascii::xdigit >( __LINE__, __FILE__, c, false );
-         }
-      }
-      else {  // std::is_signed_v< char >
-         for( int i = -128; i < 0; ++i ) {
-            const auto c = char( i );
-
-            verify_char< ascii::alnum >( __LINE__, __FILE__, c, false );
-            verify_char< ascii::alpha >( __LINE__, __FILE__, c, false );
-            verify_char< ascii::bdigit >( __LINE__, __FILE__, c, false );
-            verify_char< ascii::blank >( __LINE__, __FILE__, c, false );
-            verify_char< ascii::cntrl >( __LINE__, __FILE__, c, false );
-            verify_char< ascii::digit >( __LINE__, __FILE__, c, false );
-            verify_char< ascii::odigit >( __LINE__, __FILE__, c, false );
-            verify_char< ascii::graph >( __LINE__, __FILE__, c, false );
-            verify_char< ascii::identifier_first >( __LINE__, __FILE__, c, false );
-            verify_char< ascii::identifier_other >( __LINE__, __FILE__, c, false );
-            verify_char< ascii::lower >( __LINE__, __FILE__, c, false );
-            verify_char< ascii::print >( __LINE__, __FILE__, c, false );
-            verify_char< ascii::punct >( __LINE__, __FILE__, c, false );
-            verify_char< ascii::space >( __LINE__, __FILE__, c, false );
-            verify_char< ascii::upper >( __LINE__, __FILE__, c, false );
-            verify_char< ascii::xdigit >( __LINE__, __FILE__, c, false );
-         }
+         verify_char< ascii::alnum >( __LINE__, __FILE__, c, false );
+         verify_char< ascii::alpha >( __LINE__, __FILE__, c, false );
+         verify_char< ascii::bdigit >( __LINE__, __FILE__, c, false );
+         verify_char< ascii::blank >( __LINE__, __FILE__, c, false );
+         verify_char< ascii::cntrl >( __LINE__, __FILE__, c, false );
+         verify_char< ascii::digit >( __LINE__, __FILE__, c, false );
+         verify_char< ascii::odigit >( __LINE__, __FILE__, c, false );
+         verify_char< ascii::graph >( __LINE__, __FILE__, c, false );
+         verify_char< ascii::identifier_first >( __LINE__, __FILE__, c, false );
+         verify_char< ascii::identifier_other >( __LINE__, __FILE__, c, false );
+         verify_char< ascii::lower >( __LINE__, __FILE__, c, false );
+         verify_char< ascii::print >( __LINE__, __FILE__, c, false );
+         verify_char< ascii::punct >( __LINE__, __FILE__, c, false );
+         verify_char< ascii::space >( __LINE__, __FILE__, c, false );
+         verify_char< ascii::upper >( __LINE__, __FILE__, c, false );
+         verify_char< ascii::xdigit >( __LINE__, __FILE__, c, false );
       }
    }
 
