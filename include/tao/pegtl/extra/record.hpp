@@ -29,8 +29,8 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename ParseInput >
    struct record_value
    {
-      using data_t = typename ParseInput::data_t;
-      using position_t = typename ParseInput::error_position_t;
+      using data_t = ParseInput::data_t;
+      using position_t = ParseInput::error_position_t;
 
       record_value( const position_t& pos, const data_t* data, const std::size_t size, const std::string_view r )
          : input( pos, data, size ),

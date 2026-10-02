@@ -33,10 +33,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct lazy_input
       : Input
    {
-      using data_t = typename Input::data_t;
+      using data_t = Input::data_t;
       using error_position_t = text_position;
       using offset_position_t = text_position;
-      using rewind_position_t = typename Input::rewind_position_t;
+      using rewind_position_t = Input::rewind_position_t;
 #if defined( __cpp_exceptions )
       using parse_error_t = parse_error< error_position_t >;
 #endif

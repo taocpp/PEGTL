@@ -18,7 +18,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct any
    {
       using peek_t = Peek;
-      using data_t = typename Peek::data_t;
+      using data_t = Peek::data_t;
 
       using rule_t = any;
       using subs_t = empty_list;

@@ -11,7 +11,7 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< match_mode I, typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
+   template< match_mode I, typename Peek, Peek::data_t Lo, Peek::data_t Hi >
    struct range_not_range
    {
       static_assert( Lo < Hi );
@@ -19,7 +19,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< typename Data >
       [[nodiscard]] static constexpr bool test( const Data c ) noexcept
       {
-         using data_t = typename Peek::data_t;
+         using data_t = Peek::data_t;
          static_assert( sizeof( Data ) <= sizeof( data_t ) );
          return ( ( Lo <= data_t( c ) ) && ( data_t( c ) <= Hi ) ) != static_cast< bool >( I );
       }

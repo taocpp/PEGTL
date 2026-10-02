@@ -37,8 +37,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {
          bool result = false;
 
-         using case_t = typename head_t::case_t;
-         using peek_t = typename case_t::peek_t;
+         using case_t = head_t::case_t;
+         using peek_t = case_t::peek_t;
 
          if( const auto t = peek_t::peek( in ) ) {
             (void)( ( Rules::case_t::test( t.data() ) ? ( ( result = Control< Rules >::template match< A, M, Action, Control >( in, st... ) ), true ) : false ) || ... );

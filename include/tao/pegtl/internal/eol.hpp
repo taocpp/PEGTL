@@ -28,8 +28,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
-         using eol_rule = typename ParseInput::eol_rule;
-         using eol_impl = typename eol_rule::rule_t;
+         using eol_rule = ParseInput::eol_rule;
+         using eol_impl = eol_rule::rule_t;
          if( Control< eol_impl >::template match< apply_mode::disabled, M, Action, Control >( in, st... ) ) {
             in.template consume< eol_matched_tag >( 0 );
             return true;

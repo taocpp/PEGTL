@@ -15,18 +15,18 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
+   template< typename Peek, Peek::data_t Lo, Peek::data_t Hi >
    struct range
       : terminal< range< Peek, Lo, Hi >, Peek >,
         range_not_range< match_mode::normal, Peek, Lo, Hi >
    {};
 
-   template< typename Peek, typename Peek::data_t C >
+   template< typename Peek, Peek::data_t C >
    struct range< Peek, C, C >
       : one< Peek, C >
    {};
 
-   template< typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
+   template< typename Peek, Peek::data_t Lo, Peek::data_t Hi >
    inline constexpr bool enable_control< range< Peek, Lo, Hi > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

@@ -177,7 +177,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       inline constexpr bool is_leaf< 0, type_list< Rules... >, Selector > = ( sizeof...( Rules ) == 0 );
 
       template< unsigned Level, typename Rule, template< typename... > class Selector >
-      inline constexpr bool is_unselected_branch = ( !is_selected_node< Rule, Selector > && is_leaf< Level, typename Rule::subs_t, Selector > );
+      inline constexpr bool is_unselected_branch = ( !is_selected_node< Rule, Selector > && is_leaf< Level, typename Rule::subs_t, Selector > );  // NOLINT(readability-redundant-typename)
 
       template< unsigned Level, typename... Rules, template< typename... > class Selector >
       inline constexpr bool is_leaf< Level, type_list< Rules... >, Selector > = ( is_unselected_branch< Level - 1, Rules, Selector > && ... );
@@ -304,7 +304,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       template< typename T >
       struct selector< std::tuple< T > >
       {
-         using type = typename T::type;
+         using type = T::type;
       };
 
       template< typename... Ts >
@@ -315,7 +315,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       };
 
       template< typename T >
-      using selector_t = typename selector< T >::type;
+      using selector_t = selector< T >::type;
 
       template< typename Rule, typename Collection >
       using select_tuple = std::conditional_t< Collection::template enable< Rule >, std::tuple< Collection >, std::tuple<> >;

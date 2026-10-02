@@ -17,18 +17,18 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename Peek, typename Peek::data_t... Cs >
+   template< typename Peek, Peek::data_t... Cs >
    struct not_ranges
       : terminal< not_ranges< Peek, Cs... >, Peek >,
         ranges_not_ranges< match_mode::invert, Peek, Cs... >
    {};
 
-   template< typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
+   template< typename Peek, Peek::data_t Lo, Peek::data_t Hi >
    struct not_ranges< Peek, Lo, Hi >
       : not_range< Peek, Lo, Hi >
    {};
 
-   template< typename Peek, typename Peek::data_t C >
+   template< typename Peek, Peek::data_t C >
    struct not_ranges< Peek, C >
       : not_one< Peek, C >
    {};
@@ -39,7 +39,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       static_assert( dependent_false< Peek > );
    };
 
-   template< typename Peek, typename Peek::data_t... Cs >
+   template< typename Peek, Peek::data_t... Cs >
    inline constexpr bool enable_control< not_ranges< Peek, Cs... > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

@@ -25,49 +25,49 @@ namespace TAO_PEGTL_NAMESPACE::internal
       static_assert( dependent_false< Rule > );
    };
 
-   template< typename Peek, typename Peek::data_t... Cs >
+   template< typename Peek, Peek::data_t... Cs >
    struct invert_traits< ione< Peek, Cs... > >
    {
       using type = not_ione< Peek, Cs... >;
    };
 
-   template< typename Peek, typename Peek::data_t... Cs >
+   template< typename Peek, Peek::data_t... Cs >
    struct invert_traits< not_ione< Peek, Cs... > >
    {
       using type = ione< Peek, Cs... >;
    };
 
-   template< typename Peek, typename Peek::data_t... Cs >
+   template< typename Peek, Peek::data_t... Cs >
    struct invert_traits< not_one< Peek, Cs... > >
    {
       using type = one< Peek, Cs... >;
    };
 
-   template< typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
+   template< typename Peek, Peek::data_t Lo, Peek::data_t Hi >
    struct invert_traits< not_range< Peek, Lo, Hi > >
    {
       using type = range< Peek, Lo, Hi >;
    };
 
-   template< typename Peek, typename Peek::data_t... Cs >
+   template< typename Peek, Peek::data_t... Cs >
    struct invert_traits< not_ranges< Peek, Cs... > >
    {
       using type = ranges< Peek, Cs... >;
    };
 
-   template< typename Peek, typename Peek::data_t... Cs >
+   template< typename Peek, Peek::data_t... Cs >
    struct invert_traits< one< Peek, Cs... > >
    {
       using type = not_one< Peek, Cs... >;
    };
 
-   template< typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
+   template< typename Peek, Peek::data_t Lo, Peek::data_t Hi >
    struct invert_traits< range< Peek, Lo, Hi > >
    {
       using type = not_range< Peek, Lo, Hi >;
    };
 
-   template< typename Peek, typename Peek::data_t... Cs >
+   template< typename Peek, Peek::data_t... Cs >
    struct invert_traits< ranges< Peek, Cs... > >
    {
       using type = not_ranges< Peek, Cs... >;

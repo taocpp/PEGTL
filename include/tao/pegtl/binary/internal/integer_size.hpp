@@ -35,7 +35,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Type, typename Input >
    [[nodiscard]] constexpr std::size_t integer_input_size() noexcept
    {
-      using Data = typename Input::data_t;
+      using Data = Input::data_t;
 
       static_assert( std::is_same_v< Data, std::decay_t< decltype( *( std::declval< const Input& >().current() ) ) > > );
 

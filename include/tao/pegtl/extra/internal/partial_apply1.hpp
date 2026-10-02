@@ -32,7 +32,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
              typename... States >
    [[nodiscard]] bool partial_apply1_apply( [[maybe_unused]] const typename ParseInput::rewind_position_t& begin, [[maybe_unused]] const ParseInput& in, [[maybe_unused]] States&&... st )
    {
-      using rewind_position_t = typename ParseInput::rewind_position_t;
+      using rewind_position_t = ParseInput::rewind_position_t;
 
       constexpr bool has_apply_void = has_apply< Control< Rule >, void, Action, const rewind_position_t&, const ParseInput&, States... >;
       constexpr bool has_apply_bool = has_apply< Control< Rule >, bool, Action, const rewind_position_t&, const ParseInput&, States... >;
@@ -88,7 +88,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 template< typename... > class Control,
                 typename ParseInput,
                 typename... States >
-      [[nodiscard]] static bool match( const typename ParseInput::rewind_position_t& begin, ParseInput& in, States&&... st )
+      [[nodiscard]] static bool match( const ParseInput::rewind_position_t& begin, ParseInput& in, States&&... st )
       {
          return partial_apply1_apply< Last, Action, Control >( begin, static_cast< const ParseInput& >( in ), st... );
       }
@@ -101,7 +101,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 template< typename... > class Control,
                 typename ParseInput,
                 typename... States >
-      [[nodiscard]] static bool match( const typename ParseInput::rewind_position_t& begin, ParseInput& in, States&&... st )
+      [[nodiscard]] static bool match( const ParseInput::rewind_position_t& begin, ParseInput& in, States&&... st )
       {
          if( Control< Rule >::template match< apply_mode::disabled, rewind_mode::required, Action, Control >( in, st... ) ) {
             return partial_apply1_match< Rule, Rules... >::template match< Action, Control >( begin, in, st... );

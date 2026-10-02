@@ -172,7 +172,7 @@ namespace TAO_PEGTL_NAMESPACE
       : analyze_traits< Name, typename internal::sor< internal::seq< Cond, Then >, Else >::rule_t >
    {};
 
-   template< typename Name, typename Peek, typename Peek::data_t... Cs >
+   template< typename Name, typename Peek, Peek::data_t... Cs >
    struct analyze_traits< Name, internal::ione< Peek, Cs... > >
       : analyze_any_traits<>
    {};
@@ -187,27 +187,27 @@ namespace TAO_PEGTL_NAMESPACE
       : analyze_opt_traits< Rules... >
    {};
 
-   template< typename Name, typename Peek, typename Peek::data_t... Cs >
+   template< typename Name, typename Peek, Peek::data_t... Cs >
    struct analyze_traits< Name, internal::not_ione< Peek, Cs... > >
       : analyze_any_traits<>
    {};
 
-   template< typename Name, typename Peek, typename Peek::data_t... Cs >
+   template< typename Name, typename Peek, Peek::data_t... Cs >
    struct analyze_traits< Name, internal::not_one< Peek, Cs... > >
       : analyze_any_traits<>
    {};
 
-   template< typename Name, typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
+   template< typename Name, typename Peek, Peek::data_t Lo, Peek::data_t Hi >
    struct analyze_traits< Name, internal::not_range< Peek, Lo, Hi > >
       : analyze_any_traits<>
    {};
 
-   template< typename Name, typename Peek, typename Peek::data_t... Cs >
+   template< typename Name, typename Peek, Peek::data_t... Cs >
    struct analyze_traits< Name, internal::not_ranges< Peek, Cs... > >
       : analyze_any_traits<>
    {};
 
-   template< typename Name, typename Peek, typename Peek::data_t... Cs >
+   template< typename Name, typename Peek, Peek::data_t... Cs >
    struct analyze_traits< Name, internal::one< Peek, Cs... > >
       : analyze_any_traits<>
    {};
@@ -227,12 +227,12 @@ namespace TAO_PEGTL_NAMESPACE
       : analyze_traits< Name, typename internal::seq< Rules..., internal::opt< Name > >::rule_t >
    {};
 
-   template< typename Name, typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
+   template< typename Name, typename Peek, Peek::data_t Lo, Peek::data_t Hi >
    struct analyze_traits< Name, internal::range< Peek, Lo, Hi > >
       : analyze_any_traits<>
    {};
 
-   template< typename Name, typename Peek, typename Peek::data_t... Cs >
+   template< typename Name, typename Peek, Peek::data_t... Cs >
    struct analyze_traits< Name, internal::ranges< Peek, Cs... > >
       : analyze_any_traits<>
    {};

@@ -23,12 +23,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct nested
    {
       using peek_t = Peek;
-      using data_t = typename Peek::data_t;
+      using data_t = Peek::data_t;
 
       using rule_t = nested;
       using subs_t = empty_list;
 
-      using value_t = typename data_t::value_type;
+      using value_t = data_t::value_type;
       using input_t = input_with_fakes< input_with_funcs< input_with_start< view_input< value_t > > > >;
 
       template< apply_mode A,

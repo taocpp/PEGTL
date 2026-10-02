@@ -42,7 +42,7 @@ namespace example
    template< unsigned N, typename... S >
    struct tuple_help< N, std::tuple< S... > >
    {
-      using tuple_t = typename tuple_help< N - 1, std::tuple< std::string, S... > >::tuple_t;
+      using tuple_t = tuple_help< N - 1, std::tuple< std::string, S... > >::tuple_t;
    };
 
    template< typename... S >
@@ -79,7 +79,7 @@ namespace example
    template< unsigned N >
    struct result_data
    {
-      using tuple_t = typename tuple_help< N, std::tuple<> >::tuple_t;
+      using tuple_t = tuple_help< N, std::tuple<> >::tuple_t;
 
       std::vector< std::string > temp;
       std::vector< tuple_t > result;
@@ -109,7 +109,7 @@ namespace example
    template< unsigned N >
    struct action< line< N > >
    {
-      using tuple_t = typename tuple_help< N, std::tuple<> >::tuple_t;
+      using tuple_t = tuple_help< N, std::tuple<> >::tuple_t;
 
       template< typename ActionInput >
       static void apply( const ActionInput& in, result_data< N >& data )

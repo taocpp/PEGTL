@@ -149,7 +149,7 @@ namespace example
 
    // this is not necessary for the example, but serves as a demonstration for an additional optimization.
    struct node
-      : pegtl::parse_tree::basic_node< node, typename pegtl::argv_input<>::error_position_t >
+      : pegtl::parse_tree::basic_node< node, pegtl::argv_input<>::error_position_t >
    {
       void* operator new( std::size_t sz )
       {

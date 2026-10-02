@@ -41,7 +41,7 @@ namespace TAO_PEGTL_NAMESPACE
 
          ~limit_guard()
          {
-            m_in.private_set_end( static_cast< const typename Input::data_t* >( m_end ) );
+            m_in.private_set_end( static_cast< const Input::data_t* >( m_end ) );
          }
 
          void operator=( limit_guard&& ) = delete;

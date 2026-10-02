@@ -25,7 +25,7 @@ namespace TAO_PEGTL_NAMESPACE
       using result_t = internal::delivery_result_t< S >;
       using output_t = internal::value_slot< result_t >;
 
-      using selected_action = typename Producer::template action< output_t >;
+      using selected_action = Producer::template action< output_t >;
 
       template< typename Rule,
                 apply_mode A,

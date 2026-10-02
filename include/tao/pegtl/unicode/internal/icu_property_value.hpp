@@ -22,7 +22,7 @@ namespace TAO_PEGTL_NAMESPACE
       struct icu_property_value
       {
          using peek_t = Peek;
-         using data_t = typename Peek::data_t;
+         using data_t = Peek::data_t;
 
          using rule_t = icu_property_value;
          using subs_t = empty_list;

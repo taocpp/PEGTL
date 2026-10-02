@@ -28,7 +28,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : public stream_input_base< Buffer >
    {
    public:
-      using data_t = typename Buffer::data_t;
+      using data_t = Buffer::data_t;
       using input_source_t = InputSource;
       using error_source_t = ErrorSource;
       using error_position_t = position_with_source< ErrorSource, text_position >;

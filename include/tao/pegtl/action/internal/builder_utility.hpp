@@ -97,7 +97,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< template< typename... > class Traits >
    struct multi
    {
-      template< typename T, typename Fields = typename Traits< T >::fields_t >
+      template< typename T, typename Fields = Traits< T >::fields_t >
       struct builder;
 
       template< typename T, typename... Fields >
@@ -108,7 +108,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          static constexpr std::size_t size = sizeof...( Fields );
 
          template< std::size_t I >
-         using part_t = typename std::tuple_element_t< I, slots_t >::value_t;
+         using part_t = std::tuple_element_t< I, slots_t >::value_t;
 
          template< std::size_t I, typename ParseInput >
          void put( part_t< I >&& value, const ParseInput& /*unused*/ )
@@ -131,7 +131,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< typename T >
       struct builder
       {
-         using element_t = typename Traits< T >::element_t;
+         using element_t = Traits< T >::element_t;
 
          static constexpr std::size_t size = 1;
 
@@ -261,7 +261,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          template< typename ActionInput, typename... States >
          static void apply( const ActionInput& in, Output& out, States&&... /*unused*/ )
          {
-            using value_t = typename Output::value_t;
+            using value_t = Output::value_t;
             out.store( Traits< value_t >::convert( in ) );
          }
       };
@@ -277,7 +277,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          template< typename... States >
          static void apply0( Output& out, States&&... /*unused*/ )
          {
-            using value_t = typename Output::value_t;
+            using value_t = Output::value_t;
             out.store( value_t( Values... ) );
          }
       };
@@ -341,8 +341,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {
          if constexpr( A == apply_mode::enabled ) {
             using output_t = value_slot< typename Builder::template part_t< I > >;
-            using producer_t = typename Binding::template producer_t< Rule >;
-            using selected_action = typename producer_t::template action< output_t >;
+            using producer_t = Binding::template producer_t< Rule >;
+            using selected_action = producer_t::template action< output_t >;
 
             output_t output;
             if( Control< Rule >::template match< A, M, internal::single_rule_action< Rule, selected_action >::template type, Control >( in, output, st... ) ) {

@@ -24,7 +24,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    {};
 
    template< typename... Ts >
-   using value_list_concat_t = typename value_list_concat< Ts... >::type;
+   using value_list_concat_t = value_list_concat< Ts... >::type;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

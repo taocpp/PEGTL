@@ -35,7 +35,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : public Input
    {
    public:
-      using data_t = typename Input::data_t;
+      using data_t = Input::data_t;
       using input_source_t = InputSource;
       using error_source_t = ErrorSource;
       using error_position_t = position_with_source< ErrorSource, text_position >;

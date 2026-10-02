@@ -12,7 +12,7 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename T >
-   using has_eol_lazy_peek_impl = typename T::eol_lazy_peek;
+   using has_eol_lazy_peek_impl = T::eol_lazy_peek;
 
    template< typename, typename = void >
    inline constexpr bool has_eol_lazy_peek = false;

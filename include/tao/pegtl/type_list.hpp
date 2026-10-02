@@ -44,7 +44,7 @@ namespace TAO_PEGTL_NAMESPACE
    };
 
    template< typename... Ts >
-   using type_list_head_t = typename type_list_head< Ts... >::type;
+   using type_list_head_t = type_list_head< Ts... >::type;
 
    template< typename... >
    struct type_list_append;
@@ -56,7 +56,7 @@ namespace TAO_PEGTL_NAMESPACE
    };
 
    template< typename... Ts >
-   using type_list_append_t = typename type_list_append< Ts... >::type;
+   using type_list_append_t = type_list_append< Ts... >::type;
 
    template< typename... >
    struct type_list_concat;
@@ -79,7 +79,7 @@ namespace TAO_PEGTL_NAMESPACE
    {};
 
    template< typename... Ts >
-   using type_list_concat_t = typename type_list_concat< Ts... >::type;
+   using type_list_concat_t = type_list_concat< Ts... >::type;
 
    template< typename T, typename... Ts >
    struct type_list_contains

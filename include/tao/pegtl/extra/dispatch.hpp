@@ -51,7 +51,7 @@ namespace TAO_PEGTL_NAMESPACE
       using clauses_to_tuple_t = decltype( std::tuple_cat( std::declval< internal::clause_to_tuple_t< Rule, Clauses > >()... ) );
 
       template< typename Rule, typename... Clauses >
-      using clauses_to_action_t = typename tuple_to_action< Rule, clauses_to_tuple_t< Rule, Clauses... > >::type;
+      using clauses_to_action_t = tuple_to_action< Rule, clauses_to_tuple_t< Rule, Clauses... > >::type;
 
    }  // namespace internal
 

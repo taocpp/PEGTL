@@ -26,7 +26,7 @@ namespace TAO_PEGTL_NAMESPACE
       {};
 
       template< typename Rules, typename Todo, typename Done >
-      using filter_t = typename filter< Rules, Todo, Done >::type;
+      using filter_t = filter< Rules, Todo, Done >::type;
 
       template< typename Done, typename... Rules >
       struct visit_list
@@ -35,7 +35,7 @@ namespace TAO_PEGTL_NAMESPACE
          using NextSubs = type_list_concat_t< typename Rules::subs_t... >;
          using NextTodo = filter_t< NextSubs, empty_list, NextDone >;
 
-         using type = typename std::conditional_t< std::is_same_v< NextTodo, empty_list >, type_list_concat< NextDone >, visit_list< NextDone, NextTodo > >::type;
+         using type = std::conditional_t< std::is_same_v< NextTodo, empty_list >, type_list_concat< NextDone >, visit_list< NextDone, NextTodo > >::type;
       };
 
       template< typename Done, typename... Rules >
@@ -52,7 +52,7 @@ namespace TAO_PEGTL_NAMESPACE
    }  // namespace internal
 
    template< typename Grammar >
-   using grammar_rules_t = typename internal::visit_list< empty_list, Grammar >::type;
+   using grammar_rules_t = internal::visit_list< empty_list, Grammar >::type;
 
    template< typename Rule, typename Grammar >
    inline constexpr bool rule_in_grammar_v = type_list_contains_v< Rule, grammar_rules_t< Grammar > >;

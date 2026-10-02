@@ -41,7 +41,7 @@ namespace TAO_PEGTL_NAMESPACE
          return internal::match_no_control< Rule, A, M, Action, Control >( in, st... );
       }
       else {
-         using rewind_position_t = typename ParseInput::rewind_position_t;
+         using rewind_position_t = ParseInput::rewind_position_t;
 
          constexpr bool enable_action = ( A == apply_mode::enabled );
 

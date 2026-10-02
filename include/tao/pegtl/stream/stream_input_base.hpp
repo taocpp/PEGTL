@@ -25,7 +25,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : public Buffer
    {
    public:
-      using data_t = typename Buffer::data_t;
+      using data_t = Buffer::data_t;
 
       template< typename... As >
       explicit stream_input_base( As&&... as )

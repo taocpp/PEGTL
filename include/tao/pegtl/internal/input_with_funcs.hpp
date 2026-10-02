@@ -21,7 +21,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    {
       using Input::Input;
 
-      using data_t = typename Input::data_t;
+      using data_t = Input::data_t;
 
       [[nodiscard]] const data_t& peek( const std::size_t offset = 0 ) const noexcept
       {

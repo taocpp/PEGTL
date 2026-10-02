@@ -14,13 +14,13 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename Peek, typename Peek::data_t... Cs >
+   template< typename Peek, Peek::data_t... Cs >
    struct one
       : terminal< one< Peek, Cs... >, Peek >,
         one_not_one< match_mode::normal, Peek, Cs... >
    {};
 
-   template< typename Peek, typename Peek::data_t... Cs >
+   template< typename Peek, Peek::data_t... Cs >
    inline constexpr bool enable_control< one< Peek, Cs... > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

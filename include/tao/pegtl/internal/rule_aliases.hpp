@@ -51,7 +51,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< std::size_t Min, typename Rule, typename... Rules >
    using rep_min = seq< rep< Min, Rule, Rules... >, star< Rule, Rules... > >;
 
-   template< typename Peek, typename Peek::data_t... Cs >
+   template< typename Peek, Peek::data_t... Cs >
    using seq_one = seq< one< Peek, Cs >... >;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

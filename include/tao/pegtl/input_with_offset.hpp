@@ -20,10 +20,10 @@ namespace TAO_PEGTL_NAMESPACE
       : public Input
    {
    public:
-      using data_t = typename Input::data_t;
-      using error_position_t = typename Input::error_position_t;
-      using offset_position_t = typename Input::offset_position_t;
-      using rewind_position_t = typename Input::rewind_position_t;
+      using data_t = Input::data_t;
+      using error_position_t = Input::error_position_t;
+      using offset_position_t = Input::offset_position_t;
+      using rewind_position_t = Input::rewind_position_t;
 #if defined( __cpp_exceptions )
       using parse_error_t = parse_error< error_position_t >;
 #endif

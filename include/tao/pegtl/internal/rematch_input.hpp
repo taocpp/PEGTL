@@ -24,9 +24,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
    class rematch_input_impl
    {
    public:
-      using data_t = typename Input::data_t;
-      using error_position_t = typename Input::error_position_t;
-      using rewind_position_t = typename Input::rewind_position_t;
+      using data_t = Input::data_t;
+      using error_position_t = Input::error_position_t;
+      using rewind_position_t = Input::rewind_position_t;
 #if defined( __cpp_exceptions )
       using parse_error_t = parse_error< error_position_t >;
 #endif
@@ -143,7 +143,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct rematch_input< Guard, Input, true >
       : rematch_input< Guard, Input, false >
    {
-      using eol_rule = typename Input::eol_rule;
+      using eol_rule = Input::eol_rule;
 
       using rematch_input< Guard, Input, false >::rematch_input;
    };

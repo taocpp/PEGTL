@@ -70,42 +70,42 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-   template< typename Eol, typename Peek, typename Peek::data_t... Cs >
+   template< typename Eol, typename Peek, Peek::data_t... Cs >
    struct text_scan_traits< Eol, ione< Peek, Cs... > >
       : terminal_rule_traits< Eol, ione< Peek, Cs... > >
    {};
 
-   template< typename Eol, typename Peek, typename Peek::data_t... Cs >
+   template< typename Eol, typename Peek, Peek::data_t... Cs >
    struct text_scan_traits< Eol, not_ione< Peek, Cs... > >
       : terminal_rule_traits< Eol, not_ione< Peek, Cs... > >
    {};
 
-   template< typename Eol, typename Peek, typename Peek::data_t... Cs >
+   template< typename Eol, typename Peek, Peek::data_t... Cs >
    struct text_scan_traits< Eol, not_one< Peek, Cs... > >
       : terminal_rule_traits< Eol, not_one< Peek, Cs... > >
    {};
 
-   template< typename Eol, typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
+   template< typename Eol, typename Peek, Peek::data_t Lo, Peek::data_t Hi >
    struct text_scan_traits< Eol, not_range< Peek, Lo, Hi > >
       : terminal_rule_traits< Eol, not_range< Peek, Lo, Hi > >
    {};
 
-   template< typename Eol, typename Peek, typename Peek::data_t... Cs >
+   template< typename Eol, typename Peek, Peek::data_t... Cs >
    struct text_scan_traits< Eol, not_ranges< Peek, Cs... > >
       : terminal_rule_traits< Eol, not_ranges< Peek, Cs... > >
    {};
 
-   template< typename Eol, typename Peek, typename Peek::data_t... Cs >
+   template< typename Eol, typename Peek, Peek::data_t... Cs >
    struct text_scan_traits< Eol, one< Peek, Cs... > >
       : terminal_rule_traits< Eol, one< Peek, Cs... > >
    {};
 
-   template< typename Eol, typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
+   template< typename Eol, typename Peek, Peek::data_t Lo, Peek::data_t Hi >
    struct text_scan_traits< Eol, range< Peek, Lo, Hi > >
       : terminal_rule_traits< Eol, range< Peek, Lo, Hi > >
    {};
 
-   template< typename Eol, typename Peek, typename Peek::data_t... Cs >
+   template< typename Eol, typename Peek, Peek::data_t... Cs >
    struct text_scan_traits< Eol, ranges< Peek, Cs... > >
       : terminal_rule_traits< Eol, ranges< Peek, Cs... > >
    {};
@@ -130,42 +130,42 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : add_column_scan
    {};
 
-   template< typename Eol, typename Peek, typename Peek::data_t... Cs >
+   template< typename Eol, typename Peek, Peek::data_t... Cs >
    struct text_scan_traits< Eol, until< ione< Peek, Cs... > >, std::enable_if_t< ione< Peek, Cs... >::test( get_eol_rule_char_v< typename Eol::eol_char_rule > ) > >
       : add_column_scan
    {};
 
-   template< typename Eol, typename Peek, typename Peek::data_t... Cs >
+   template< typename Eol, typename Peek, Peek::data_t... Cs >
    struct text_scan_traits< Eol, until< not_ione< Peek, Cs... > >, std::enable_if_t< not_ione< Peek, Cs... >::test( get_eol_rule_char_v< typename Eol::eol_char_rule > ) > >
       : add_column_scan
    {};
 
-   template< typename Eol, typename Peek, typename Peek::data_t... Cs >
+   template< typename Eol, typename Peek, Peek::data_t... Cs >
    struct text_scan_traits< Eol, until< not_one< Peek, Cs... > >, std::enable_if_t< not_one< Peek, Cs... >::test( get_eol_rule_char_v< typename Eol::eol_char_rule > ) > >
       : add_column_scan
    {};
 
-   template< typename Eol, typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
+   template< typename Eol, typename Peek, Peek::data_t Lo, Peek::data_t Hi >
    struct text_scan_traits< Eol, until< not_range< Peek, Lo, Hi > >, std::enable_if_t< not_range< Peek, Lo, Hi >::test( get_eol_rule_char_v< typename Eol::eol_char_rule > ) > >
       : add_column_scan
    {};
 
-   template< typename Eol, typename Peek, typename Peek::data_t... Cs >
+   template< typename Eol, typename Peek, Peek::data_t... Cs >
    struct text_scan_traits< Eol, until< not_ranges< Peek, Cs... > >, std::enable_if_t< not_ranges< Peek, Cs... >::test( get_eol_rule_char_v< typename Eol::eol_char_rule > ) > >
       : add_column_scan
    {};
 
-   template< typename Eol, typename Peek, typename Peek::data_t... Cs >
+   template< typename Eol, typename Peek, Peek::data_t... Cs >
    struct text_scan_traits< Eol, until< one< Peek, Cs... > >, std::enable_if_t< one< Peek, Cs... >::test( get_eol_rule_char_v< typename Eol::eol_char_rule > ) > >
       : add_column_scan
    {};
 
-   template< typename Eol, typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
+   template< typename Eol, typename Peek, Peek::data_t Lo, Peek::data_t Hi >
    struct text_scan_traits< Eol, until< range< Peek, Lo, Hi > >, std::enable_if_t< range< Peek, Lo, Hi >::test( get_eol_rule_char_v< typename Eol::eol_char_rule > ) > >
       : add_column_scan
    {};
 
-   template< typename Eol, typename Peek, typename Peek::data_t... Cs >
+   template< typename Eol, typename Peek, Peek::data_t... Cs >
    struct text_scan_traits< Eol, until< ranges< Peek, Cs... > >, std::enable_if_t< ranges< Peek, Cs... >::test( get_eol_rule_char_v< typename Eol::eol_char_rule > ) > >
       : add_column_scan
    {};

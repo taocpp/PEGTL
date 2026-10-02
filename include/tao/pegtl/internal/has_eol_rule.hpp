@@ -12,7 +12,7 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename T >
-   using has_eol_rule_impl = typename T::eol_rule;
+   using has_eol_rule_impl = T::eol_rule;
 
    template< typename, typename = void >
    inline constexpr bool has_eol_rule = false;

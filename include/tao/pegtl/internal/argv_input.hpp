@@ -26,7 +26,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          : input_with_start< view_input< char > >( argv[ argn ], std::strlen( argv[ argn ] ) )
       {}
 
-      using error_position_t = typename input_with_start< view_input< char > >::error_position_t;
+      using error_position_t = input_with_start< view_input< char > >::error_position_t;
 #if defined( __cpp_exceptions )
       using parse_error_t = parse_error< error_position_t >;
 #endif

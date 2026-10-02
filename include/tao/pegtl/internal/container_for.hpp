@@ -21,7 +21,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    };
 
    template< typename Data >
-   using container_for_data_t = typename container_for_data< Data >::type;
+   using container_for_data_t = container_for_data< Data >::type;
 
    template< typename Container >
    struct container_for_container
@@ -30,7 +30,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    };
 
    template< typename Container >
-   using container_for_container_t = typename container_for_container< Container >::type;
+   using container_for_container_t = container_for_container< Container >::type;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 
