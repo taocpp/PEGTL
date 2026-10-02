@@ -1,0 +1,56 @@
+name: Linux Extra
+
+on:
+  push:
+    paths-ignore:
+      - 'README.md'
+      - 'doc/**'
+  pull_request:
+    paths-ignore:
+      - 'README.md'
+      - 'doc/**'
+
+permissions:
+  contents: read
+
+jobs:
+  linux-gcc-extra:
+    strategy:
+      fail-fast: false
+      matrix:
+        flags: ["-fno-rtti", "-fno-exceptions"]
+        build_type: [Debug, Release]
+
+    runs-on: ubuntu-26.04
+
+    steps:
+    - uses: actions/checkout@v7
+
+    # Compile-test fixtures use exception-dependent APIs such as must.
+    - run: cmake -S . -B build -GNinja -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_CXX_FLAGS="${{ matrix.flags }}" -DPEGTL_BUILD_COMPILE_TESTS=${{ matrix.flags != '-fno-exceptions' && 'ON' || 'OFF' }} -DPEGTL_BUILD_LINT=${{ matrix.flags != '-fno-exceptions' && 'ON' || 'OFF' }}
+
+    - run: cmake --build build
+
+    - run: ctest --test-dir build --output-on-failure
+
+  linux-clang-extra:
+    strategy:
+      fail-fast: false
+      matrix:
+        flags: ["-fno-rtti", "-fno-exceptions", "-fms-extensions"]
+        build_type: [Debug, Release]
+
+    runs-on: ubuntu-26.04
+
+    env:
+      CXX: clang++
+
+    steps:
+    - uses: actions/checkout@v7
+
+    # Compile-test fixtures use exception-dependent APIs such as must.
+    - run: cmake -S . -B build -GNinja -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_CXX_FLAGS="${{ matrix.flags }}" -DPEGTL_BUILD_COMPILE_TESTS=${{ matrix.flags != '-fno-exceptions' && 'ON' || 'OFF' }} -DPEGTL_BUILD_LINT=${{ matrix.flags != '-fno-exceptions' && 'ON' || 'OFF' }}
+
+    - run: cmake --build build
+
+    - run: ctest --test-dir build --output-on-failure

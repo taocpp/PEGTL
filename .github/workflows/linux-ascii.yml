@@ -1,0 +1,52 @@
+name: Linux ASCII
+
+on:
+  push:
+    paths-ignore:
+      - 'README.md'
+      - 'doc/**'
+  pull_request:
+    paths-ignore:
+      - 'README.md'
+      - 'doc/**'
+
+permissions:
+  contents: read
+
+jobs:
+  linux-ascii:
+    name: ASCII (${{ matrix.cxx }}, ${{ matrix.char }} char)
+    strategy:
+      fail-fast: false
+      matrix:
+        cxx: [g++, clang++]
+        char: [signed, unsigned]
+
+    runs-on: ubuntu-26.04
+
+    env:
+      CXX: ${{ matrix.cxx }}
+
+    steps:
+    - uses: actions/checkout@v7
+
+    - name: Configure CMake
+      run: |
+        cmake -S . -B build -GNinja \
+          -DCMAKE_BUILD_TYPE=Debug \
+          -DCMAKE_CXX_FLAGS="-f${{ matrix.char }}-char" \
+          -DPEGTL_BUILD_TESTS=ON \
+          -DPEGTL_BUILD_COMPILE_TESTS=OFF \
+          -DPEGTL_BUILD_EXAMPLES=OFF
+
+    - name: Build ASCII tests
+      run: |
+        targets=()
+        for source in src/test/ascii_*.cpp; do
+          test=${source##*/}
+          targets+=("pegtl-test-${test%.cpp}")
+        done
+        cmake --build build --parallel "$(nproc)" --target "${targets[@]}"
+
+    - name: Run ASCII tests
+      run: ctest --test-dir build --output-on-failure --no-tests=error -R '^pegtl-test-ascii_'
