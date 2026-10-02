@@ -93,7 +93,7 @@ namespace TAO_PEGTL_NAMESPACE
 
 }  // namespace TAO_PEGTL_NAMESPACE
 
-int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
+int main( int argc, char** argv )
 {
    if( pegtl::analyze< example::grammar >() != 0 ) {
       std::cerr << "cycles without progress detected!" << std::endl;

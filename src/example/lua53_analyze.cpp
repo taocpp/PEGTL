@@ -18,7 +18,7 @@ int main()
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 
-int main()  // NOLINT(bugprone-exception-escape)
+int main()
 {
    if( const auto problems = pegtl::analyze< pegtl::lua53::grammar >() != 0 ) {
       std::cout << "problems: " << problems << std::endl;

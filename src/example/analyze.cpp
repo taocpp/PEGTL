@@ -28,7 +28,7 @@ namespace example
 // of course exaclty the kind of problem the grammar analysis is supposed
 // to detect and complain about...
 
-int main()  // NOLINT(bugprone-exception-escape)
+int main()
 {
    if( pegtl::analyze< example::foo >( 1 ) != 0 ) {
       std::cout << "There are problems -- just as expected!" << std::endl;

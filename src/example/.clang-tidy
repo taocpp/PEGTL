@@ -1,0 +1,7 @@
+InheritParentConfig: true
+
+Checks: >-
+  -bugprone-exception-escape,
+  -google-runtime-int,
+  -google-runtime-float,
+  -misc-use-internal-linkage

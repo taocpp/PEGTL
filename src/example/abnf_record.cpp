@@ -21,7 +21,7 @@ int main()
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 
-int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
+int main( int argc, char** argv )
 {
    if( argc != 2 ) {
       std::cerr << "Usage: " << argv[ 0 ] << " ABNF\n"

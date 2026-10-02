@@ -18,7 +18,7 @@ int main()
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 
-int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
+int main( int argc, char** argv )
 {
    for( int i = 1; i < argc; ++i ) {
       pegtl::text_file_input< pegtl::lazy::lf_crlf > in( argv[ i ] );

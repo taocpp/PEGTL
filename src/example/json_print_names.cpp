@@ -9,7 +9,7 @@
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 
-int main()  // NOLINT(bugprone-exception-escape)
+int main()
 {
    pegtl::print_names< pegtl::json::text >( std::cout );
    return 0;

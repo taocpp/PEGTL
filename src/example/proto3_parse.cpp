@@ -19,7 +19,7 @@ int main()
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 
-int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
+int main( int argc, char** argv )
 {
    using input_t = pegtl::text_file_input< pegtl::scan::lf_crlf >;
    for( int i = 1; i < argc; ++i ) {

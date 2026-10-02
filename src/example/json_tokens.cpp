@@ -235,7 +235,7 @@ namespace example
 
 }  // namespace example
 
-int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
+int main( int argc, char** argv )
 {
    if( argc != 2 ) {
       std::cerr << "usage: " << argv[ 0 ] << " <filename.json>\n";

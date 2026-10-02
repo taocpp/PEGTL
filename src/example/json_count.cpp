@@ -55,7 +55,7 @@ namespace example
 
 }  // namespace example
 
-int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
+int main( int argc, char** argv )
 {
    example::counter_state cs;
 
