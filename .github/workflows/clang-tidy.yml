@@ -60,7 +60,8 @@ jobs:
     - name: Run clang-tidy on examples
       id: examples
       continue-on-error: true
-      run: run-clang-tidy-22 -p build -quiet -j "$(nproc)" -header-filter='^$' '.*/src/example/.*\.cpp$'
+      # The Lua examples take disproportionately long to analyze.
+      run: run-clang-tidy-22 -p build -quiet -j "$(nproc)" -header-filter='^$' '.*/src/example/(?!lua53).*\.cpp$'
 
     - name: Run clang-tidy on template instantiations
       id: instantiations
