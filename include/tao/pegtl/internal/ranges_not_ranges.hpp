@@ -24,7 +24,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {
          using data_t = typename Peek::data_t;
          static_assert( sizeof( Data ) <= sizeof( data_t ) );
-         return test_impl( std::make_index_sequence< sizeof...( Cs ) / 2 >(), data_t( c ) ) != bool( I );
+         return test_impl( std::make_index_sequence< sizeof...( Cs ) / 2 >(), data_t( c ) ) != static_cast< bool >( I );
       }
 
    private:

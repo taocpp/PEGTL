@@ -61,47 +61,47 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    [[nodiscard]] constexpr char utf8_char_1_of_2( const char32_t t ) noexcept
    {
-      return char( ( ( t >> 6 ) & 0x1f ) | 0xc0 );
+      return static_cast< char >( ( ( t >> 6 ) & 0x1f ) | 0xc0 );
    }
 
    [[nodiscard]] constexpr char utf8_char_2_of_2( const char32_t t ) noexcept
    {
-      return char( ( t & 0x3f ) | 0x80 );
+      return static_cast< char >( ( t & 0x3f ) | 0x80 );
    }
 
    [[nodiscard]] constexpr char utf8_char_1_of_3( const char32_t t ) noexcept
    {
-      return char( ( ( t >> 12 ) & 0x0f ) | 0xe0 );
+      return static_cast< char >( ( ( t >> 12 ) & 0x0f ) | 0xe0 );
    }
 
    [[nodiscard]] constexpr char utf8_char_2_of_3( const char32_t t ) noexcept
    {
-      return char( ( ( t >> 6 ) & 0x3f ) | 0x80 );
+      return static_cast< char >( ( ( t >> 6 ) & 0x3f ) | 0x80 );
    }
 
    [[nodiscard]] constexpr char utf8_char_3_of_3( const char32_t t ) noexcept
    {
-      return char( ( t & 0x3f ) | 0x80 );
+      return static_cast< char >( ( t & 0x3f ) | 0x80 );
    }
 
    [[nodiscard]] constexpr char utf8_char_1_of_4( const char32_t t ) noexcept
    {
-      return char( ( ( t >> 18 ) & 0x07 ) | 0xf0 );
+      return static_cast< char >( ( ( t >> 18 ) & 0x07 ) | 0xf0 );
    }
 
    [[nodiscard]] constexpr char utf8_char_2_of_4( const char32_t t ) noexcept
    {
-      return char( ( ( t >> 12 ) & 0x3f ) | 0x80 );
+      return static_cast< char >( ( ( t >> 12 ) & 0x3f ) | 0x80 );
    }
 
    [[nodiscard]] constexpr char utf8_char_3_of_4( const char32_t t ) noexcept
    {
-      return char( ( ( t >> 6 ) & 0x3f ) | 0x80 );
+      return static_cast< char >( ( ( t >> 6 ) & 0x3f ) | 0x80 );
    }
 
    [[nodiscard]] constexpr char utf8_char_4_of_4( const char32_t t ) noexcept
    {
-      return char( ( t & 0x3f ) | 0x80 );
+      return static_cast< char >( ( t & 0x3f ) | 0x80 );
    }
 
    [[nodiscard]] constexpr char32_t utf8_compose( const char32_t c0, const char32_t c1 ) noexcept

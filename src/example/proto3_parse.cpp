@@ -31,7 +31,7 @@ int main( int argc, char** argv )
          const auto& p = e.position_object();
          std::cerr << e.what() << '\n'
                    << in.line_view_at( p ) << '\n'
-                   << std::setw( int( p.column ) ) << '^' << '\n';
+                   << std::setw( static_cast< int >( p.column ) ) << '^' << '\n';
       }
    }
    return 0;

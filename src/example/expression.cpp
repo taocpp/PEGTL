@@ -436,12 +436,12 @@ namespace application
       {
          assert( string_stack.size() > args );
 
-         std::string tmp = *( string_stack.end() - int( args ) - 1 ) + std::string( op ) + " ";
+         std::string tmp = *( string_stack.end() - static_cast< int >( args ) - 1 ) + std::string( op ) + " ";
          for( std::size_t i = 0; i < args; ++i ) {
             if( i > 0 ) {
                tmp += ", ";
             }
-            tmp += *( string_stack.end() - int( args ) + int( i ) );
+            tmp += *( string_stack.end() - static_cast< int >( args ) + static_cast< int >( i ) );
          }
          tmp += " " + std::string( o2 );
          string_stack.resize( string_stack.size() - args );
@@ -505,7 +505,7 @@ int main( int argc, char** argv )
          const auto& p = e.position_object();
          std::cerr << e.what() << '\n'
                    << argv[ i ] << '\n'
-                   << std::setw( int( p.count ) ) << '^' << '\n';
+                   << std::setw( static_cast< int >( p.count ) ) << '^' << '\n';
       }
    }
    return 0;

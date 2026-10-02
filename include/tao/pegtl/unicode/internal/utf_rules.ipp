@@ -20,21 +20,21 @@
 namespace TAO_PEGTL_NAMESPACE::TAO_PEGTL_UTF_NAME
 {
    // clang-format off
-   struct cr : internal::utf_one< TAO_PEGTL_UTF_PEEK, char32_t( '\r' ) > {};
-   struct lf : internal::utf_one< TAO_PEGTL_UTF_PEEK, char32_t( '\n' ) > {};
-   struct crlf : internal::utf_string< TAO_PEGTL_UTF_PEEK, char32_t( '\r' ), char32_t( '\n' ) > {};
-   struct cr_lf : internal::utf_one< TAO_PEGTL_UTF_PEEK, char32_t( '\r' ), char32_t( '\n' ) > {};
+   struct cr : internal::utf_one< TAO_PEGTL_UTF_PEEK, static_cast< char32_t >( '\r' ) > {};
+   struct lf : internal::utf_one< TAO_PEGTL_UTF_PEEK, static_cast< char32_t >( '\n' ) > {};
+   struct crlf : internal::utf_string< TAO_PEGTL_UTF_PEEK, static_cast< char32_t >( '\r' ), static_cast< char32_t >( '\n' ) > {};
+   struct cr_lf : internal::utf_one< TAO_PEGTL_UTF_PEEK, static_cast< char32_t >( '\r' ), static_cast< char32_t >( '\n' ) > {};
    struct cr_crlf : internal::sor< crlf::rule_t, cr::rule_t > {};
    struct lf_crlf : internal::sor< lf::rule_t, crlf::rule_t > {};
    struct cr_lf_crlf : internal::sor< crlf::rule_t, cr_lf::rule_t > {};
-   struct ls : internal::utf_one< TAO_PEGTL_UTF_PEEK, char32_t( 0x2028 ) > {};
-   struct nel : internal::utf_one< TAO_PEGTL_UTF_PEEK, char32_t( 0x85 ) > {};
-   struct ps : internal::utf_one< TAO_PEGTL_UTF_PEEK, char32_t( 0x2029 ) > {};
-   struct eol1 : internal::utf_one< TAO_PEGTL_UTF_PEEK, char32_t( '\r' ), char32_t( '\n' ), char32_t( '\v' ), char32_t( '\f' ), char32_t( 0x85 ), char32_t( 0x2028 ), char32_t( 0x2029 ) > {};
+   struct ls : internal::utf_one< TAO_PEGTL_UTF_PEEK, static_cast< char32_t >( 0x2028 ) > {};
+   struct nel : internal::utf_one< TAO_PEGTL_UTF_PEEK, static_cast< char32_t >( 0x85 ) > {};
+   struct ps : internal::utf_one< TAO_PEGTL_UTF_PEEK, static_cast< char32_t >( 0x2029 ) > {};
+   struct eol1 : internal::utf_one< TAO_PEGTL_UTF_PEEK, static_cast< char32_t >( '\r' ), static_cast< char32_t >( '\n' ), static_cast< char32_t >( '\v' ), static_cast< char32_t >( '\f' ), static_cast< char32_t >( 0x85 ), static_cast< char32_t >( 0x2028 ), static_cast< char32_t >( 0x2029 ) > {};
    struct eolu : internal::sor< crlf::rule_t, eol1::rule_t > {};
 
    struct any : internal::any< TAO_PEGTL_UTF_PEEK > {};
-   struct bom : internal::utf_one< TAO_PEGTL_UTF_PEEK, char32_t( 0xfeff ) > {};
+   struct bom : internal::utf_one< TAO_PEGTL_UTF_PEEK, static_cast< char32_t >( 0xfeff ) > {};
    template< std::size_t Count > struct many : internal::many< Count, TAO_PEGTL_UTF_PEEK > {};
    template< char32_t... Cs > struct string : internal::utf_string< TAO_PEGTL_UTF_PEEK, Cs... > {};
 

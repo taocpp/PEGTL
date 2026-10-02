@@ -82,7 +82,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          static_assert( sizeof( data_t ) == 1 );
          const char* const b = static_cast< const char* >( this->begin_of_line( pos ) );
          const char* const e = static_cast< const char* >( this->end_of_line_or_file( pos ) );
-         return { b, std::size_t( e - b ) };
+         return { b, static_cast< std::size_t >( e - b ) };
       }
 
       // TODO: Implement string(), string_view(), line_view_at() with std::u32string, std::u16string_view...?

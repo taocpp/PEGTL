@@ -28,7 +28,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    [[nodiscard]] constexpr char32_t utf16_compose( const char16_t high, const char16_t low ) noexcept
    {
-      return ( ( char32_t( high & 0x03ff ) << 10 ) | char32_t( low & 0x03ff ) ) + 0x10000;
+      return ( ( static_cast< char32_t >( high & 0x03ff ) << 10 ) | static_cast< char32_t >( low & 0x03ff ) ) + 0x10000;
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

@@ -54,7 +54,7 @@ int main( int argc, char** argv )
       const auto& p = e.position_object();
       std::cerr << e.what() << std::endl
                 << in.line_view_at( p ) << std::endl
-                << std::setw( int( p.count ) ) << '^' << std::endl;
+                << std::setw( static_cast< int >( p.count ) ) << '^' << std::endl;
       return 1;
    }
 #else

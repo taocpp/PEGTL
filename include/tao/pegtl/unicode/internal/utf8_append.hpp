@@ -18,7 +18,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 {
    inline void utf8_append_1_impl( std::string& s, const char32_t u )
    {
-      s += char( u );
+      s += static_cast< char >( u );
    }
 
    inline void utf8_append_2_impl( std::string& s, const char32_t u )
