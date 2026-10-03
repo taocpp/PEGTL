@@ -39,8 +39,6 @@ jobs:
             compiler: clang++-21
           - os: ubuntu-26.04
             compiler: clang++-22
-          - os: ubuntu-26.04
-            compiler: clang++-23
         build_type: [Release, Debug]
     runs-on: ${{ matrix.platform.os }}
 
